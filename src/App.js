@@ -1,21 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-import Button from './components/Button';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { publicRoutes } from './routes';
+import { DefaultLayout } from './Components/Layout';
+import { Fragment } from 'react';
 
 function App() {
     return (
-        <div className="App">
-            <Button />
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React
-                </a>
-            </header>
-        </div>
+        //Router ôm chọn chương trình để có thể dùng route dễ dàng trong routes có nhiều route
+        <Router>
+            <div className="App">
+                <Routes>
+                    {publicRoutes.map((route, index) => {
+                        // const Layout = route.layout === null ? Fragment : DefaultLayout; //không có layout ở route thì mặc định là DefaultLayout Fragment mặc định không có gì bên trong 
+                        
+                        let Layout = DefaultLayout
+                        if(route.layout){
+                            Layout= route.layout
+                        }
+                        else if (route.layout === null) {
+                            Layout  = Fragment
+                        }
+
+                        const Page = route.component;
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    //nếu page là children của defaultlayout thì nó sẽ đưa vào content
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </div>
+        </Router>
     );
 }
 
