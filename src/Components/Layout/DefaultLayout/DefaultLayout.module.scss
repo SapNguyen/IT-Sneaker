@@ -5,7 +5,9 @@
 }
 .container{
     width: var(--default-layout-width);
+    padding: var(--default-layout-horizontal-spacer);
     display: flex;
+    margin-top: var(--default-layout-header-height);
 }
 .content{
     flex: 1;//chiếm nốt khoảng không còn lại của flex

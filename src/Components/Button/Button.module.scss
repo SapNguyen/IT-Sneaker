@@ -1,0 +1,87 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    min-width: 100px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-family: var(--font-family);
+    cursor: pointer;
+    background-color: var(--white);
+    border: 1px solid transparent;
+    user-select: none; //bỏ việc select chữ đi
+
+    //nếu wrapper đứng cạnh nhau thì nó sẽ cách nhau ra
+    + .wrapper {
+        margin-left: 8px;
+    }
+
+    &.disable {
+        pointer-events: none; //không còn pointer nữa
+        opacity: 0.5;
+    }
+}
+
+//Loại button
+.rounded {
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgb(0 0 0/6%);
+    border-color: rgba(22, 24, 35, 0.12);
+
+    &:hover {
+        border-color: rgba(22, 24, 0.2);
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+}
+
+.primary {
+    color: var(--white); //lấy từ globalStyles
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+    &:hover {
+        border-color: var(--primary);
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55; //linear-gradient là đổi màu
+    }
+}
+
+.outline {
+    color: var(--primary);
+    border-color: currentColor; //ăn theo màu hiện tại của thằng trên
+
+    &:hover {
+        border-color: currentColor; //ăn theo màu hiện tại của thằng trên
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55; //linear-gradient là đổi màu
+    }
+}
+
+//icon ở bên trái or bên phải của title
+.icon + .title, .title + .icon{
+    margin-left: 8px;
+}
+
+.icon{
+    display: inline-block;//dùng block mới hết width height được
+    width: 24px;
+    text-align: center;
+}
+
+.text {
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+
+//Button sizes
+.small {
+    min-width: 88px;
+    padding: 4px 16px;
+}
+
+.large {
+    min-width: 140px;
+    padding: 14px 16px;
+}

@@ -1,0 +1,12 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: rgb(255,255,255);
+    padding-top: 8px;
+    box-shadow: rgb(0 0 0/12%) 0px 2px 12px;
+    border-radius: 8px;
+    //Cho chiều cao của bao phủ kết quả k vượt quá số đo
+    max-height: min((100vh - 96px) -  60px,734px);
+    min-height: 100px;
+}

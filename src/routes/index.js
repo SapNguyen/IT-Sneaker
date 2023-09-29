@@ -1,6 +1,7 @@
 //layouts
 import { HeaderOnly } from '~/Components/Layout';
 
+import routesConfig from '~/config/routes'
 //Pages
 import Search from '~/pages/Search';
 import Home from '~/pages/Home';
@@ -11,11 +12,11 @@ import Upload from '~/pages/Upload';
 //không đăng nhập vẫn vào được
 const publicRoutes = [
     //1 mảng các object chứa component
-    { path: '/', component: Home },
-    { path: '/following', component: Following },
-    { path: '/profile', component: Profile },
-    { path: '/upload', component: Upload, layout: HeaderOnly },
-    { path: '/search', component: Search, layout: null },
+    { path: routesConfig.home, component: Home },
+    { path: routesConfig.following, component: Following },
+    { path: routesConfig.profile, component: Profile },
+    { path: routesConfig.upload, component: Upload, layout: HeaderOnly },
+    { path: routesConfig.search, component: Search, layout: null },
 ];
 
 //phải đăng nhập mới vào được
