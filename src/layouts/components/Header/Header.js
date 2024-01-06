@@ -14,10 +14,10 @@ import {
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-import routesConfig from '~/config/routes';
+import config from '~/config';
 import classNames from 'classnames/bind';
 import images from '~/assets/images';
-import Button from '~/Components/Button';
+import Button from '~/Components/Button/Button';
 import Menu from '~/Components/Popper/Menu';
 import { InboxIcon, MessageIcon, UploadIcon } from '~/Components/Icons/Icons';
 import Image from '~/Components/Image';
@@ -46,7 +46,6 @@ const MENU_ITEMS = [
                     code: 'vi',
                     title: 'Việt Nam',
                 },
-                
             ],
         },
     },
@@ -103,7 +102,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to={routesConfig.home} className={cx('logo-link')}>
+                <Link to={config.routes.home} className={cx('logo-link')}>
                     <img src={images.logo} alt="Tiktok" />
                 </Link>
 
@@ -145,7 +144,7 @@ function Header() {
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
                             <Image
-                                src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/90335f0fc58d3ac98b494abd8b250d05~c5_100x100.jpeg?x-expires=1695373200&x-signature=q0uPfF1TwtC87wmYK0Xu8Yht%2BUM%3D"
+                                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.15752-9/384829924_976608623396397_573300790686052687_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=ae9488&_nc_ohc=QBCTz5C3hegAX8x9bzJ&_nc_ht=scontent.fhan2-3.fna&oh=03_AdTW5dJEXAk1j089dBxhbVfnD2NpCFfrEDLDwPzWg9IPwg&oe=65439F3A"
                                 className={cx('user-avatar')}
                                 alt="Nguyễn Văn A"
                                 // fallback="... 1 cái ảnh nào đó mà mình muốn dùng mặc định"

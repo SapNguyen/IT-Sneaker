@@ -6,7 +6,7 @@ import AccountItem from '~/Components/AccountItem';
 import { SearchIcon } from '~/Components/Icons/Icons';
 import classNames from 'classnames/bind';
 
-import * as searchServices from '~/apiServices/searchServices';
+import * as searchServices from '~/services/searchService';
 import styles from './Search.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { useDebounce } from '~/hooks';
@@ -14,13 +14,14 @@ import { useDebounce } from '~/hooks';
 const cx = classNames.bind(styles);
 
 function Search() {
+    //khi có nhiều state thì thường dùng useCallback or useMemo
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]); //mảng này về sau dùng API
-    const [showResult, setShowResult] = useState(true);
+    const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
 
     //khi người dùng ngừng gõ 500ms thì mới gọi useEffect
-    const debounced = useDebounce(searchValue, 500);
+    const debouncedValue = useDebounce(searchValue, 500);
 
     //dùng useRef để lấy DOM input mà mình muốn focus
     const inputRef = useRef();
@@ -42,7 +43,7 @@ function Search() {
         const fetchAPI = async () => {
             setLoading(true);
 
-            const result = await searchServices.search(debounced);
+            const result = await searchServices.search(debouncedValue);
             setSearchResult(result);
 
             setLoading(false);
@@ -55,7 +56,7 @@ function Search() {
         //Fetch
 
         //encode nếu ng dùng vô tình nhập kí tự đặc biệt thì nó không bị lỗi
-        // fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
+        // fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debouncedValue)}&type=less`)
         //     .then((res) => res.json())
         //     .then((res) => {
         //         setSearchResult(res.data); //in ra chuỗi mảng json data
@@ -67,7 +68,7 @@ function Search() {
 
         //khi nào searchValue thay đỏi thì useEffect được gọi
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debounced]);
+    }, [debouncedValue]);
 
     const handleHideResult = () => {
         setShowResult(false);
