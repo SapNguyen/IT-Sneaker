@@ -1,0 +1,53 @@
+.new {
+    width: 40%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 32px;
+    margin-left: 80px;
+}
+.new:hover {
+    cursor: pointer;
+}
+.new-item {
+    width: 100%;
+    float: left;
+    padding: 0px 0;
+    margin-bottom: 15px;
+}
+.left-item {
+    width: 40%;
+    height: auto;
+    display: block;
+    float: left;
+    margin-bottom: 15px;
+}
+.img-new {
+    border: 0 none;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+.right-item {
+    width: 60%;
+    display: block;
+    float: left;
+    padding-left: 15px;
+}
+.content-blog {
+    padding-top: 0;
+    width: 100%;
+    float: left;
+}
+.content-right {
+    width: 100%;
+    display: inline-block;
+    float: right;
+}
+.summary-item-blog {
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+}

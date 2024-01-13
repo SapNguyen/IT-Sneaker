@@ -4,11 +4,15 @@
     align-items: center;
 }
 .container{
-    width: var(--default-layout-width);
+    //width: var(--default-layout-width);
+    width: 100%;
     max-width: 100%;// dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
-    padding: var(--default-layout-horizontal-spacer);
-    display: flex;
-    margin-top: var(--default-layout-header-height);
+    //padding: var(--default-layout-horizontal-spacer);
+    //display: flex;
+    //margin-top: var(--default-layout-header-height);
+}
+.imgheader{
+    max-width: 100%;
 }
 .content{
     flex: 1;//chiếm nốt khoảng không còn lại của flex

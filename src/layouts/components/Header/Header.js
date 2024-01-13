@@ -10,16 +10,19 @@ import {
     faCoins,
     faGear,
     faSignOut,
+    faPhone,
+    faCartShopping,
+    faCreditCard,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
 import config from '~/config';
 import classNames from 'classnames/bind';
-import images from '~/assets/images';
+//import images from '~/assets/images';
 import Button from '~/Components/Button/Button';
 import Menu from '~/Components/Popper/Menu';
-import { InboxIcon, MessageIcon, UploadIcon } from '~/Components/Icons/Icons';
+//import { InboxIcon, MessageIcon, UploadIcon } from '~/Components/Icons/Icons';
 import Image from '~/Components/Image';
 import Search from '../Search';
 import { Link } from 'react-router-dom';
@@ -57,6 +60,19 @@ const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faKeyboard} />,
         title: 'Keyboard shortcuts',
+    },
+];
+
+const MENU_CART = [
+    {
+        icon: <FontAwesomeIcon icon={faCartShopping} />,
+        title: 'Giỏi hàng',
+        to: '/cart',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCreditCard} />,
+        title: 'Thanh toán',
+        to: '/pay',
     },
 ];
 
@@ -102,32 +118,49 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
+                {/* Logo Phim */}
                 <Link to={config.routes.home} className={cx('logo-link')}>
-                    <img src={images.logo} alt="Tiktok" />
+                    {/* <img src={images.logo} alt="Tiktok" /> */}
+                    <img
+                        src="https://theme.hstatic.net/200000265619/1000946504/14/logo.png?v=372"
+                        alt="Tiktok"
+                        height={65}
+                    />
                 </Link>
 
+                {/* Ô search */}
                 <Search />
 
                 {/* nếu đăng nhập thì hiện cái này */}
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
+                            <Tippy delay={[0, 50]} content="Phone:01234567899" placement="bottom">
                                 <button className={cx('action-btn')}>
-                                    <UploadIcon />
+                                    {/* <UploadIcon /> */}
+                                    <FontAwesomeIcon icon={faPhone} />
                                 </button>
                             </Tippy>
-                            <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <MessageIcon />
+                            {/* <Tippy delay={[0, 50]} content="Message" placement="bottom">
+                                <button className={cx('action-btn')}> */}
+                            {/* <MessageIcon /> */}
+                            {/* <FontAwesomeIcon icon={faUser} />
                                 </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
+                            </Tippy> */}
+                            {/* <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
+                                <button className={cx('action-btn')}> */}
+                            {/* <InboxIcon /> */}
+                            {/* <FontAwesomeIcon icon={faCartShopping} /> */}
+                            {/* <span className={cx('badge')}>13</span> */}
+                            {/* </button>
+                            </Tippy> */}
+                            <Menu items={MENU_CART} onChange={handleMenuChange}>
                                 <button className={cx('action-btn')}>
-                                    <InboxIcon />
-                                    <span className={cx('badge')}>13</span>
+                                    {/* <InboxIcon /> */}
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                    {/* <span className={cx('badge')}>13</span> */}
                                 </button>
-                            </Tippy>
+                            </Menu>
                         </>
                     ) : (
                         //thẻ chứa Fal...
@@ -140,11 +173,12 @@ function Header() {
                             </Button>
                         </>
                     )}
+
                     {/* Nếu mà có currentUser thì hiện userMenu còn không hiện MENU_ITEMS */}
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu items={currentUser ? userMenu : MENU_ITEMS}>
                         {currentUser ? (
                             <Image
-                                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.15752-9/384829924_976608623396397_573300790686052687_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=ae9488&_nc_ohc=QBCTz5C3hegAX8x9bzJ&_nc_ht=scontent.fhan2-3.fna&oh=03_AdTW5dJEXAk1j089dBxhbVfnD2NpCFfrEDLDwPzWg9IPwg&oe=65439F3A"
+                                src="https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/375062016_1027580694934669_5850570789184348493_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=T8TylWYFrcAAX9bYuFU&_nc_ht=scontent.fhan14-2.fna&oh=00_AfDYMT3z2GcwRICNT5axjp8qmJMtd22mFp1G8e9yOeRRBQ&oe=659E7CB1"
                                 className={cx('user-avatar')}
                                 alt="Nguyễn Văn A"
                                 // fallback="... 1 cái ảnh nào đó mà mình muốn dùng mặc định"

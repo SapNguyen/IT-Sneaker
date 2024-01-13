@@ -1,0 +1,13 @@
+.news {
+    width: 90%;
+    margin-left: 16px;
+}
+.container {
+    width: 100%;
+    max-width: 100%; // dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
+}
+.content {
+    display: flex;
+    justify-content: center;
+    flex: 1; //chiếm nốt khoảng không còn lại của flex
+}
