@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
-function IntroBrand({ img, description }) {
+function IntroBrand({ data }) {
+    //img, description
     return (
         <div className={cx('wrapper')}>
-            <img className={cx('img-brand')} src={img} alt="ImageIntroBrand" />
+            <img className={cx('img-brand')} src={data.detailimg} alt="ImageIntroBrand" />
             <div className={cx('intro')}>
                 <p className={cx('text-intro')}>
-                    <strong>{description}</strong>
+                    <strong>{data.desbrand}</strong>
                 </p>
             </div>
         </div>
@@ -18,8 +19,7 @@ function IntroBrand({ img, description }) {
 }
 
 IntroBrand.prototype = {
-    img: PropTypes.string.isRequired,
-    description: PropTypes.string,
+    data: PropTypes.object.isRequired,
 };
 
 export default IntroBrand;

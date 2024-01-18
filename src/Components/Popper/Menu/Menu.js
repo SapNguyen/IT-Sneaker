@@ -44,29 +44,25 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultfn 
 
     const handleBack = () => {
         setHistory((prev) => prev.slice(0, prev.length - 1)); //bỏ đi phần tử cuối cùng
-    }
+    };
 
     const renderResult = (attrs) => (
         //PopperWrapper này là cái khung trắng bao bọc kết quả
         <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
             <PopperWrapper className={cx('menu-popper')}>
                 {/* nếu mà mảng history có >2 phần tử thì có language */}
-                {history.length > 1 && (
-                    <Header
-                        title={current.title}
-                        onBack={handleBack}
-                    />
-                )}
+                {history.length > 1 && <Header title={current.title} onBack={handleBack} />}
                 <div className={cx('menu-body')}>{renderItems()}</div>
             </PopperWrapper>
         </div>
-    )
+    );
 
     //khi click ra bên ngoài thì sẽ quay lại tippy đầu tiên
-    const handleResetMenu = () => setHistory((prev) => prev.slice(0, 1))
+    const handleResetMenu = () => setHistory((prev) => prev.slice(0, 1));
 
     return (
         <Tippy
+            appendTo={() => document.body} //lỗi hiện thông báo tippy
             //ấn vào sẽ không ẩn
             hideOnClick={hideOnClick}
             //khi show có bị delay hay không

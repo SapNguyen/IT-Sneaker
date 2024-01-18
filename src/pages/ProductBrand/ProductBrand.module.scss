@@ -1,11 +1,18 @@
-.product{
-    margin-left: 16px;
-}
-.container{
-    width: 100%;
-    max-width: 100%;// dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
-}
-.content{
+.product {
     display: flex;
-    flex: 1;//chiếm nốt khoảng không còn lại của flex
+    //justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+}
+.container {
+    width: 100%;
+    //max-width: 100%;// dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
+}
+.content {
+    display: flex;
+}
+.loading {
+    font-size: 40px;
+    margin-left: 50%;
+    margin-top: 40px;
 }

@@ -9,8 +9,14 @@ import CustomSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Helmet } from 'react-helmet';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-const cxx = classNames.bind(style);
+import * as productsServices from '~/services/productsService';
+
+import { useEffect, useState } from 'react';
+
+const cx = classNames.bind(style);
 
 function Home() {
     const settings = {
@@ -22,24 +28,45 @@ function Home() {
         autoplay: true,
         autoplaySpeed: 2000,
     };
+
+    const [productValue, setProductValue] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchAPIProduct = async () => {
+            try {
+                setLoading(true);
+                const result = await productsServices.detailproduct();
+
+                setProductValue(result.products);
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAPIProduct();
+    }, []); // Dependency array trống đại diện cho việc useEffect chỉ chạy một lần như componentDidMount
+
     return (
-        <div className={cxx('wrapper')}>
+        <div className={cx('wrapper')}>
             <Helmet>
                 <title>Trang Chủ</title>
             </Helmet>
-            <div className={cxx('container')}>
+            <div className={cx('container')}>
                 <Slider />
                 <Brand />
-                <div className={cxx('product-list')}>
-                    <div className={cxx('des_img_product')}>
+                <div className={cx('product-list')}>
+                    <div className={cx('des_img_product')}>
                         <img
                             src="https://theme.hstatic.net/200000265619/1001091352/14/banner_product_nangdong.jpg?v=383"
-                            className={cxx('img-fluid')}
+                            className={cx('img-fluid')}
                             alt=""
                         />
-                        <div className={cxx('des_product')}>
-                            <div className={cxx('title')}>SNEAKER BUZZ DECONSTRUCTION</div>
-                            <p className={cxx('text-des')}>
+                        <div className={cx('des_product')}>
+                            <div className={cx('title')}>SNEAKER BUZZ DECONSTRUCTION</div>
+                            <p className={cx('text-des')}>
                                 Thuộc bộ sưu tập đặc biệt Deconstruction của dòng Y-strap, hai sản phẩm này kế thừa
                                 những ưu điểm của các sản phẩm Y-strap đồng thời được nâng cấp tạo dáng của sản phẩm.
                                 Phần đế được nâng cao và thiết kế theo xu hướng bất quy tắc giúp sản phẩm trở nên thu
@@ -50,30 +77,34 @@ function Home() {
                                 mọi địa hình,mọi thời tiết và không gây hại đến mô hình bàn chân cũng như an toàn cho da
                                 chân. Đế cao giúp tăng chiều cao của người sử dụng nhưng vẫn giữ được độ thoải mái.
                             </p>
-                            <a className={cxx('more')} href=" " title="Xem tất cả">
+                            <a className={cx('more')} href=" " title="Xem tất cả">
                                 Xem tất cả
                             </a>
                         </div>
                     </div>
 
-                    <div className="container-fluid m-3" align="center">
-                        {/* <div className={cxx('owl-carousel')}>
-                            <div className={cxx('owl-stage-outer')}>
-                                <div className={cxx('owl-stage')}> */}
+                    <div className={cx('container-slider')} align="center">
+                        {/* <div className={cx('owl-carousel')}>
+                            <div className={cx('owl-stage-outer')}>
+                                <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings}>
-                            <div>
-                                <Product
-                                    nameproduct="Giày Vans Sk8-Low Rearrange"
-                                    priceproduct="1,680,000₫"
-                                    mainimg="https://product.hstatic.net/200000265619/product/vn0009qccjj_-web-1_613696c8feb8494081616e15c27db43d_medium.jpg"
-                                    imgs={[
-                                        'https://product.hstatic.net/200000265619/product/vn000crnba2__web_1_1a353a64a6274d648592f3b01aa4eb23_small.jpg',
-                                        'https://product.hstatic.net/200000265619/product/vn000crnba2__5_88668b3e0dda49d5885aea626976a6a2_small.jpg',
-                                        'https://product.hstatic.net/200000265619/product/vn000crnba2__2_34f05d3d2c44441ca0fe513b36d953f5_small.jpg',
-                                    ]}
-                                />
-                            </div>
-                            <div>
+                            {productValue.map((result) => (
+                                <div key={result.idp}>
+                                    <Product
+                                        // nameproduct="Giày Vans Sk8-Low Rearrange"
+                                        // priceproduct="1,680,000₫"
+                                        // mainimg="https://product.hstatic.net/200000265619/product/vn0009qccjj_-web-1_613696c8feb8494081616e15c27db43d_medium.jpg"
+                                        // imgs={[
+                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__web_1_1a353a64a6274d648592f3b01aa4eb23_small.jpg',
+                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__5_88668b3e0dda49d5885aea626976a6a2_small.jpg',
+                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__2_34f05d3d2c44441ca0fe513b36d953f5_small.jpg',
+                                        // ]}
+                                        data={result}
+                                    />
+                                </div>
+                            ))}
+
+                            {/* <div>
                                 <Product
                                     nameproduct="Giày Vans Sk8-Low Rearrange"
                                     priceproduct="1,680,000₫"
@@ -131,16 +162,18 @@ function Home() {
                                         'https://product.hstatic.net/200000265619/product/vn0a3hj9bhh__4_ffd4a98884bd4b92ab54f429f8d154ab_icon.jpg',
                                     ]}
                                 />
-                            </div>
+                            </div> */}
                         </CustomSlider>
+                        {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+
                         {/* </div>
                             </div>
                         </div> */}
                     </div>
 
-                    <div className={cxx('video')}>
+                    <div className={cx('video')}>
                         <ReactPlayer
-                            className={cxx('youtube')}
+                            className={cx('youtube')}
                             url="https://www.youtube.com/embed/f34s9XL-fvI?autoplay=1&amp;controls=0&amp;disablekb=1&amp;playsinline=1&amp;cc_load_policy=0&amp;cc_lang_pref=auto&amp;widget_referrer=https%3A%2F%2Fsneakerbuzz.vn%2F&amp;rel=0&amp;showinfo=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;customControls=true&amp;noCookie=false&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fsneakerbuzz.vn&amp;widgetid=1"
                             controls
                             width="640"

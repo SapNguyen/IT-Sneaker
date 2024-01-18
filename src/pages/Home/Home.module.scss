@@ -1,13 +1,13 @@
-.wrapper{
+.wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.container{
+.container {
     width: 100%;
-    max-width: 100%;// dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
+    max-width: 100%; // dù chiều rộng như này thì chiều rộng cũng bằng chiều rộng trình duyệt
 }
-.product-list{
+.product-list {
     padding-top: 0;
     //padding-right: 12px;
     margin: 40px 0;
@@ -15,14 +15,14 @@
     background: white;
     margin-top: 8px;
 }
-.shadow{
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
-.des_img_product{
+.des_img_product {
     display: flex;
     align-items: flex-start;
 }
-.img-fluid{
+.img-fluid {
     margin-bottom: 20px;
     max-width: 800px;
     max-height: 400px;
@@ -30,33 +30,32 @@
     height: auto;
     vertical-align: middle;
 }
-.des_product{
+.des_product {
     padding: 40px 70px 50px 50px;
 }
-.title{
+.title {
     padding-bottom: 25px;
     font-size: 30px;
     font-weight: 400;
 }
-.text-des{
+.text-des {
     display: block;
-    font-family: "Montserrat", "HelveticaNeue", "Helvetica Neue", sans-serif;
+    font-family: 'Montserrat', 'HelveticaNeue', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     color: #000000;
 }
-.more{
+.more {
     display: inline-block;
-    font-family: "Montserrat", "HelveticaNeue", "Helvetica Neue", sans-serif;
+    font-family: 'Montserrat', 'HelveticaNeue', 'Helvetica Neue', sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: #000000;
     position: relative;
     text-transform: uppercase;
     background: transparent;
-}
 
-.more::after{
-        content: ">";
+    &::after {
+        content: '>';
         font-family: 'FontAwesome';
         font-size: 26px;
         color: #000000;
@@ -67,9 +66,24 @@
         line-height: 33px;
         box-sizing: border-box;
         font-weight: 700;
+    }
 }
 
-.owl-carousel{
+// .more::after {
+//     content: '>';
+//     font-family: 'FontAwesome';
+//     font-size: 26px;
+//     color: #000000;
+//     position: absolute;
+//     right: -20px;
+//     top: -6px;
+//     padding: 4px;
+//     line-height: 33px;
+//     box-sizing: border-box;
+//     font-weight: 700;
+// }
+
+.owl-carousel {
     display: block;
     width: 100%;
     z-index: 1;
@@ -77,14 +91,19 @@
     position: relative;
 }
 
-.owl-stage-outer{
+.owl-stage-outer {
     position: relative;
     overflow: hidden;
-    -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0, 0, 0);
     display: flex;
 }
-
-.owl-stage{
+.container-slider {
+    margin: 1rem !important;
+    width: 97%;
+    padding-right: 15px;
+    padding-left: 50px;
+}
+.owl-stage {
     display: flex;
     width: 552px;
     transform: translate3d(0px, 0px, 0px);
@@ -108,10 +127,10 @@
 //     z-index: 1;
 //     box-sizing: inherit;
 // }
-.video{
+.video {
     margin-top: 20px;
     aspect-ratio: 16 / 9;
-    background: var(--plyr-video-background,var(--plyr-video-background,#000));
+    background: var(--plyr-video-background, var(--plyr-video-background, #000));
     border-radius: inherit;
     height: 100%;
     //margin: auto;
@@ -120,7 +139,7 @@
     width: 100%;
     box-sizing: inherit;
 }
-.youtube{
+.youtube {
     border: 0;
     height: 100%;
     left: 0;
@@ -130,4 +149,6 @@
     display: block;
     box-sizing: inherit;
 }
-
+.loading {
+    font-size: 32px;
+}

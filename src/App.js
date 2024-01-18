@@ -20,6 +20,21 @@ function App() {
                             Layout  = Fragment
                         }
 
+                        let id
+                        if(route.idP){
+                            if(route.idP ===1){
+                                id=1
+                            }else if(route.idP ===2){
+                                id=2
+                            }else if(route.idP ===3){
+                                id=3
+                            }else if(route.idP ===6){
+                                id=6
+                            }else if(route.idP ===7){
+                                id=7
+                            }
+                        }
+
                         const Page = route.component;
                         return (
                             <Route
@@ -28,7 +43,7 @@ function App() {
                                 element={
                                     //nếu page là children của defaultlayout thì nó sẽ đưa vào content
                                     <Layout>
-                                        <Page />
+                                        <Page id={id}/>
                                     </Layout>
                                 }
                             />

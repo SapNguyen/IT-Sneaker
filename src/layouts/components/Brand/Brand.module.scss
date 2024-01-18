@@ -16,22 +16,60 @@
     transition: 500ms;
     overflow: hidden;
     width: 100%;
+
+    &::before {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 55%;
+        bottom: 0;
+        left: 0;
+        content: '';
+        background: rgba(0, 0, 0, 0.1);
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 0, rgba(0, 0, 0, 0.9) 100%);
+        opacity: 0.95;
+        text-align: center;
+        box-sizing: border-box;
+        transition: 1ms;
+    }
+
+    &:hover .caption {
+        cursor: pointer;
+        transition: 500ms;
+        transform: translate(0, -10px);
+    }
+
+    &:hover .total-amount {
+        display: block;
+        transform: translate(0, -10px);
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    &:hover .img-fluid {
+        transform: scale(1.1);
+    }
+    &:hover .caption h2 {
+        color: red;
+    }
+    &:hover {
+        cursor: pointer;
+    }
 }
-.category::before {
-    position: absolute;
-    display: block;
-    width: 100%;
-    height: 55%;
-    bottom: 0;
-    left: 0;
-    content: '';
-    background: rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 0, rgba(0, 0, 0, 0.9) 100%);
-    opacity: 0.95;
-    text-align: center;
-    box-sizing: border-box;
-    transition: 1ms;
-}
+// .category::before {
+//     position: absolute;
+//     display: block;
+//     width: 100%;
+//     height: 55%;
+//     bottom: 0;
+//     left: 0;
+//     content: '';
+//     background: rgba(0, 0, 0, 0.1);
+//     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 0, rgba(0, 0, 0, 0.9) 100%);
+//     opacity: 0.95;
+//     text-align: center;
+//     box-sizing: border-box;
+//     transition: 1ms;
+// }
 
 .img-fluid {
     transition: 500ms;
@@ -48,26 +86,26 @@
     transition: 500ms;
     text-align: center;
 }
-.category:hover .caption {
-    cursor: pointer;
-    transition: 500ms;
-    transform: translate(0, -10px);
-}
-.category:hover .total-amount {
-    display: block;
-    transform: translate(0, -10px);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-.category:hover .img-fluid {
-    transform: scale(1.1);
-}
-.category:hover .caption h2 {
-    color: red;
-}
-.category:hover {
-    cursor: pointer;
-}
+// .category:hover .caption {
+//     cursor: pointer;
+//     transition: 500ms;
+//     transform: translate(0, -10px);
+// }
+// .category:hover .total-amount {
+//     display: block;
+//     transform: translate(0, -10px);
+//     color: white;
+//     background-color: rgba(0, 0, 0, 0.5);
+// }
+// .category:hover .img-fluid {
+//     transform: scale(1.1);
+// }
+// .category:hover .caption h2 {
+//     color: red;
+// }
+// .category:hover {
+//     cursor: pointer;
+// }
 
 .text-bold {
     font-weight: bold;
@@ -82,4 +120,8 @@
     text-align: center;
     width: 100%;
     font-size: 20px;
+}
+.loading {
+    font-size: 32px;
+    margin-left: 12px;
 }
