@@ -27,7 +27,7 @@ function Navbar() {
                 />
 
                 <MenuItem title="SPECIAL PRICE" to={config.routes.specialprice} />
-                <MenuItem title="New" to={config.routes.new} />
+                <MenuItem title="NEWS" to={config.routes.new} />
             </Menu>
 
             {/* <SuggestedAccounts label="Suggested accounts"/> */}

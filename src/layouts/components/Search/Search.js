@@ -44,7 +44,7 @@ function Search() {
             setLoading(true);
 
             const result = await searchServices.search(debouncedValue);
-            setSearchResult(result);
+            setSearchResult(result.products);
 
             setLoading(false);
         };
@@ -52,19 +52,6 @@ function Search() {
 
         setLoading(true);
 
-        //XMLHttpRequest
-        //Fetch
-
-        //encode nếu ng dùng vô tình nhập kí tự đặc biệt thì nó không bị lỗi
-        // fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debouncedValue)}&type=less`)
-        //     .then((res) => res.json())
-        //     .then((res) => {
-        //         setSearchResult(res.data); //in ra chuỗi mảng json data
-        //         setLoading(false)
-        //     })
-        //     .catch(()=>{
-        //         setLoading(false);//nếu mà bị lỗi mạng cũng dừng loading
-        //     })
 
         //khi nào searchValue thay đỏi thì useEffect được gọi
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,9 +85,9 @@ function Search() {
                     //PopperWrapper này là cái khung trắng bao bọc kết quả
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
-                            <h4 className={cx('search-title')}>Accounts</h4>
+                            <h4 className={cx('search-title')}>Products</h4>
                             {searchResult.map((result) => (
-                                <AccountItem key={result.id} data={result} />
+                                <AccountItem key={result.idp} data={result} />
                             ))}
                         </PopperWrapper>
                     </div>

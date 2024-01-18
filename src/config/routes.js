@@ -1,7 +1,6 @@
 const routes = {
     home: '/',
     following: '/following',
-    // brandproduct:'/brandproduct',
     products: '/products',
     brandConverse: '/products/Converse',
     brandVans: '/products/Vans',

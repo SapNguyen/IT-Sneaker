@@ -11,8 +11,26 @@
 .content {
     display: flex;
 }
+// .loading {
+//     font-size: 40px;
+//     margin-left: 50%;
+//     margin-top: 40px;
+// }
 .loading {
     font-size: 40px;
-    margin-left: 50%;
-    margin-top: 40px;
+    margin-top: 10%;
+    margin-left: 40%;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        // cách căn giữa
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
 }
