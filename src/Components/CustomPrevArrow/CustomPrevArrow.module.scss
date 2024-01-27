@@ -1,0 +1,15 @@
+.custom-prev-arrow {
+    background-color: transparent;
+    color: #fff;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    height: 40px;
+    margin-top: 8%;
+    width: 40px;
+    color: #333;;
+
+    &:hover {
+        color: #0056b3;
+    }
+}

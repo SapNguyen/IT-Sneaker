@@ -2,6 +2,7 @@
 import classNames from 'classnames/bind';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import style from './Brand.module.scss';
+import { Link } from 'react-router-dom';
 import * as brandsServices from '~/services/brandsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -42,7 +43,7 @@ function Brand() {
             <div className="row">
                 {TwobrandValue.map((result) => (
                     <div className="col-sm-6" key={result.idb}>
-                        <a href=" ">
+                        <Link to={`/products/brand/${result.idb}`}>
                             <div className={cx('category')}>
                                 <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
                                 <div className={cx('caption')} align="center">
@@ -50,7 +51,16 @@ function Brand() {
                                     <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
+                        {/* <a href=" "> */}
+                        {/* <div className={cx('category')}>
+                                <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
+                                <div className={cx('caption')} align="center">
+                                    <h2 className={cx('text-bold')}>{result.namebrand}</h2>
+                                    <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                                </div>
+                            </div> */}
+                        {/* </a> */}
                     </div>
                 ))}
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
@@ -74,7 +84,7 @@ function Brand() {
             <div className="row mt-3">
                 {ThreebrandValue.map((result) => (
                     <div className="col-sm-4" key={result.idb}>
-                        <a href=" ">
+                        {/* <a href=" ">
                             <div className={cx('category')}>
                                 <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
                                 <div className={cx('caption')} align="center">
@@ -82,7 +92,16 @@ function Brand() {
                                     <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
                                 </div>
                             </div>
-                        </a>
+                        </a> */}
+                        <Link to={`/products/brand/${result.idb}`}>
+                            <div className={cx('category')}>
+                                <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
+                                <div className={cx('caption')} align="center">
+                                    <h2 className={cx('text-bold')}>{result.namebrand}</h2>
+                                    <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                                </div>
+                            </div>
+                        </Link>
                     </div>
                 ))}
 

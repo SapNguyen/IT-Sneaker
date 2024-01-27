@@ -16,9 +16,9 @@ function Footer() {
                 <div className="col-sm-4">
                     <h6 className="fw-bolder text-white">DANH MỤC</h6>
                     <p className="text-white">HOME PAGE</p>
-                    <p className="text-white">BRAND</p>
+                    <p className="text-white">PRODUCTS</p>
                     <p className="text-white">SPECIAL PRICE</p>
-                    <p className="text-white">ORDER</p>
+                    <p className="text-white">NEWS</p>
                 </div>
                 <div className="col-sm-4">
                     <h6 className="fw-bolder text-white">CHÍNH SÁCH</h6>

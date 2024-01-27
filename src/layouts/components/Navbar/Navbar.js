@@ -21,7 +21,7 @@ function Navbar() {
                 <MenuItem title="HOME PAGE" to={config.routes.home} />
                 <MenuItem
                     title="PRODUCTS"
-                    to={config.routes.products}
+                    to={`/products/brand/0`}
                     //icon={<UserGroupIcon />}
                     //activeIcon={<UserGroupActiveIcon />}
                 />

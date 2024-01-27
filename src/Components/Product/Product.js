@@ -60,9 +60,7 @@ function Product({ data }) {
                         </div>
                     </div>
                     <div className={cx('card-body')}>
-                        <a href=" ">
-                            <p className={cx('prod-name')}>{data.namep}</p>
-                        </a>
+                        <p className={cx('prod-name')}>{data.namep}</p>
                     </div>
                     <div className={cx('card-footer')}>
                         <div className="row">
@@ -70,9 +68,7 @@ function Product({ data }) {
                                 <h5 className={cx('prod-price')}>{data.pricep}</h5>
                             </div>
                             <div className="col-sm-6">
-                                <a href=" ">
-                                    <button className={cx('btn-dark-detail')}>Chi tiết</button>
-                                </a>
+                                <button className={cx('btn-dark-detail')}>Chi tiết</button>
                             </div>
                         </div>
                     </div>

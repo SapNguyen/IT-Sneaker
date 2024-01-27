@@ -17,6 +17,7 @@ import ProductBrand from '~/pages/ProductBrand';
 // import BrandNike from '~/pages/BrandNike';
 import New from '~/pages/New';
 import SpecialPrice from '~/pages/SpecialPrice';
+import DetailProduct from '~/pages/DetailProduct';
 
 //không đăng nhập vẫn vào được
 const publicRoutes = [
@@ -25,11 +26,13 @@ const publicRoutes = [
     { path: config.routes.following, component: Following },
     
     { path: config.routes.products, component: ProductBrand },
-    { path: config.routes.brandConverse, component: ProductBrand, idP: 1 },
-    { path: config.routes.brandVans, component: ProductBrand, idP: 2 },
-    { path: config.routes.brandPalladium, component: ProductBrand, idP: 3 },
-    { path: config.routes.brandKswiss, component: ProductBrand, idP: 6 },
-    { path: config.routes.brandNike, component: ProductBrand, idP: 7 },
+    // { path: config.routes.brandConverse, component: ProductBrand, idB: 1 },
+    // { path: config.routes.brandVans, component: ProductBrand, idB: 2 },
+    // { path: config.routes.brandPalladium, component: ProductBrand, idB: 3 },
+    // { path: config.routes.brandKswiss, component: ProductBrand, idB: 6 },
+    // { path: config.routes.brandNike, component: ProductBrand, idB: 7 },
+
+    { path: config.routes.detailproduct, component: DetailProduct },
 
     { path: config.routes.specialprice, component: SpecialPrice },
     { path: config.routes.new, component: New },

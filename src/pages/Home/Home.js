@@ -6,6 +6,7 @@ import ReactPlayer from 'react-player';
 import Brand from '~/layouts/components/Brand';
 import Slider from '~/layouts/components/Slider';
 import CustomSlider from 'react-slick';
+import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Helmet } from 'react-helmet';
@@ -90,7 +91,9 @@ function Home() {
                         <CustomSlider {...settings}>
                             {productValue.map((result) => (
                                 <div key={result.idp}>
-                                    <Product
+                                    <Link to={`/product/${result.idp}`}><Product data={result}/></Link>
+                                    {/* <Product
+                                    
                                         // nameproduct="Giày Vans Sk8-Low Rearrange"
                                         // priceproduct="1,680,000₫"
                                         // mainimg="https://product.hstatic.net/200000265619/product/vn0009qccjj_-web-1_613696c8feb8494081616e15c27db43d_medium.jpg"
@@ -100,7 +103,7 @@ function Home() {
                                         //     'https://product.hstatic.net/200000265619/product/vn000crnba2__2_34f05d3d2c44441ca0fe513b36d953f5_small.jpg',
                                         // ]}
                                         data={result}
-                                    />
+                                    /> */}
                                 </div>
                             ))}
 

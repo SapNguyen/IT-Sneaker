@@ -1,0 +1,35 @@
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+.large-img{
+    width: 100%;
+    max-width: 418px;
+    max-height: 418px;
+    border: 1px solid #e5e6ec;
+}
+.carousel{
+    width: 90%;
+    position: relative;
+}
+.owl-stage-outer{
+    height: 85px;
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: translate3d(0,0,0);
+}
+.owl-stage{
+    width: 288px;
+    transform: translate3d(0px, 0px, 0px);
+    transition: all 0s ease 0s;
+    position: relative;
+    touch-action: manipulation;
+}
+.owl-item-active{
+    width: 85.9px;
+    margin-right: 10px;
+}
+.small-img{
+    width: 85px !important;
+    height: 85px;
+    border: 2px solid #eaebf3;
+    display: block;
+}

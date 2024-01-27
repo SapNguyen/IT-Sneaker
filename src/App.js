@@ -21,19 +21,22 @@ function App() {
                         }
 
                         let id
-                        if(route.idP){
-                            if(route.idP ===1){
+                        if(route.idB){
+                            if(route.idB ===1){
                                 id=1
-                            }else if(route.idP ===2){
+                            }else if(route.idB ===2){
                                 id=2
-                            }else if(route.idP ===3){
+                            }else if(route.idB ===3){
                                 id=3
-                            }else if(route.idP ===6){
+                            }else if(route.idB ===6){
                                 id=6
-                            }else if(route.idP ===7){
+                            }else if(route.idB ===7){
                                 id=7
                             }
                         }
+                        // if(route.idP){
+
+                        // }
 
                         const Page = route.component;
                         return (

@@ -178,9 +178,9 @@ function Header() {
                     <Menu items={currentUser ? userMenu : MENU_ITEMS}>
                         {currentUser ? (
                             <Image
-                                src="https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/375062016_1027580694934669_5850570789184348493_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=T8TylWYFrcAAX9bYuFU&_nc_ht=scontent.fhan14-2.fna&oh=00_AfDYMT3z2GcwRICNT5axjp8qmJMtd22mFp1G8e9yOeRRBQ&oe=659E7CB1"
+                                src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/375062016_1027580694934669_5850570789184348493_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeFrPjekynKd9oLRB5zHPE-QPRDnU_LOyig9EOdT8s7KKAUm8CsHxQb357HcI3sYJSrco7NyAaafG3vb2mwaK2-G&_nc_ohc=az0SXbtU5cgAX_eS543&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCjnG59NScDMlZ0V3KmU6Er1E2Ol9pPWNtmrkUDdSRTLw&oe=65B831F1"
                                 className={cx('user-avatar')}
-                                alt="Nguyễn Văn A"
+                                alt="Nguyễn Thế Anh"
                                 // fallback="... 1 cái ảnh nào đó mà mình muốn dùng mặc định"
                             />
                         ) : (

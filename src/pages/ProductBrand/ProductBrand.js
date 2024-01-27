@@ -5,6 +5,7 @@ import Product from '~/Components/Product';
 import Sidebar from '~/layouts/components/Sidebar';
 import IntroBrand from '~/layouts/components/IntroBrand';
 import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 import * as productsServices from '~/services/productsService';
 import * as brandsServices from '~/services/brandsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,7 +15,9 @@ import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function ProductBrand({ id }) {
+function ProductBrand() {
+    const { brandId } = useParams();
+
     const [productValue, setProductValue] = useState([]);
     const [brandValue, setBrandValue] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -23,7 +26,7 @@ function ProductBrand({ id }) {
         const fetchAPIProduct = async () => {
             try {
                 setLoading(true);
-                const result = await productsServices.productforbrand(id);
+                const result = await productsServices.productforbrand(brandId);
 
                 setProductValue(result.products);
             } catch (err) {
@@ -35,7 +38,7 @@ function ProductBrand({ id }) {
 
         const fetchAPIBrand = async () => {
             try {
-                const resultBrand = await brandsServices.brandtitle(id);
+                const resultBrand = await brandsServices.brandtitle(brandId);
 
                 setBrandValue(resultBrand.brands);
             } catch (err) {
@@ -45,7 +48,7 @@ function ProductBrand({ id }) {
 
         fetchAPIBrand();
         fetchAPIProduct();
-    }, [id]); // Dependency array trống đại diện cho việc useEffect chỉ chạy một lần như componentDidMount
+    }, [brandId]); // Dependency array trống đại diện cho việc useEffect chỉ chạy một lần như componentDidMount
 
     return (
         <BrandProduct>
