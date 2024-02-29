@@ -18,6 +18,11 @@ import ProductBrand from '~/pages/ProductBrand';
 import New from '~/pages/New';
 import SpecialPrice from '~/pages/SpecialPrice';
 import DetailProduct from '~/pages/DetailProduct';
+import Login from '~/pages/Login';
+import Register from '~/pages/Register';
+import Account from '~/pages/Account';
+import Cart from '~/pages/Cart';
+import Payment from '~/pages/Payment';
 
 //không đăng nhập vẫn vào được
 const publicRoutes = [
@@ -40,6 +45,12 @@ const publicRoutes = [
     { path: config.routes.profile, component: Profile },
     { path: config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: config.routes.search, component: Search, layout: null },
+    { path: config.routes.login, component: Login},
+    { path: config.routes.register, component: Register},
+    { path: config.routes.account, component: Account},
+    { path: config.routes.cart, component: Cart},
+    { path: config.routes.payment, component: Payment, layout: null},
+    
 ];
 
 //phải đăng nhập mới vào được

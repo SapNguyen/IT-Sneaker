@@ -202,6 +202,45 @@
         border-radius: 0 0 var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius);
     }
 }
+.promotion-tag {
+    position: absolute;
+    background-color: #d60f25;
+    color: white;
+    right: 0;
+    width: 50px;
+    text-align: center;
+
+    &::before {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: 0;
+        bottom: -11px;
+        font-size: 1px;
+        border-top: 10px solid transparent;
+        border-left: 30px solid #d60f25;
+        border-bottom: 10px solid transparent;
+    }
+
+    &::after {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        right: 0;
+        bottom: -11px;
+        font-size: 1px;
+        border-top: 10px solid transparent;
+        border-right: 30px solid #d60f25;
+        border-bottom: 10px solid transparent;
+    }
+}
+.promotion-price {
+    color: yellow;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
 // .card-footer::before {
 //     content: '';
 //     display: block;

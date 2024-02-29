@@ -11,6 +11,16 @@
 .content {
     display: flex;
 }
+.sidebar-listbrand {
+    margin-bottom: 25px;
+}
+.title-listbrand {
+    width: 100%;
+    margin-left: 40px;
+    color: #000000;
+    display: block;
+    padding: 0px;
+}
 // .loading {
 //     font-size: 40px;
 //     margin-left: 50%;
@@ -32,5 +42,52 @@
     }
     to {
         transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+.label-checkbox {
+    cursor: pointer;
+
+    &:hover {
+        color: #d0021b;
+    }
+}
+
+.list-list-product {
+    width: 280px;
+    height: fit-content;
+    padding: 20px 20px 20px 20px;
+    margin-left: 40px;
+    margin-top: 10px;
+    border: 1px solid #d7d6d6;
+    margin-right: 12px;
+}
+.priority {
+    padding: 0;
+    margin-bottom: 20px;
+    margin-top: -5px;
+    width: 88%;
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 5px;
+}
+.title-priority {
+    font-size: 16px;
+    font-weight: 700;
+    float: left;
+    margin: 0;
+    margin-top: 2px;
+    color: #000000;
+    display: inline-block;
+    float: left;
+    width: 85px;
+}
+.label-checkbox-priority {
+    float: left;
+    padding: 0 0 0 20px;
+
+    &:hover {
+        color: #d0021b;
+        text-decoration: none;
+        cursor: pointer;
     }
 }

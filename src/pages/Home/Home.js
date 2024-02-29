@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-// import 'bootstrap/dist/js/bootstrap.min.js';
 import style from './Home.module.scss';
 import Product from '~/Components/Product';
 import ReactPlayer from 'react-player';
@@ -12,6 +11,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import CustomNextArrow from '~/Components/CustomNextArrow';
+import CustomPrevArrow from '~/Components/CustomPrevArrow';
 
 import * as productsServices from '~/services/productsService';
 
@@ -28,6 +29,8 @@ function Home() {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 2000,
+        nextArrow: <CustomNextArrow mt5/>,
+        prevArrow: <CustomPrevArrow mt5/>,
     };
 
     const [productValue, setProductValue] = useState([]);
@@ -88,7 +91,7 @@ function Home() {
                         {/* <div className={cx('owl-carousel')}>
                             <div className={cx('owl-stage-outer')}>
                                 <div className={cx('owl-stage')}> */}
-                        <CustomSlider {...settings}>
+                        <CustomSlider {...settings} className={cx('slider-flex')}>
                             {productValue.map((result) => (
                                 <div key={result.idp}>
                                     <Link to={`/product/${result.idp}`}><Product data={result}/></Link>

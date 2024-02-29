@@ -1,0 +1,112 @@
+.container {
+    height: auto;
+    text-align: center;
+    background-color: white;
+    padding: 20px 30px !important;
+    min-width: 800px;
+    border-radius: var(--bs-border-radius) !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    flex: 0 0 auto;
+    width: 75%;
+    margin-bottom: 20px;
+}
+.title {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: left;
+    border-bottom: 1px solid #e5e6ec;
+    padding-bottom: 15px;
+}
+.content {
+    text-align: left;
+    padding: 10px 50px;
+}
+.div-name {
+    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
+    display: flex;
+}
+.div-email,
+.div-phone,
+.div-address {
+    margin-top: 1rem !important;
+    display: flex;
+}
+.form-label {
+    width: 14%;
+    color: rgba(85, 85, 85, 0.8);
+    text-align: right;
+    margin-bottom: 0.5rem;
+    margin-left: 12%;
+    margin-top: 4px;
+}
+.form-control {
+    padding-left: 15px;
+    display: block;
+    width: 60%;
+    padding: 0.375rem 0.75rem;
+    margin-left: 8px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+        color: #212529;
+        background-color: #fff;
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+}
+.form-control-email {
+    padding-left: 15px;
+    display: block;
+    width: 60%;
+    padding: 0.375rem 0.75rem;
+    margin-left: 8px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 0 !important;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-change {
+    background: #ee4d2d;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.btn-disabled {
+    color: #fff !important;
+    background-color: #6e7174 !important;
+    border: 1px solid #6e7174 !important;
+    font-size: 14px;
+    border-radius: 5px;
+    text-align: center;
+
+    &:hover {
+        cursor: not-allowed !important;
+        color: #fff !important;
+        background-color: #212529 !important;
+        border: 1px solid #212529 !important;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+}

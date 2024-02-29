@@ -1,0 +1,76 @@
+.wrapper{
+    background-color: #f5f5f5
+}
+.space {
+    width: 10%;
+}
+.tab {
+    text-align: left;
+    padding: 20px 30px;
+    font-size: 18px;
+}
+.account {
+    display: flex;
+    align-items: center;
+}
+.account-drop {
+    padding-left: 25px;
+    margin-top: 10px;
+}
+.avatar-person,
+.avatar-receipt {
+    color: #2673dd;
+}
+.account-drop {
+    padding-left: 25px;
+    margin-top: 10px;
+}
+.title-account {
+    margin-left: 8px;
+}
+.title-receipt {
+    margin-left: 12px;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+.icon-check {
+    color: rgb(8, 211, 8);
+    font-size: 50px;
+}
+.update {
+    font-size: 18px;
+}
+.tab-active {
+    color: #d60f25;
+}
+.success-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 600;
+    display: none;
+}
+.success-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+}
+.success-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: visible;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    padding: 50px 150px;
+    text-align: center;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.active {
+    color: #d60f25;
+}
+.choice{
+    cursor: pointer;
+}

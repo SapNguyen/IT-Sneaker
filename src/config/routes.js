@@ -14,6 +14,11 @@ const routes = {
     search: '/search',
     live: '/live',
     detailproduct:'/product/:productId',
+    login:'/login',
+    register:'/register',
+    account:'/account',
+    cart:'/cart',
+    payment:'/payment',
 };
 
 export default routes;

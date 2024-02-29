@@ -1,0 +1,33 @@
+.tab {
+    margin: 50px 0 0 0;
+    overflow: hidden;
+    border: none;
+    background-color: white;
+}
+.active {
+    background-color: #d60f25 !important;
+    color: white;
+}
+.tab-links {
+    background-color: inherit;
+    float: left;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.2s;
+    font-size: 19px;
+}
+.tabcontent {
+    display: none;
+    padding: 15px 20px;
+    border: 1px solid #e5e6ec;
+}
+.no-refund {
+    font-size: larger;
+    font-weight: 700;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}

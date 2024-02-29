@@ -1,0 +1,114 @@
+.feedback-container {
+    margin-top: 30px;
+    padding: 20px 20px 50px 20px;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+}
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.feedback-title {
+    background-color: rgb(255, 234, 234);
+    padding: 0 20px 20px 20px;
+    display: flex;
+    justify-content: left;
+}
+.star-container {
+    text-align: center;
+    margin-top: 30px;
+}
+.feedback-average {
+    color: red;
+    font-size: 24px;
+}
+.flex-star-feedback {
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+.star-feedback {
+    position: relative;
+    height: 24px;
+}
+.star {
+    font-size: 18px;
+    color: red;
+    font-variation-settings: 'FILL' 0;
+}
+.star-fill {
+    width: 0px;
+    color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    font-variation-settings: 'FILL' 1;
+}
+.type-star-container {
+    margin-left: 50px;
+    margin-top: 15px;
+}
+.star-box {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px 20px;
+    color: rgb(50, 50, 50);
+    background-color: white;
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+.active {
+    border-color: red;
+    color: red;
+}
+.star-feedback-empty{
+    padding-top: 50px;
+    text-align: center;
+    display: none;
+}
+.chat{
+    font-size: 50px;
+    color: #747474;
+}
+.feedback-content{
+    margin-top: 20px;
+}
+.comment-box{
+    display: flex;
+    padding: 10px 20px 30px 20px;
+    border-bottom: 1px solid #dbdbdb;
+    margin-top: 20px;
+}
+.avatar{
+    font-size: 45px;
+    color: rgb(89, 89, 255);
+    font-variation-settings: 'FILL' 1;
+}
+.comment-info{
+    margin-left: 20px;
+}
+.name{
+    font-size: 14px;
+}
+.rate{
+    // margin-top: 5px;
+    margin-bottom: 8px;
+}
+.flex-star-feedback{
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+}
+.position-relative{
+    position: relative;
+    height: 20px;
+}
+.content{
+    font-size: 16px;
+    margin-top: 5px;
+}

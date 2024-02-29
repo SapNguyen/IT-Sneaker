@@ -22,6 +22,37 @@ function ProductBrand() {
     const [brandValue, setBrandValue] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [selectedPrices, setSelectedPrices] = useState([]);
+
+    const [priorityCheckboxState, setPriorityCheckboxState] = useState('');
+
+    const handleCheckboxChange = (price) => {
+        // Kiểm tra xem giá đã được chọn chưa
+        if (selectedPrices.includes(price)) {
+            // Nếu đã chọn, loại bỏ giá khỏi danh sách
+            setSelectedPrices(selectedPrices.filter((selectedPrice) => selectedPrice !== price));
+        } else {
+            // Nếu chưa chọn, thêm giá vào danh sách
+            setSelectedPrices([...selectedPrices, price]);
+        }
+    };
+
+    const handleCheckboxChangePriority = (priority) => {
+        setPriorityCheckboxState(priority);
+    };
+
+    const handleApplyFilterPriory = () => {
+        // Gửi selectedPrices lên API để thay đổi giao diện hoặc xử lý dữ liệu
+        console.log('Selected Priority:', priorityCheckboxState);
+        // Thực hiện gọi API ở đây...
+    };
+
+    const handleApplyFilter = () => {
+        // Gửi selectedPrices lên API để thay đổi giao diện hoặc xử lý dữ liệu
+        console.log('Selected Prices:', selectedPrices);
+        // Thực hiện gọi API ở đây...
+    };
+
     useEffect(() => {
         const fetchAPIProduct = async () => {
             try {
@@ -62,8 +93,97 @@ function ProductBrand() {
                 ))}
 
                 <div className={cx('content')}>
-                    <Sidebar />
+                    <div>
+                        <div className={cx('sidebar-listbrand')}>
+                            <div className={cx('title-listbrand')}>DANH MỤC SẢN PHẨM</div>
+                            <Sidebar />
+                        </div>
+                        <div className={cx('sidebar-listbrand')}>
+                            <div className={cx('title-listbrand')}>MỨC GIÁ</div>
+
+                            <div className={cx('list-list-product')}>
+                                <label className={cx('label-checkbox')}>
+                                    <input
+                                        type="checkbox"
+                                        value="10000-20000"
+                                        checked={selectedPrices.includes('10000-20000')}
+                                        onChange={() => handleCheckboxChange('10000-20000')}
+                                        onClick={handleApplyFilter}
+                                    />
+                                    10.000đ - 20.000đ
+                                </label>
+
+                                <label className={cx('label-checkbox')}>
+                                    <input
+                                        type="checkbox"
+                                        value="20000-30000"
+                                        checked={selectedPrices.includes('20000-30000')}
+                                        onChange={() => handleCheckboxChange('20000-30000')}
+                                        onClick={handleApplyFilter}
+                                    />
+                                    20.000đ - 30.000đ
+                                </label>
+
+                                <label className={cx('label-checkbox')}>
+                                    <input
+                                        type="checkbox"
+                                        value="30000-40000"
+                                        checked={selectedPrices.includes('30000-40000')}
+                                        onChange={() => handleCheckboxChange('30000-40000')}
+                                        onClick={handleApplyFilter}
+                                    />
+                                    30.000đ - 40.000đ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className={cx('product')}>
+                        <div className={cx('priority')}>
+                            <div className={cx('title-priority')}>Ưu tiên xem:</div>
+
+                            <div className={cx('list-list-priority')}>
+                                <label className={cx('label-checkbox-priority')}>
+                                    <input
+                                        type="checkbox"
+                                        value="A-Z"
+                                        onChange={() => handleCheckboxChangePriority('A-Z')}
+                                        onClick={handleApplyFilterPriory}
+                                    />
+                                    Từ A → Z
+                                </label>
+
+                                <label className={cx('label-checkbox-priority')}>
+                                    <input
+                                        type="checkbox"
+                                        value="Z-A"
+                                        onChange={() => handleCheckboxChangePriority('Z-A')}
+                                        onClick={handleApplyFilterPriory}
+                                    />
+                                    Từ Z → A
+                                </label>
+
+                                <label className={cx('label-checkbox-priority')}>
+                                    <input
+                                        type="checkbox"
+                                        value="Up"
+                                        onChange={() => handleCheckboxChangePriority('Up')}
+                                        onClick={handleApplyFilterPriory}
+                                    />
+                                    Giá tăng dần
+                                </label>
+
+                                <label className={cx('label-checkbox-priority')}>
+                                    <input
+                                        type="checkbox"
+                                        value="Down"
+                                        onChange={() => handleCheckboxChangePriority('Down')}
+                                        onClick={handleApplyFilterPriory}
+                                    />
+                                    Giá giảm dần
+                                </label>
+                            </div>
+                        </div>
                         {productValue.map((result) => (
                             <Product key={result.idp} data={result} />
                         ))}

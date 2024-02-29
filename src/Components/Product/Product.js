@@ -72,6 +72,10 @@ function Product({ data }) {
                             </div>
                         </div>
                     </div>
+                    <div className={cx('promotion-tag')}>
+                        <p className={cx('promotion-price')}>10%</p>
+                        GIẢM
+                    </div>
                 </div>
             </div>
         </div>

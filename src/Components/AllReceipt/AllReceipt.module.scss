@@ -1,0 +1,344 @@
+.receipt {
+    margin-top: 10px;
+    padding: 20px 0;
+    background-color: white;
+}
+.receipt-header {
+    text-align: right;
+    padding: 0 30px 15px 30px;
+}
+.status {
+    color: red;
+    font-size: 18px;
+}
+.product-box {
+    padding: 0 30px;
+}
+.product {
+    display: flex;
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+}
+.img {
+    width: 100px;
+    height: 100px;
+}
+.prod-info {
+    min-width: 55%;
+    text-align: left;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.prod-cate {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 15px;
+}
+.prod-amount {
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+.prod-price {
+    color: red;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+.receipt-footer {
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    padding: 20px 30px;
+}
+.btn-gray {
+    border: 1px solid #ccc;
+    color: rgb(91, 91, 91);
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.btn-red {
+    border: 1px solid red;
+    color: white;
+    background-color: red;
+    padding: 10px 25px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.title-price {
+    display: flex;
+    margin-left: 40px;
+    align-items: center;
+}
+.price {
+    color: red;
+    font-size: 18px;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+.success-screen,
+.feedback-screen-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 600;
+    display: none;
+}
+.feedback-screen {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 600;
+    display: none;
+}
+.success-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+}
+.feedback-box,
+.feedback-box-view {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: visible;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    padding: 70px;
+    text-align: center;
+    width: 40%;
+    min-width: 500px;
+    max-height: 90%;
+    overflow: auto;
+}
+.feedback-title {
+    position: absolute;
+    top: 15px;
+    font-size: 24px;
+    left: 40px;
+    color: #4f4f4f;
+}
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    position: relative;
+}
+.flex-comment {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 10px 0;
+    position: relative;
+}
+.error-txt {
+    color: red;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+}
+.btn_cancel-feedback {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 8px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #888;
+}
+.btn_confirm-feedback {
+    background-color: #ee4d2d;
+    border: 1px solid #ee4d2d;
+    padding: 8px 25px;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    margin-left: 10px;
+}
+.feedback-screen-view {
+    display: block;
+}
+.feedback-overlay {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+}
+.feedback-box-view {
+    padding: 100px 70px 30px 70px !important;
+}
+.feedback-product-view {
+    border-bottom: 1px solid #dbdbdb;
+}
+.product-feedback {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 10px;
+}
+.img-product-feedback {
+    width: 80px;
+    height: 80px;
+}
+.info-product {
+    margin-left: 10px;
+    text-align: left;
+}
+.product-classify {
+    font-size: 14px;
+    color: gray;
+}
+.comment-box {
+    display: flex;
+    padding: 10px 20px 30px 20px;
+    margin-top: 20px;
+}
+.avatar {
+    font-size: 45px;
+    color: rgb(89, 89, 255);
+    font-variation-settings: 'FILL' 1;
+}
+.comment-info {
+    margin-left: 20px;
+}
+.name {
+    font-size: 14px;
+}
+.rate {
+    // margin-top: 5px;
+    margin-bottom: 8px;
+}
+.flex-star-feedback {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+}
+.position-relative {
+    position: relative;
+    height: 20px;
+}
+.content {
+    font-size: 16px;
+    margin-top: 5px;
+}
+.star-inactive {
+    font-size: 18px;
+    font-variation-settings: 'FILL' 0;
+    margin-left: 12px;
+    cursor: pointer;
+}
+.star-active {
+    font-size: 18px;
+    font-variation-settings: 'FILL' 0;
+    color: red;
+    margin-left: 12px;
+    cursor: pointer;
+}
+// .star-fill {
+//     width: 0px;
+//     color: red;
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     overflow: hidden;
+//     font-variation-settings: 'FILL' 1;
+// }
+.btn-ok {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+}
+.btn_close {
+    border: 1px solid #ccc;
+    color: rgb(91, 91, 91);
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100px;
+}
+.my-comment {
+    height: 200px;
+    border: 1px solid rgb(122, 122, 122);
+    margin: 10px 0 30px 0;
+    width: 100%;
+    display: flex;
+    outline: none;
+    resize: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+.error-txt {
+    color: red;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+}
+.btn_cancel-feedback {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 8px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #888;
+}
+.btn_confirm-feedback {
+    background-color: #ee4d2d;
+    border: 1px solid #ee4d2d;
+    padding: 8px 25px;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    margin-left: 10px;
+}
+
+.space {
+    justify-content: space-between;
+    width: 10%;
+}
+.success-screen {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 600;
+}
+.success-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+}
+.success-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: visible;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s ease-in-out;
+    padding: 50px 150px;
+    text-align: center;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.check-icon {
+    color: rgb(8, 211, 8);
+    font-size: 50px;
+}
+.title-confirm {
+    font-size: 18px;
+}
