@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 import { Helmet } from 'react-helmet';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -9,6 +9,18 @@ function Profile() {
     const [inputValueName, setInputValueName] = useState('');
     const [inputValuePhone, setInputValuePhone] = useState('');
     const [inputValueAddress, setInputValueAddress] = useState('');
+    const [loggedIn, setLoggedIn] = useState(true);
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (!loggedInUser) {
+            setLoggedIn(false);
+        }
+    }, []);
+
+    if (loggedIn === false) {
+        window.location.href = '/login';
+    }
 
     const handleChangeName = (event) => {
         setInputValueName(event.target.value);

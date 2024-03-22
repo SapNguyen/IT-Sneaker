@@ -2,13 +2,9 @@ import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faSignIn,
-    faEllipsisVertical,
-    faEarthAsia,
+    // faEllipsisVertical,
     faQuestion,
-    faKeyboard,
     faUser,
-    faCoins,
-    faGear,
     faSignOut,
     faPhone,
     faCartShopping,
@@ -26,41 +22,42 @@ import Menu from '~/Components/Popper/Menu';
 import Image from '~/Components/Image';
 import Search from '../Search';
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from 'react';
 
 //dùng để viết .post-item có thể viết dấu -
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
-    {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        title: 'English',
-        //thằng con cấp 2 của Menu_Items
-        //cứ tk nào có children thì có sub menu cấp 2
-        children: {
-            title: 'Language',
-            data: [
-                {
-                    type: 'language',
-                    code: 'en',
-                    title: 'English',
-                },
-                {
-                    type: 'language',
-                    code: 'vi',
-                    title: 'Việt Nam',
-                },
-            ],
-        },
-    },
+    // {
+    //     icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    //     title: 'English',
+    //     //thằng con cấp 2 của Menu_Items
+    //     //cứ tk nào có children thì có sub menu cấp 2
+    //     children: {
+    //         title: 'Language',
+    //         data: [
+    //             {
+    //                 type: 'language',
+    //                 code: 'en',
+    //                 title: 'English',
+    //             },
+    //             {
+    //                 type: 'language',
+    //                 code: 'vi',
+    //                 title: 'Việt Nam',
+    //             },
+    //         ],
+    //     },
+    // },
     {
         icon: <FontAwesomeIcon icon={faQuestion} />,
         title: 'Feedback and help',
-        to: '/feedback',
+        href: 'https://www.facebook.com',
     },
-    {
-        icon: <FontAwesomeIcon icon={faKeyboard} />,
-        title: 'Keyboard shortcuts',
-    },
+    // {
+    //     icon: <FontAwesomeIcon icon={faKeyboard} />,
+    //     title: 'Keyboard shortcuts',
+    // },
 ];
 
 const MENU_CART = [
@@ -77,7 +74,19 @@ const MENU_CART = [
 ];
 
 function Header() {
-    const currentUser = true;
+    const [currentUser, setCurrentUser] = useState(false);
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (loggedInUser) {
+            setCurrentUser(true);
+        }
+    }, []);
+
+    const handleRemoveUserId = () => {
+        sessionStorage.removeItem('userId');
+        window.location.href = '/';
+    };
 
     //Handle logic
     const handleMenuChange = (menuItem) => {
@@ -93,25 +102,26 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View profile',
-            to: '/@henry',
+            to: '/profile',
         },
-        {
-            icon: <FontAwesomeIcon icon={faCoins} />,
-            title: 'Get coins',
-            to: '/coin',
-        },
-        {
-            icon: <FontAwesomeIcon icon={faGear} />,
-            title: 'Settings',
-            to: '/settings',
-        },
+        // {
+        //     icon: <FontAwesomeIcon icon={faCoins} />,
+        //     title: 'Get coins',
+        //     to: '/coin',
+        // },
+        // {
+        //     icon: <FontAwesomeIcon icon={faGear} />,
+        //     title: 'Settings',
+        //     to: '/settings',
+        // },
         //dải thêm những object màm Menu_items có
         ...MENU_ITEMS,
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
-            to: '/logout',
+            to: '/',
             separate: true, //thằng nào có cái này thì có cái vạch ở tên
+            onClick: handleRemoveUserId,
         },
     ];
 
@@ -165,17 +175,17 @@ function Header() {
                     ) : (
                         //thẻ chứa Fal...
                         <>
-                            <Button text className={cx('custom')}>
-                                Upload
-                            </Button>
-                            <Button primary lefticon={<FontAwesomeIcon icon={faSignIn} />}>
+                            {/* <Button primary lefticon={<FontAwesomeIcon icon={faSignIn} />}>
+                                Register
+                            </Button> */}
+                            <Button primary to="/login" lefticon={<FontAwesomeIcon icon={faSignIn} />}>
                                 Log in
                             </Button>
                         </>
                     )}
 
                     {/* Nếu mà có currentUser thì hiện userMenu còn không hiện MENU_ITEMS */}
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS}>
+                    <Menu items={currentUser ? MENU_ITEMS : userMenu}>
                         {currentUser ? (
                             <Image
                                 src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/375062016_1027580694934669_5850570789184348493_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeFrPjekynKd9oLRB5zHPE-QPRDnU_LOyig9EOdT8s7KKAUm8CsHxQb357HcI3sYJSrco7NyAaafG3vb2mwaK2-G&_nc_ohc=az0SXbtU5cgAX_eS543&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCjnG59NScDMlZ0V3KmU6Er1E2Ol9pPWNtmrkUDdSRTLw&oe=65B831F1"
@@ -184,9 +194,7 @@ function Header() {
                                 // fallback="... 1 cái ảnh nào đó mà mình muốn dùng mặc định"
                             />
                         ) : (
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
+                            <Fragment></Fragment>
                         )}
                     </Menu>
                 </div>

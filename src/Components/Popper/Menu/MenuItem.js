@@ -10,7 +10,7 @@ function MenuItem({ data, onClick }) {
         separate: data.separate, //thêm custom class separate thằng nào có separate thì được gạch ở trên
     });
     return (
-        <Button className={classes} lefticon={data.icon} to={data.to} onClick={onClick}>
+        <Button className={classes} lefticon={data.icon} to={data.to} href={data.href} onClick={data.onClick}>
             {data.title}
         </Button>
     );

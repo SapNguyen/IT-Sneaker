@@ -10,6 +10,11 @@ export const getsneaker = async (path, options = {}) => {
     return respone;
 };
 
+export const postsneaker = async (path, options = {}) => {
+    const respone = await httpsRequest.post(path, options);
+    return respone;
+};
+
 //Custom axios để gọi API cho dễ
 // const httpRequest = axios.create({
 //     //baseURL:'https://tiktok.fullstack.edu.vn/api/'

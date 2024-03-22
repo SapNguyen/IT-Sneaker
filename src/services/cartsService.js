@@ -1,13 +1,13 @@
 import * as httpRequest from '~/ultils/httpRequest';
 
-export const search = async (name) => {
+export const cartuser = async (id) => {
     //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
     //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
     //await luôn đúng trước promise
     try {
-        const res = await httpRequest.getsneaker('searchproduct', {
+        const res = await httpRequest.getsneaker('cart/user', {
             params: {
-                name,
+                id,
             },
         });
         return res.data;
@@ -15,4 +15,3 @@ export const search = async (name) => {
         console.log(error);
     }
 };
-

@@ -42,18 +42,20 @@ const publicRoutes = [
     { path: config.routes.specialprice, component: SpecialPrice },
     { path: config.routes.new, component: New },
     { path: config.routes.live, component: Live },
-    { path: config.routes.profile, component: Profile },
     { path: config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: config.routes.search, component: Search, layout: null },
     { path: config.routes.login, component: Login},
     { path: config.routes.register, component: Register},
-    { path: config.routes.account, component: Account},
-    { path: config.routes.cart, component: Cart},
-    { path: config.routes.payment, component: Payment, layout: null},
+    
     
 ];
 
 //phải đăng nhập mới vào được
-const privateRoutes = [];
+const privateRoutes = [
+    { path: config.routes.account, component: Account},
+    { path: config.routes.cart, component: Cart},
+    { path: config.routes.payment, component: Payment, layout: null},
+    { path: config.routes.profile, component: Profile },
+];
 
 export { publicRoutes, privateRoutes };

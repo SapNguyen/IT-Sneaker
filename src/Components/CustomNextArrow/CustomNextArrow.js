@@ -5,9 +5,9 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function CustomNextArrow({ onClick,mt5 }) {
+function CustomNextArrow({ onClick, mt5, mt0, mt7 }) {
     return (
-        <button className={cx('custom-next-arrow',{mt5})} onClick={onClick}>
+        <button className={cx('custom-next-arrow', { mt5 }, { mt0 }, { mt7 })} onClick={onClick}>
             {/* → */}
             <FontAwesomeIcon icon={faChevronRight} />
         </button>

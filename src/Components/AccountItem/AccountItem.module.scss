@@ -26,9 +26,16 @@
     font-weight: 500;
 }
 
-.username {
+.price{
+    color: #d60f25;
+    font-weight: bold;
+}
+
+.price_discount {
     font-size: 1.4rem;
-    color: rgba(22, 24, 35, 0.5);
+    color: #555353;
+    margin-left: 8px;
+    text-decoration: line-through;
 }
 
 .check {

@@ -25,7 +25,6 @@ function AllReceipt() {
 
     const handleStarClick = (selectedRating) => {
         setRating(selectedRating);
-
         //gọi API ở đây
     };
 

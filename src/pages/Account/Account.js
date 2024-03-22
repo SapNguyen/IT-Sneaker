@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons';
 import Profile from '../Profile';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChangePass from '../ChangePass';
 import Receipt from '../Receipt';
 
@@ -12,10 +12,23 @@ const cx = classNames.bind(styles);
 
 function Account() {
     const [activeTab, setActiveTab] = useState(1);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     const handleTabClick = (tabNumber) => {
         setActiveTab(tabNumber);
     };
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (!loggedInUser) {
+            setLoggedIn(false);
+        }
+    }, []);
+
+    if (loggedIn === false) {
+        window.location.href = '/login';
+    }
+
     return (
         <main className={cx('wrapper')}>
             <Helmet>

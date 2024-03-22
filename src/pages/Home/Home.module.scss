@@ -168,11 +168,7 @@
         transform: translateY(-50%) rotate(360deg);
     }
 }
-.slider-flex{
-    display: flex !important;
-    flex-wrap: nowrap;
-
-    &:nth-child(2){
-        width: -webkit-fill-available;
-    }
+.slider-flex {
+    display: grid !important;
+    grid-auto-flow: column;
 }

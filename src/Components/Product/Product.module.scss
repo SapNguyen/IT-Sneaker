@@ -73,6 +73,7 @@
     cursor: pointer;
     position: relative;
     margin-top: 1px;
+    width: 230px;
 
     &:hover .slide-img {
         opacity: 1;
@@ -301,6 +302,14 @@
     display: flex;
     justify-content: left;
     margin-bottom: 0;
+}
+.prod-price-discount {
+    font-size: 15px;
+    font-family: 'Montserrat', 'HelveticaNeue', 'Helvetica Neue', sans-serif;
+    line-height: 16px;
+    font-weight: 300;
+    color: #555353;
+    text-decoration: line-through;
 }
 
 .btn-dark-detail {

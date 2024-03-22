@@ -14,9 +14,10 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomNextArrow from '~/Components/CustomNextArrow';
 import CustomPrevArrow from '~/Components/CustomPrevArrow';
 
-import * as productsServices from '~/services/productsService';
+import * as homeService from '~/services/homeService';
 
 import { useEffect, useState } from 'react';
+import LogoBrand from '~/Components/LogoBrand';
 
 const cx = classNames.bind(style);
 
@@ -27,10 +28,10 @@ function Home() {
         speed: 500,
         slidesToShow: 5,
         slidesToScroll: 1,
-        autoplay: true,
+        autoplay: false,
         autoplaySpeed: 2000,
-        nextArrow: <CustomNextArrow mt5/>,
-        prevArrow: <CustomPrevArrow mt5/>,
+        nextArrow: <CustomNextArrow mt7 />,
+        prevArrow: <CustomPrevArrow mt7 />,
     };
 
     const [productValue, setProductValue] = useState([]);
@@ -40,7 +41,7 @@ function Home() {
         const fetchAPIProduct = async () => {
             try {
                 setLoading(true);
-                const result = await productsServices.detailproduct();
+                const result = await homeService.homeproduct();
 
                 setProductValue(result.products);
             } catch (err) {
@@ -60,6 +61,7 @@ function Home() {
             </Helmet>
             <div className={cx('container')}>
                 <Slider />
+                <LogoBrand />
                 <Brand />
                 <div className={cx('product-list')}>
                     <div className={cx('des_img_product')}>
@@ -93,20 +95,10 @@ function Home() {
                                 <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings} className={cx('slider-flex')}>
                             {productValue.map((result) => (
-                                <div key={result.idp}>
-                                    <Link to={`/product/${result.idp}`}><Product data={result}/></Link>
-                                    {/* <Product
-                                    
-                                        // nameproduct="Giày Vans Sk8-Low Rearrange"
-                                        // priceproduct="1,680,000₫"
-                                        // mainimg="https://product.hstatic.net/200000265619/product/vn0009qccjj_-web-1_613696c8feb8494081616e15c27db43d_medium.jpg"
-                                        // imgs={[
-                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__web_1_1a353a64a6274d648592f3b01aa4eb23_small.jpg',
-                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__5_88668b3e0dda49d5885aea626976a6a2_small.jpg',
-                                        //     'https://product.hstatic.net/200000265619/product/vn000crnba2__2_34f05d3d2c44441ca0fe513b36d953f5_small.jpg',
-                                        // ]}
-                                        data={result}
-                                    /> */}
+                                <div key={result.product_id}>
+                                    <Link to={`/product/${result.product_id}`}>
+                                        <Product data={result} />
+                                    </Link>
                                 </div>
                             ))}
 
@@ -175,6 +167,43 @@ function Home() {
                         {/* </div>
                             </div>
                         </div> */}
+                    </div>
+
+                    <div className={cx('des_img_product')}>
+                        <div className={cx('des_product')}>
+                            <div className={cx('title')}>VANS KNU STACK</div>
+                            <p className={cx('text-des')}>
+                                Nhà Vans ra mắt hàng loạt các phối màu phù hợp với thiết kế cổ điển. Đợt này, Vans cho
+                                ra mắt item Knu Stack với lấy cảm hứng từ Knu Skool cùng dải logo Old Skool Sidestripe™
+                                kinh điển phiên bản 3D tại hai bên hông tăng thêm cảm giác “puffy - mụp mụp” thường thấy
+                                ở loại “giày bánh mì”, đồng thời cũng đem lại sự cân bằng về thị giác trên tổng thể sản
+                                phẩm.
+                            </p>
+                            <a className={cx('more')} href=" " title="Xem tất cả">
+                                Xem tất cả
+                            </a>
+                        </div>
+                        <img
+                            src="https://theme.hstatic.net/200000265619/1001091352/14/banner_product_thanhlich.jpg?v=444"
+                            className={cx('img-fluid')}
+                            alt=""
+                        />
+                    </div>
+                    <div className={cx('container-slider')} align="center">
+                        {/* <div className={cx('owl-carousel')}>
+                            <div className={cx('owl-stage-outer')}>
+                                <div className={cx('owl-stage')}> */}
+                        <CustomSlider {...settings} className={cx('slider-flex')}>
+                            {productValue.map((result) => (
+                                <div key={result.product_id}>
+                                    <Link to={`/product/${result.product_id}`}>
+                                        <Product data={result} />
+                                    </Link>
+                                </div>
+                            ))}
+                        </CustomSlider>
+                        {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+
                     </div>
 
                     <div className={cx('video')}>

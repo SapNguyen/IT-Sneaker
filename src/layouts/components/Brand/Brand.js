@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import style from './Brand.module.scss';
 import { Link } from 'react-router-dom';
-import * as brandsServices from '~/services/brandsService';
+import * as homeService from '~/services/homeService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,10 +21,10 @@ function Brand() {
         const fetchAPIBrand = async () => {
             try {
                 setLoading(true);
-                const result = await brandsServices.banners();
+                const result = await homeService.imgbanner();
 
-                const two = result.slice(0, 2);
-                const three = result.slice(2, 5);
+                const two = result.data.slice(0, 2);
+                const three = result.data.slice(2, 5);
 
                 setTwoBrandValue(two);
                 setThreeBrandValue(three);
@@ -42,12 +42,12 @@ function Brand() {
         <div className={cx('container-fluid')}>
             <div className="row">
                 {TwobrandValue.map((result) => (
-                    <div className="col-sm-6" key={result.idb}>
-                        <Link to={`/products/brand/${result.idb}`}>
+                    <div className="col-sm-6" key={result.brand_id}>
+                        <Link to={`/products/brand/${result.brand_id}`}>
                             <div className={cx('category')}>
-                                <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
+                                <img src={`http://127.0.0.1:8000/img/brand/`+result.brand_id+'/'+result.brand_banner} className={cx('img-fluid')} alt="" />
                                 <div className={cx('caption')} align="center">
-                                    <h2 className={cx('text-bold')}>{result.namebrand}</h2>
+                                    <h2 className={cx('text-bold')}>{result.brand_name}</h2>
                                     <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ function Brand() {
             </div>
             <div className="row mt-3">
                 {ThreebrandValue.map((result) => (
-                    <div className="col-sm-4" key={result.idb}>
+                    <div className="col-sm-4" key={result.brand_id}>
                         {/* <a href=" ">
                             <div className={cx('category')}>
                                 <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
@@ -93,11 +93,11 @@ function Brand() {
                                 </div>
                             </div>
                         </a> */}
-                        <Link to={`/products/brand/${result.idb}`}>
+                        <Link to={`/products/brand/${result.brand_id}`}>
                             <div className={cx('category')}>
-                                <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
+                                <img src={result.brand_banner} className={cx('img-fluid')} alt="" />
                                 <div className={cx('caption')} align="center">
-                                    <h2 className={cx('text-bold')}>{result.namebrand}</h2>
+                                    <h2 className={cx('text-bold')}>{result.brand_name}</h2>
                                     <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
                                 </div>
                             </div>

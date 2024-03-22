@@ -9,12 +9,18 @@
     margin-left: -4px;
     font-size: x-large;
     width: 40px;
-    color: #333;;
+    color: #333;
 
     &:hover {
         color: #0056b3;
     }
 }
-.mt5{
+.mt5 {
     margin-top: 12%;
+}
+.mt0 {
+    margin-top: 0 !important;
+}
+.mt7 {
+    margin-top: 520%;
 }

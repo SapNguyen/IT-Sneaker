@@ -3,7 +3,9 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import { Carousel } from 'react-bootstrap';
 // import classNames from 'classnames/bind';
 // import styles from './Slider.module.scss';
-import * as brandsServices from '~/services/brandsService';
+import * as homeService from '~/services/homeService';
+import { Link } from 'react-router-dom';
+
 
 import { useEffect, useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,9 +21,9 @@ function Slider() {
         const fetchAPISlider = async () => {
             try {
                 // setLoading(true);
-                const result = await brandsServices.imghomes();
+                const result = await homeService.imghome();
 
-                setSliderValue(result);
+                setSliderValue(result.data);
             } catch (err) {
                 console.log(err);
             } finally {
@@ -35,8 +37,14 @@ function Slider() {
     return (
         <Carousel interval={3000}>
             {sliderValue.map((result) => (
-                <Carousel.Item key={result.idb}>
-                    <img className="d-block w-100" src={result.homeimg} alt={result.namebrand} />
+                <Carousel.Item key={result.brand_id}>
+                    <Link to={`/products/brand/${result.brand_id}`}>
+                        <img
+                            className="d-block w-100"
+                            src={`http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_img}
+                            alt={result.brand_name}
+                        />
+                    </Link>
                 </Carousel.Item>
             ))}
             {/* {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />} */}

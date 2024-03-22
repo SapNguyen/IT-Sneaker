@@ -1,11 +1,29 @@
-.wrapper{
+.wrapper {
     margin-top: 25px;
     padding-left: 10%;
 }
-.container{
+.container {
     margin-top: 40px !important;
     padding-left: 0px !important;
 }
-.pid{
+.pid {
     display: none;
+}
+.loading {
+    font-size: 32px;
+    margin-left: 50%;
+    margin-top: 20px;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        // cách căn giữa
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
 }

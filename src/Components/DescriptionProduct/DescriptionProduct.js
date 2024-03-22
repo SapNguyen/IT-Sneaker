@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function DescriptionProduct() {
+function DescriptionProduct({data}) {
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
@@ -48,8 +48,8 @@ function DescriptionProduct() {
             {activeTab === 1 && (
                 <div className={cx(styles.tabcontent, 'd-block')}>
                     {/* style="display: block" */}
-                    <p>Chất liệu: Canvas </p>
-                    <p>Màu sắc: Pasture Green/ Orange</p>
+                    <p>Chất liệu: {data.product_material} </p>
+                    <p>Mô tả: {data.product_des}</p>
                 </div>
             )}
             {activeTab === 2 && (

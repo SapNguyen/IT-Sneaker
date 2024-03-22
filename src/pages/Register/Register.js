@@ -1,8 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import { Helmet } from 'react-helmet';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+// import * as registerService from '~/services/registerService';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 
 function Register() {
@@ -12,6 +13,8 @@ function Register() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [nameError, setNameError] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [error, setError] = useState(null);
 
     const validateForm = () => {
         let isValid = true;
@@ -39,9 +42,36 @@ function Register() {
             setNameError('');
         }
 
+        if (!inputValueName || /\d/.test(inputValueName)) {
+            setError('Tên không được chứa số');
+            isValid = false;
+        }
+        else {
+            setNameError('');
+        }
+
+        // Validate Email
+        const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if (!inputValueEmail || !emailPattern.test(inputValueEmail)) {
+            setError('Email không hợp lệ');
+            isValid = false;
+        }
+        else {
+            setNameError('');
+        }
+
+        // Validate Password
+        if (!inputValuePass || inputValuePass.length < 8) {
+            setError('Password phải có ít nhất 8 ký tự');
+            isValid = false;
+        }
+        else {
+            setNameError('');
+        }
+
         return isValid;
     };
-    
+
     const handleNameBlur = () => {
         if (inputValueName.trim() === '') {
             setNameError('Vui lòng điền tên.');
@@ -78,17 +108,36 @@ function Register() {
         setPasswordError('');
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            // Thực hiện xử lý đăng nhập, ví dụ gọi API
-            console.log('Email:', inputValueEmail);
-            console.log('Password:', inputValuePass);
+            try {
+                const response = await axios.post(
+                    `https://s25sneaker.000webhostapp.com/api/register?name=${inputValueName}&username=${inputValueEmail}&password=${inputValuePass}`,
+                );
+                if (response.data.error) {
+                    setError('Email đã tồn tại');
+                } else {
+                    sessionStorage.setItem('userId', response.data.user[0].member_id);
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                alert('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+            }
         }
-
-        // Thực hiện xử lý khi form được submit, ví dụ gọi API
-        console.log('Submitted value:', inputValueEmail + inputValuePass + inputValueName);
     };
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (loggedInUser) {
+            setLoggedIn(true);
+        }
+    }, []);
+
+    if (loggedIn) {
+        // Nếu người dùng chưa đăng nhập, chuyển hướng họ đến trang đăng nhập
+        window.location.href = '/';
+    }
 
     const isFormValid = inputValueEmail.trim() !== '' && inputValuePass.trim() !== '' && inputValueName.trim() !== '';
 
@@ -144,9 +193,13 @@ function Register() {
                         {passwordError && <p className={cx('invalid-feedback')}>{passwordError}</p>}
                     </label>
                 </div>
-                <div className={cx('alert', 'alert-danger', 'd-none')}>Nhập sai rồi</div>
+                <div className={cx('alert', 'alert-danger', { 'd-none': !error })}>{error}</div>
 
-                <button type="submit" className={cx('btn-register', { 'btn-disabled': !isFormValid })} disabled={!isFormValid}>
+                <button
+                    type="submit"
+                    className={cx('btn-register', { 'btn-disabled': !isFormValid })}
+                    disabled={!isFormValid}
+                >
                     Đăng ký
                 </button>
             </form>

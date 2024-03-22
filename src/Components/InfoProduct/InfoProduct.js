@@ -3,7 +3,22 @@ import styles from './InfoProduct.module.scss';
 
 const cx = classNames.bind(styles);
 
-function InfoProduct() {
+function InfoProduct({data}) {
+    const getGender = (product_genre) => {
+        switch (product_genre) {
+            case 0:
+                return 'Nam';
+            case 1:
+                return 'Nữ';
+            case 2:
+                return 'Unisex';
+            default:
+                return '';
+        }
+    };
+    
+    const gender = getGender(data.product_genre);
+
     return (
         <table className="table table-bordered proc-table fw-600 text-center">
             <thead>
@@ -14,15 +29,15 @@ function InfoProduct() {
             <tbody>
                 <tr>
                     <td className={cx('padding')}>Barcode</td>
-                    <td className={cx('padding')}>2</td>
+                    <td className={cx('padding')}>{data.product_id}</td>
                 </tr>
                 <tr>
                     <td className={cx('padding')}>Dòng sản phẩm</td>
-                    <td className={cx('padding')}>Chuck Taylor All Star Classic</td>
+                    <td className={cx('padding')}>{data.product_name}</td>
                 </tr>
                 <tr>
                     <td className={cx('padding')}>Giới tính</td>
-                    <td className={cx('padding')}>Unisex</td>
+                    <td className={cx('padding')}>{gender}</td>
                 </tr>
                 <tr>
                     <td className={cx('padding')}>Chế độ bảo hành</td>

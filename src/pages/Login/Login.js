@@ -1,29 +1,64 @@
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import { Helmet } from 'react-helmet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as loginService from '~/services/loginService';
 
 const cx = classNames.bind(styles);
 
 function Login() {
     const [inputValueEmail, setInputValueEmail] = useState('');
     const [inputValuePass, setInputValuePass] = useState('');
+    const [error, setError] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleChangeEmail = (event) => {
         setInputValueEmail(event.target.value);
+        setError(null);
     };
 
     const handleChangePass = (event) => {
         setInputValuePass(event.target.value);
+        setError(null);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Thực hiện xử lý khi form được submit, ví dụ gọi API
-        console.log('Submitted value:', inputValueEmail + inputValuePass);
+        try {
+            const result = await loginService.login(inputValueEmail, inputValuePass);
+            // console.log(result.user[0].role);
+            if (result.user[0].role === null) {
+                sessionStorage.setItem('userId', result.user[0].mem_id);
+
+                const previousUrl = sessionStorage.getItem('previousUrl');
+                if (previousUrl) {
+                    sessionStorage.removeItem('previousUrl');
+                    window.location.href = previousUrl;
+                } else {
+                    window.location.href = '/';
+                }
+            } else {
+                setError('Tài khoản mật khẩu không đúng');
+            }
+        } catch (error) {
+            setError('Tài khoản mật khẩu không đúng');
+        }
     };
 
     const isFormValid = inputValueEmail.trim() !== '' && inputValuePass.trim() !== '';
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (loggedInUser) {
+            setLoggedIn(true);
+        }
+    }, []);
+
+    if (loggedIn) {
+        // Nếu người dùng chưa đăng nhập, chuyển hướng họ đến trang đăng nhập
+        window.location.href = '/dashboard';
+    }
+
     return (
         <main className={cx('wrapper')}>
             <Helmet>
@@ -57,9 +92,13 @@ function Login() {
                         />
                     </label>
                 </div>
-                <div className={cx('alert', 'alert-danger' ,'d-none')}>Nhập sai rồi</div>
+                <div className={cx('alert', 'alert-danger', { 'd-none': !error })}>{error}</div>
 
-                <button type="submit" className={cx('btn-login', { 'btn-disabled': !isFormValid })} disabled={!isFormValid}>
+                <button
+                    type="submit"
+                    className={cx('btn-login', { 'btn-disabled': !isFormValid })}
+                    disabled={!isFormValid}
+                >
                     Đăng nhập
                 </button>
             </form>

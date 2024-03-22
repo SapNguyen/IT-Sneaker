@@ -6,18 +6,175 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import CustomNextArrow from '../CustomNextArrow';
 import CustomPrevArrow from '../CustomPrevArrow';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCut, faStar, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
-function DetailProduct() {
+function DetailProduct({ data }) {
+    const [inputQuantityValue, setInputQuantityValue] = useState('');
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [showAlertExceedQuantity, setShowAlertExceedQuantity] = useState(false);
+    const [amount, setAmount] = useState(1);
+    const [showQuantity, setShowQuantity] = useState(false);
+    const [showChooseColor, setShowChooseColor] = useState(false);
+    const [amountValue, setAmountValue] = useState('');
+    const [chooseProductValue, setChooseProductValue] = useState({});
+    const [availableColors, setAvailableColors] = useState([]);
+    const [quantity0, setQuantity0] = useState([]);
+    const [statuslargeImage, setStatusLargeImage] = useState(false);
+    const [largeImage, setLargeImage] = useState('');
+
+    // const hasAvailableSizes = data.details.some(detail => detail.quantity > 0);
+
+    const handleImageClick = (imageUrl) => {
+        setStatusLargeImage(true);
+        setLargeImage(imageUrl);
+    };
+
+    const handleDecrease = () => {
+        if (amount > 1) {
+            // Đảm bảo giá trị không nhỏ hơn 1
+            setAmount(amount - 1);
+            setShowAlertExceedQuantity(false);
+        }
+    };
+
+    const handleIncrease = () => {
+        if (selectedSize && amountValue === '') {
+            setShowChooseColor(true);
+        } else {
+            if (amount < amountValue) {
+                setAmount(amount + 1);
+            } else {
+                setShowAlertExceedQuantity(true);
+            }
+        }
+    };
+
+    const handleSizeClick = (size) => {
+        setSelectedSize(size); // Lưu trữ size được chọn vào state
+        setShowAlert(false);
+        const product = data.details.find((item) => item.size === size && item.color === selectedColor);
+        setChooseProductValue(product);
+        if (product) {
+            setShowQuantity(true);
+            setAmountValue(product.quantity);
+        }
+        const colorsForSize = data.details.filter((detail) => detail.size === size).map((detail) => detail.color);
+
+        setAvailableColors(colorsForSize);
+        if (!colorsForSize.includes(selectedColor)) {
+            setSelectedColor(null);
+        }
+
+        const outOfStockColors = data.details
+            .filter((detail) => detail.size === size && detail.quantity === 0)
+            .map((detail) => detail.color);
+
+        setQuantity0(outOfStockColors);
+        if (outOfStockColors.includes(selectedColor)) {
+            setSelectedColor(null);
+        }
+    };
+
+    const handleColorClick = (color) => {
+        setSelectedColor(color);
+        setShowAlert(false);
+        setShowChooseColor(false);
+        const product = data.details.find((item) => item.color === color && item.size === selectedSize);
+        setChooseProductValue(product);
+        if (product) {
+            setShowQuantity(true);
+            setAmountValue(product.quantity);
+        }
+    };
+
+    const handleBuyNowClick = async (event) => {
+        event.preventDefault();
+        if (sessionStorage.getItem('userId')) {
+            if (selectedColor && selectedSize) {
+                // console.log(
+                //     'User',
+                //     sessionStorage.getItem('userId') + ' Product_id:',
+                //     chooseProductValue.product_id + ' color:',
+                //     chooseProductValue.color + ' size:',
+                //     chooseProductValue.size + ' quantity:',
+                //     amount,
+                // );
+                try {
+                    const response = await axios.post(
+                        `https://s25sneaker.000webhostapp.com/api/cart/add_product?mem_id=${sessionStorage.getItem(
+                            'userId',
+                        )}&product_id=${chooseProductValue.product_id}&color=${chooseProductValue.color}&size=${
+                            chooseProductValue.size
+                        }&quantity=${amount}`,
+                    );
+                    if (response.data.error === 'Giỏ hàng của bạn đã tồn tại sản phẩm này') {
+                        toast.error('Giỏ hàng của bạn đã tồn tại sản phẩm này');
+                    } else {
+                        toast.success('Thêm giỏ hàng thành công');
+                    }
+                } catch (error) {
+                    alert('Đã xảy ra lỗi khi thêm giỏi hàng. Vui lòng thử lại sau.');
+                }
+            } else {
+                setShowAlert(true);
+            }
+        } else {
+            sessionStorage.setItem('previousUrl', window.location.href);
+            window.location.href = '/login';
+        }
+    };
+
+    const handleChange = (event) => {
+        const newValue = parseInt(event.target.value);
+        if (!isNaN(newValue) && newValue >= 1 && newValue <= amountValue) {
+            setAmount(newValue);
+        }
+    };
+
+    let slidesValue = 4;
+
+    const uniqueProductImages = new Set();
+    // Duyệt qua từng chi tiết sản phẩm trong mảng details của từng sản phẩm
+    data.details.forEach((detail) => {
+        const split = detail.product_image.split(',');
+        split.forEach((fileName) => {
+            uniqueProductImages.add(fileName);
+        });
+        // console.log(uniqueProductImages);
+
+        // console.log(detail.product_image);
+        // Thêm các giá trị product_image vào Set
+        // uniqueProductImages.add(detail.product_image);
+    });
+
+    const uniqueProductImagesArray = Array.from(uniqueProductImages).reverse();
+
+    const uniqueSizes = [...new Set(data.details.map((detail) => detail.size))];
+
+    const uniqueColors = [...new Set(data.details.map((detail) => detail.color))];
+
+    const handleInputQuantityChange = (event) => {
+        setInputQuantityValue(event.target.value);
+    };
+
+    if (uniqueProductImagesArray.length < 4) {
+        slidesValue = uniqueProductImagesArray.length;
+    }
+
     const settings = {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: slidesValue,
         slidesToScroll: 1,
         autoplay: false,
         autoplaySpeed: 2000,
@@ -50,108 +207,121 @@ function DetailProduct() {
             },
         ],
     };
+    const totalStars = data.feedbacks.reduce((total, feedback) => total + feedback.star, 0);
 
-    const [inputQuantityValue, setInputQuantityValue] = useState('');
+    // Tính trung bình số sao
+    const averageStars = totalStars / data.feedbacks.length;
 
-    const handleInputQuantityChange = (event) => {
-        setInputQuantityValue(event.target.value);
-    };
+    const displayStars = isNaN(averageStars) ? 0 : averageStars;
+
+    const integerPart = Math.floor(displayStars); // Phần nguyên
+
+    const decimalPart = displayStars - integerPart; // Phần thập phân
+
+    const stars = [];
+
+    // Tạo mảng với số lượng sao màu đỏ và đen
+    for (let i = 0; i < integerPart; i++) {
+        stars.push({ type: 'red' });
+    }
+    if (decimalPart > 0) {
+        stars.push({ type: 'half' }); // Nếu có phần thập phân, thêm một nửa sao màu đỏ
+    }
+    for (let i = stars.length; i < 5; i++) {
+        stars.push({ type: 'black' }); // Thêm các sao màu đen còn lại
+    }
 
     return (
         <div className="row">
-            <div className="col-sm-6">
-                <img
-                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_1024x1024.jpg"
-                    className={cx('large-img')}
-                    alt="img-product"
-                />
-            </div>
+            {data.details.map((imgPath, index) => (
+                // uniqueProductImagesArray.includes(imgPath.product_image.split(',')) && (
+                //     <Fragment key={index}>
+                //         {index === 0 && (
+                //             <div className="col-sm-6">
+                //                 {statuslargeImage ? (
+                //                     <img src={largeImage} className={cx('large-img')} alt="img-product" />
+                //                 ) : (
+                //                     <img
+                //                         src={
+                //                             `http://127.0.0.1:8000/img/product/` +
+                //                             imgPath.product_id +
+                //                             '/' +
+                //                             imgPath.product_image
+                //                         }
+                //                         className={cx('large-img')}
+                //                         alt="img-product"
+                //                     />
+                //                 )}
+                //             </div>
+                //         )}
+                //     </Fragment>
+                // ),
+                <Fragment key={index}>
+                    {index === 0 &&
+                        uniqueProductImagesArray.map((img, index) => (
+                            <Fragment key={index}>
+                                {index === 0 && (
+                                    <div className="col-sm-6">
+                                        {statuslargeImage ? (
+                                            <img src={largeImage} className={cx('large-img')} alt="img-product" />
+                                        ) : (
+                                            <img
+                                                src={
+                                                    `http://127.0.0.1:8000/img/product/` +
+                                                    imgPath.product_id +
+                                                    '/' +
+                                                    img
+                                                }
+                                                className={cx('large-img')}
+                                                alt="img-product"
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </Fragment>
+                        ))}
+                </Fragment>
+            ))}
+
             <div className="col-sm-6">
                 <div className={cx(styles.carousel)}>
-                    {/* , 'owl-carousel', 'owl-theme', 'owl-loaded' */}
                     <Slider {...settings} className="d-flex">
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
+                        {data.details.map((imgPath, index) => (
+                            <Fragment key={index}>
+                                {uniqueProductImagesArray[index] && (
+                                    <div key={index} className={cx('owl-item', styles['owl-item-active'])}>
+                                        <div className="item">
+                                            <img
+                                                src={
+                                                    `http://127.0.0.1:8000/img/product/` +
+                                                    imgPath.product_id +
+                                                    '/' +
+                                                    uniqueProductImagesArray[index]
+                                                }
+                                                className={cx('small-img')}
+                                                alt="img1"
+                                                onClick={() =>
+                                                    handleImageClick(
+                                                        `http://127.0.0.1:8000/img/product/${imgPath.product_id}/${uniqueProductImagesArray[index]}`,
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </Fragment>
+                        ))}
                     </Slider>
-                    {/* <div className={cx(styles['owl-stage-outer'], 'owl-stage-outer')}></div>
-                    <div className="owl-stage">
-
-                        
-                        <div className={cx('owl-item', styles['owl-item-active'])} >
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__web_1_2a9e4b0dba8d41f08eb070e2b7fd6d7f_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img1"
-                                />
-                            </div>
-                        </div>
-                        <div className={cx('owl-item', styles['owl-item-active'])}>
-                            <div className="item">
-                                <img
-                                    src="https://product.hstatic.net/200000265619/product/vn000csajvy__2_04ec9a66149c440da59edf91cd8253f5_small.jpg"
-                                    className={cx('small-img')}
-                                    alt="img2"
-                                />
-                            </div>
-                        </div>
-                        
-
-
-                    </div> */}
                 </div>
                 <div className={cx('info')}>
                     {/* style="margin-top: 30px" */}
                     <h4 className={cx('product-name')}>
                         <FontAwesomeIcon icon={faCut} className={cx('icon-cut')} />
-                        Giày Converse Chuck Taylor All Star Cx Spray Paint
+                        {data.product_name}
                     </h4>
                     <div className={cx('status-line')}>
                         <span className="mr-2"> Thương hiệu: </span>
-                        <span className={cx(styles.brand, 'mr-3')}>Converse</span>
+                        <span className={cx(styles.brand, 'mr-3')}>{data.brands.brand_name}</span>
                         {/* style="color: #d0021b" */}
                     </div>
                     <div className={cx(styles['status-line'], 'my-2')}>
@@ -160,17 +330,17 @@ function DetailProduct() {
                             {/*  style="border-right:1px solid rgb(0, 0, 0)" */}
                             <span className={cx('title-feedback')}>Đánh Giá:</span>
                             {/* style="color: #747474" */}
-                            <span className={cx('content-feedback')}>0</span>
+                            <span className={cx('content-feedback')}>{data.feedbacks.length}</span>
                             {/* style="font-size: 18px;margin-left:10px;margin-right:20px" */}
                         </div>
                         <div className={cx('flex-star')}>
                             {/* style="margin-left: 20px" */}
-                            <div className={cx('average-star')}>0</div>
+                            <div className={cx('average-star')}>{displayStars}</div>
                             <div className={cx('flex-content-star')}>
                                 {/* style="margin-left: 5px" */}
                                 <div className={cx('relative-star')}>
                                     {/* style="position: relative;height:24px" */}
-                                    <span className={cx(styles.star)}>
+                                    {/* <span className={cx(styles.star)}>
                                         <FontAwesomeIcon icon={faStar} />
                                     </span>
                                     <span
@@ -178,7 +348,21 @@ function DetailProduct() {
                                         // style="width: {{$star_fill*100}}%"
                                     >
                                         <FontAwesomeIcon icon={faStar} />
-                                    </span>
+                                    </span> */}
+                                    {stars.map((star, index) => (
+                                        <FontAwesomeIcon
+                                            key={index}
+                                            icon={faStar}
+                                            // className={cx(star.type === 'red' ? 'star-active' : 'star-inactive')}
+                                            className={cx(
+                                                star.type === 'red'
+                                                    ? 'star-active'
+                                                    : star.type === 'half'
+                                                    ? 'half-star'
+                                                    : 'star-inactive',
+                                            )}
+                                        />
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -200,24 +384,35 @@ function DetailProduct() {
                         </div>
                     </div>
                 </div> */}
-                    <div className={cx('flex-price')}>
-                        {/*  */}
-                        <div className={cx('price')}>2.600.000đ</div>
-                        <h5 className={cx('price-disabled')}>2.500.000đ</h5>
-                        <div className={cx('discount-value')}>10%</div>
-                    </div>
-
-                    <div>
-                        <span className={cx('title-discount')}>KHUYẾN MÃI</span>
-                        <div id="promotion">
-                            <div class={cx('promotion-item')}>
-                                <div class={cx('promotion-tag')}>
-                                    <span class={cx('rectangle')}>TẾT</span>
+                    {data.discounts !== null ? (
+                        <Fragment>
+                            <div className={cx('flex-price')}>
+                                <div className={cx('price')}>
+                                    {data.product_price - data.product_price * (data.discounts.discount_value / 100)}đ
                                 </div>
-                                <div class={cx(styles['promotion-info'], 'shadow')}>GIẢM 10%</div>
+                                <h5 className={cx('price-disabled')}>{data.product_price}đ</h5>
+                                <div className={cx('discount-value')}>{data.discounts.discount_value}%</div>
                             </div>
+
+                            <div>
+                                <span className={cx('title-discount')}>KHUYẾN MÃI</span>
+                                <div id="promotion">
+                                    <div className={cx('promotion-item')}>
+                                        <div className={cx('promotion-tag')}>
+                                            <span className={cx('rectangle')}>{data.discounts.discount_name}</span>
+                                        </div>
+                                        <div className={cx(styles['promotion-info'], 'shadow')}>
+                                            GIẢM {data.discounts.discount_value}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Fragment>
+                    ) : (
+                        <div className={cx('flex-price')}>
+                            <div className={cx('price')}>{data.product_price}đ</div>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <div className={cx('row')}>
                     {/* id="div_size" style="margin-top:20px" */}
@@ -225,15 +420,21 @@ function DetailProduct() {
                         {/* style="margin-top: 8px" */}
                         Size:
                     </h6>
-                    <div className={cx(styles['size-box'], 'col-sm-1')}>
-                        <div className={cx('size-id')}>39</div>
-                        <div className={cx('div-quantity')}>
-                            <p className={cx('amount-hidden')}>9</p>
-                            {/* style="display: none" */}
-                            <p className={cx('color-hidden')}>White</p>
-                            {/*  style="display: none" */}
+                    {uniqueSizes.map((size, index) => (
+                        <div
+                            key={index}
+                            className={cx(styles['size-box'], 'col-sm-1', {
+                                [styles['size-selected']]: size === selectedSize,
+                            })}
+                            onClick={() => handleSizeClick(size)}
+                        >
+                            <div className={cx('size-id')}>{size}</div>
+                            <div className={cx('div-quantity')}>
+                                <p className={cx('amount-hidden')}>9</p>
+                                <p className={cx('color-hidden')}>White</p>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
                 <div className={cx('row', styles['div-color'])}>
                     {/* id="div_color" style="margin-top:20px;align-items: center" */}
@@ -241,34 +442,26 @@ function DetailProduct() {
                         {/* style="margin-top: 10px;padding-top: 5px 0;" */}
                         Màu:
                     </h6>
-                    <div className={cx(styles['size-box'], styles['color-box'], 'col-sm-1')}>
-                        {/* style="width: auto !important;margin-top:10px" */}
-                        <div className="px-3">BLACK/CYBER TEAL/GHOSTED</div>
-                        {/* "color" style="padding: 0 15px" */}
-                        <img
-                            src="/img/product/{{$colors[$i]->product_id}}/{{explode(',',$colors[$i]->product_image)[0]}}"
-                            // style="display:none"
-                            className="d-none"
-                            alt=""
-                        />
-                    </div>
-                    <div className={cx(styles['size-box'], styles['color-box'], 'col-sm-1')}>
-                        {/* style="width: auto !important;margin-top:10px" */}
-                        <div className="px-3">WHITE/CYBER TEAL/GHOSTED</div>
-                        {/* "color" style="padding: 0 15px" */}
-                        <img
-                            src="/img/product/{{$colors[$i]->product_id}}/{{explode(',',$colors[$i]->product_image)[0]}}"
-                            // style="display:none"
-                            className="d-none"
-                            alt=""
-                        />
-                    </div>
+                    {uniqueColors.map((color, index) => (
+                        <div
+                            key={index}
+                            className={cx(styles['size-box'], styles['color-box'], 'col-sm-1', {
+                                [styles['size-selected']]: color === selectedColor,
+                                'disabled-color':
+                                    !selectedSize || !availableColors.includes(color) || quantity0.includes(color)
+                            })}
+                            onClick={() => handleColorClick(color)}
+                            disabled={!selectedSize || !availableColors.includes(color) || quantity0.includes(color)}
+                        >
+                            <div className="px-3">{color}</div>
+                        </div>
+                    ))}
                 </div>
                 <div className={cx('material')}>
                     <h6 className={cx(styles['title-material'], 'mt-2')}>Chất liệu:</h6>
                     {/* style="margin-top: 8px" */}
                     <div className={cx(styles['size-box'], styles['material-box'], 'col-sm-1')}>
-                        <div className="px-3">COTTON</div>
+                        <div className="px-3">{data.product_material}</div>
                     </div>
                     {/* chat-lieu col-sm- */}
                 </div>
@@ -281,41 +474,37 @@ function DetailProduct() {
                         onChange={handleInputQuantityChange}
                     />
                     <h6 className={cx(styles['title-quantity'], 'mt-2')}>Số lượng:</h6>
-                    {/* style="margin-top: 8px" */}
                     <div className={cx('btn-group')}>
                         <div className={cx('button')}>
-                            {/* <span className={cx('material-symbols-outlined', 'fs-5')}>
-                                
-                                remove
-                            </span> */}
-                            <FontAwesomeIcon icon={faMinus} />
+                            <FontAwesomeIcon icon={faMinus} onClick={handleDecrease} />
                         </div>
                         <input
                             type="text"
                             className={cx('buy-amount')}
                             name="amount"
-                            inputmode="numeric"
+                            inputMode="numeric"
                             pattern="[0-9]*"
+                            value={amount}
+                            onChange={handleChange}
+                            readOnly
                         />
-                        {/* value="1" min="1" required */}
                         <div className={cx('button')}>
-                            {/* <span className={cx('material-symbols-outlined', 'fs-5')}>
-                                
-                                add
-                            </span> */}
-                            <FontAwesomeIcon icon={faPlus} />
+                            <FontAwesomeIcon icon={faPlus} onClick={handleIncrease} />
                         </div>
                     </div>
-                    <p className={cx('has-amount')}>9 sản phẩm có sẵn</p>
+                    {showQuantity && <p className={cx('has-amount')}>{amountValue} sản phẩm có sẵn</p>}
                 </div>
-                <div className={cx('div-alert')}>Vui lòng chọn Màu và Size</div>
+                {showAlert && <div className={cx('div-alert')}>Vui lòng chọn Màu và Size</div>}
+                {showAlertExceedQuantity && <div className={cx('div-alert')}>Vượt quá số lượng sản phẩm</div>}
+                {showChooseColor && <div className={cx('div-alert')}>Vui lòng chọn màu</div>}
                 {/* id="div_alert" style="color: red;font-size:14px"*/}
                 <div className={cx(styles.material, 'd-flex', 'justify-content-center')}>
                     {/* style="justify-content: center" */}
-                    <button type="submit" className={cx('btn-buy', 'btn-allow')}>
+                    <button type="submit" className={cx('btn-buy', 'btn-allow')} onClick={handleBuyNowClick}>
                         Mua ngay
                     </button>
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
 import { Helmet } from 'react-helmet';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -12,6 +12,18 @@ function Payment() {
     const [nameError, setNameError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [addressError, setAddressError] = useState('');
+    const [loggedIn, setLoggedIn] = useState(true);
+
+    useEffect(() => {
+        const loggedInUser = sessionStorage.getItem('userId');
+        if (!loggedInUser) {
+            setLoggedIn(false);
+        }
+    }, []);
+
+    if (loggedIn === false) {
+        window.location.href = '/login';
+    }
 
     const validateForm = () => {
         let isValid = true;

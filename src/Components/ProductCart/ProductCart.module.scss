@@ -54,12 +54,12 @@ a {
     width: 12%;
     text-align: center;
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         color: red;
     }
 }
-.p_remove{
+.p_remove {
     margin-bottom: 0;
 }
 .div_check {
@@ -251,7 +251,7 @@ a {
     margin-right: 10px;
     border: 1px solid rgba(0, 0, 0, 0.09);
     cursor: pointer;
-    width: 81px;
+    width: 140px;
     justify-content: center;
 }
 
@@ -270,6 +270,7 @@ a {
 .sold-out {
     position: relative;
     overflow: hidden;
+    pointer-events: none;
 }
 .sold-out::before {
     content: 'SOLD';
@@ -369,6 +370,7 @@ a {
 .payment-now {
     text-align: center;
     margin-top: 30px;
+    display: none;
 }
 .choose-all {
     font-size: 17px;
@@ -400,29 +402,36 @@ a {
 .number-quantity {
     width: 100%;
 }
-.d-flex-size-arrow{
+.d-flex-size-arrow {
     display: flex;
     justify-content: center;
 }
-.title-size{
+.title-size {
     font-size: 20px;
     color: #888;
 }
-.loading {
-    font-size: 32px;
-    margin-left: 50%;
-    margin-top: 20px;
-    transform: translateY(-50%);
-    color: rgba(22, 24, 35, 0.34);
-    animation: spinner 1s linear infinite;
+.button {
+    background-color: white;
+    border: 1px solid #e5e6ec;
+    font-weight: bolder;
+    font-size: 15px;
+    padding: 3px 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
-
-@keyframes spinner {
-    from {
-        // cách căn giữa
-        transform: translateY(-50%) rotate(0);
-    }
-    to {
-        transform: translateY(-50%) rotate(360deg);
-    }
+.buy-amount {
+    width: 50px;
+    border: 1px solid #e5e6ec;
+    outline: none;
+    text-align: center;
+    padding: 5px 0px;
+}
+.div-alert {
+    color: red;
+    font-size: 14px;
+}
+.disabled-color {
+    opacity: 0.5;
+    pointer-events: none;
 }
