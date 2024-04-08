@@ -69,7 +69,7 @@ const MENU_CART = [
     {
         icon: <FontAwesomeIcon icon={faCreditCard} />,
         title: 'Thanh toán',
-        to: '/pay',
+        to: '/payment',
     },
 ];
 
@@ -84,7 +84,8 @@ function Header() {
     }, []);
 
     const handleRemoveUserId = () => {
-        sessionStorage.removeItem('userId');
+        // sessionStorage.removeItem('userId');
+        sessionStorage.clear();
         window.location.href = '/';
     };
 
@@ -102,7 +103,7 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View profile',
-            to: '/profile',
+            to: '/account',
         },
         // {
         //     icon: <FontAwesomeIcon icon={faCoins} />,
@@ -188,7 +189,7 @@ function Header() {
                     <Menu items={currentUser ? MENU_ITEMS : userMenu}>
                         {currentUser ? (
                             <Image
-                                src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/375062016_1027580694934669_5850570789184348493_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeFrPjekynKd9oLRB5zHPE-QPRDnU_LOyig9EOdT8s7KKAUm8CsHxQb357HcI3sYJSrco7NyAaafG3vb2mwaK2-G&_nc_ohc=az0SXbtU5cgAX_eS543&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCjnG59NScDMlZ0V3KmU6Er1E2Ol9pPWNtmrkUDdSRTLw&oe=65B831F1"
+                                src=""
                                 className={cx('user-avatar')}
                                 alt="Nguyễn Thế Anh"
                                 // fallback="... 1 cái ảnh nào đó mà mình muốn dùng mặc định"

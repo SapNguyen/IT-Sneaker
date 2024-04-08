@@ -11,7 +11,12 @@ const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
     return (
         <div className={cx('wrapper')}>
-            <img className={cx('imgheader')} src="https://theme.hstatic.net/200000265619/1001091352/14/banner.jpg?v=382" alt="Tiktok" height={65}/>
+            <img
+                className={cx('imgheader')}
+                src="https://theme.hstatic.net/200000265619/1001091352/14/banner.jpg?v=459"
+                alt="Tiktok"
+                height={65}
+            />
             <Header />
             <div className={cx('container')}>
                 {/* <Sidebar /> */}

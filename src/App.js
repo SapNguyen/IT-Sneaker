@@ -59,18 +59,22 @@ function App() {
                             Layout = Fragment;
                         }
 
-                        let id;
-                        if (route.idB) {
-                            if (route.idB === 1) {
-                                id = 1;
-                            } else if (route.idB === 2) {
-                                id = 2;
-                            } else if (route.idB === 3) {
-                                id = 3;
-                            } else if (route.idB === 6) {
-                                id = 6;
-                            } else if (route.idB === 7) {
-                                id = 7;
+                        let order;
+                        if (route.order) {
+                            order='receipt';
+                        }
+                        let status;
+                        if (route.status) {
+                            if(route.status === 3){
+                                status=3;
+                            } else if (route.status === 4){
+                                status=4;
+                            } else if (route.status === 1){
+                                status=1;
+                            } else if (route.status === 2){
+                                status=2;
+                            } else if (route.status === -1){
+                                status= -1;
                             }
                         }
 
@@ -82,7 +86,7 @@ function App() {
                                 element={
                                     //nếu page là children của defaultlayout thì nó sẽ đưa vào content
                                     <Layout>
-                                        <Page id={id} />
+                                        <Page order={order} status={status}/>
                                     </Layout>
                                 }
                             />

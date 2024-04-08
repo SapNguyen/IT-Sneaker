@@ -5,22 +5,27 @@ import Product from '~/Components/Product';
 import Sidebar from '~/layouts/components/Sidebar';
 import IntroBrand from '~/layouts/components/IntroBrand';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import * as productsServices from '~/services/productsService';
 import * as brandsServices from '~/services/brandsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { useEffect, useState } from 'react';
+import Pagination from '~/Components/Pagination';
 
 const cx = classNames.bind(styles);
 
 function ProductBrand() {
-    const { brandId } = useParams();
+    const { brandName } = useParams();
 
-    const [productValue, setProductValue] = useState([]);
+    const [productValue, setProductValue] = useState(false);
     const [brandValue, setBrandValue] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [sortType, setSortType] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [fetchAPI, setFetchAPI] = useState(1);
 
     const [selectedPrices, setSelectedPrices] = useState([]);
 
@@ -39,26 +44,38 @@ function ProductBrand() {
 
     const handleCheckboxChangePriority = (priority) => {
         setPriorityCheckboxState(priority);
+        setSortType(priority);
     };
 
     const handleApplyFilterPriory = () => {
-        // Gửi selectedPrices lên API để thay đổi giao diện hoặc xử lý dữ liệu
-        console.log('Selected Priority:', priorityCheckboxState);
-        // Thực hiện gọi API ở đây...
     };
 
     const handleApplyFilter = () => {
-        // Gửi selectedPrices lên API để thay đổi giao diện hoặc xử lý dữ liệu
-        console.log('Selected Prices:', selectedPrices);
-        // Thực hiện gọi API ở đây...
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setFetchAPI(pageNumber);
     };
 
     useEffect(() => {
-        const fetchAPIProduct = async () => {
+        const fetchAPIBrand = async (page) => {
             try {
-                setLoading(true);
-                const result = await productsServices.productforbrand(brandId);
+                const selectedValuesJSON = JSON.stringify(selectedPrices);
 
+                const resultBrand = await brandsServices.brandtitle(brandName);
+
+                setBrandValue(resultBrand.data);
+
+                setLoading(true);
+                const result = await productsServices.productforbrand(
+                    brandName,
+                    priorityCheckboxState,
+                    selectedValuesJSON,
+                    fetchAPI,
+                );
+                setTotalPages(result.products.last_page);
+                setCurrentPage(page);
+                // console.log(result.products);
                 setProductValue(result.products);
             } catch (err) {
                 console.log(err);
@@ -67,19 +84,11 @@ function ProductBrand() {
             }
         };
 
-        const fetchAPIBrand = async () => {
-            try {
-                const resultBrand = await brandsServices.brandtitle(brandId);
+        fetchAPIBrand(fetchAPI);
+        // fetchAPIProduct();
+    }, [brandName, selectedPrices, priorityCheckboxState, fetchAPI]); // Dependency array trống đại diện cho việc useEffect chỉ chạy một lần như componentDidMount
 
-                setBrandValue(resultBrand.brands);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-
-        fetchAPIBrand();
-        fetchAPIProduct();
-    }, [brandId]); // Dependency array trống đại diện cho việc useEffect chỉ chạy một lần như componentDidMount
+    // console.log(brandName);
 
     return (
         <BrandProduct>
@@ -88,8 +97,8 @@ function ProductBrand() {
                     <title>Sản phẩm</title>
                 </Helmet>
 
-                {brandValue.map((result) => (
-                    <IntroBrand key={result.idb} data={result} />
+                {brandValue && brandValue.map((result) => (
+                    <IntroBrand key={result.brand_id} data={result} />
                 ))}
 
                 <div className={cx('content')}>
@@ -105,34 +114,48 @@ function ProductBrand() {
                                 <label className={cx('label-checkbox')}>
                                     <input
                                         type="checkbox"
-                                        value="10000-20000"
-                                        checked={selectedPrices.includes('10000-20000')}
-                                        onChange={() => handleCheckboxChange('10000-20000')}
+                                        value="0-500000"
+                                        checked={selectedPrices.includes('0-500000')}
+                                        onChange={() => handleCheckboxChange('0-500000')}
                                         onClick={handleApplyFilter}
                                     />
-                                    10.000đ - 20.000đ
+                                    <span className={cx('checkmark')}></span>
+                                    Dưới 500.000đ
                                 </label>
 
                                 <label className={cx('label-checkbox')}>
                                     <input
                                         type="checkbox"
-                                        value="20000-30000"
-                                        checked={selectedPrices.includes('20000-30000')}
-                                        onChange={() => handleCheckboxChange('20000-30000')}
+                                        value="500000-1000000"
+                                        checked={selectedPrices.includes('500000-1000000')}
+                                        onChange={() => handleCheckboxChange('500000-1000000')}
                                         onClick={handleApplyFilter}
                                     />
-                                    20.000đ - 30.000đ
+                                    <span className={cx('checkmark')}></span>
+                                    500.000đ - 1.000.000đ
                                 </label>
 
                                 <label className={cx('label-checkbox')}>
                                     <input
                                         type="checkbox"
-                                        value="30000-40000"
-                                        checked={selectedPrices.includes('30000-40000')}
-                                        onChange={() => handleCheckboxChange('30000-40000')}
+                                        value="1000000-1500000"
+                                        checked={selectedPrices.includes('1000000-1500000')}
+                                        onChange={() => handleCheckboxChange('1000000-1500000')}
                                         onClick={handleApplyFilter}
                                     />
-                                    30.000đ - 40.000đ
+                                    <span className={cx('checkmark')}></span>
+                                    1.000.000đ - 1.500.000đ
+                                </label>
+                                <label className={cx('label-checkbox')}>
+                                    <input
+                                        type="checkbox"
+                                        value="1500000-2000000"
+                                        checked={selectedPrices.includes('1500000-2000000')}
+                                        onChange={() => handleCheckboxChange('1500000-2000000')}
+                                        onClick={handleApplyFilter}
+                                    />
+                                    <span className={cx('checkmark')}></span>
+                                    1.500.000đ - 2.000.000đ
                                 </label>
                             </div>
                         </div>
@@ -147,9 +170,11 @@ function ProductBrand() {
                                     <input
                                         type="checkbox"
                                         value="A-Z"
+                                        checked={sortType === 'A-Z'}
                                         onChange={() => handleCheckboxChangePriority('A-Z')}
                                         onClick={handleApplyFilterPriory}
                                     />
+                                    <span className={cx('checkmark')}></span>
                                     Từ A → Z
                                 </label>
 
@@ -157,9 +182,11 @@ function ProductBrand() {
                                     <input
                                         type="checkbox"
                                         value="Z-A"
+                                        checked={sortType === 'Z-A'}
                                         onChange={() => handleCheckboxChangePriority('Z-A')}
                                         onClick={handleApplyFilterPriory}
                                     />
+                                    <span className={cx('checkmark')}></span>
                                     Từ Z → A
                                 </label>
 
@@ -167,9 +194,11 @@ function ProductBrand() {
                                     <input
                                         type="checkbox"
                                         value="Up"
+                                        checked={sortType === 'Up'}
                                         onChange={() => handleCheckboxChangePriority('Up')}
                                         onClick={handleApplyFilterPriory}
                                     />
+                                    <span className={cx('checkmark')}></span>
                                     Giá tăng dần
                                 </label>
 
@@ -177,16 +206,26 @@ function ProductBrand() {
                                     <input
                                         type="checkbox"
                                         value="Down"
+                                        checked={sortType === 'Down'}
                                         onChange={() => handleCheckboxChangePriority('Down')}
                                         onClick={handleApplyFilterPriory}
                                     />
+                                    <span className={cx('checkmark')}></span>
                                     Giá giảm dần
                                 </label>
                             </div>
                         </div>
-                        {productValue.map((result) => (
-                            <Product key={result.idp} data={result} />
-                        ))}
+                        <div className={cx('d-ruby')}>
+                            {productValue &&
+                                productValue.data.map((result) => (
+                                    <div key={result.product_id}>
+                                        <Link to={`/product/${result.product_id}`}>
+                                            <Product key={result.product_id} data={result} />
+                                        </Link>
+                                    </div>
+                                ))}
+                        </div>
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
                         {/* <Product

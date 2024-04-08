@@ -1,11 +1,18 @@
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
 import { Helmet } from 'react-helmet';
-import { useState,useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
+import * as userService from '~/services/usersService';
 
 const cx = classNames.bind(styles);
 
 function Payment() {
+    const [loading, setLoading] = useState(false);
     const [inputValueName, setInputValueName] = useState('');
     const [inputValuePhone, setInputValuePhone] = useState('');
     const [inputValueAddress, setInputValueAddress] = useState('');
@@ -13,20 +20,87 @@ function Payment() {
     const [phoneError, setPhoneError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [loggedIn, setLoggedIn] = useState(true);
+    const [paymentProduct, setPaymentProduct] = useState([]);
+    const [userResult, setUserResult] = useState([]);
+    const [totalValues, setTotalValues] = useState(0);
+
+    // const { paymentUser } = location.state.selectedValues;
+
+    const totalHandler = (data) => {
+        if (data) {
+            setTotalValues(data.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0));
+        }
+    };
 
     useEffect(() => {
         const loggedInUser = sessionStorage.getItem('userId');
+        const selectedValuesJSON = sessionStorage.getItem('paymentId');
+        const paymentUser = JSON.parse(selectedValuesJSON);
+        if (paymentUser) {
+            setPaymentProduct(paymentUser);
+        }
         if (!loggedInUser) {
             setLoggedIn(false);
         }
+
+        const fetchAPI = async () => {
+            setLoading(true);
+
+            const result = await userService.user(loggedInUser);
+            setUserResult(result.users);
+            totalHandler(JSON.parse(selectedValuesJSON));
+            setInputValueName(result.users[0].name);
+            setInputValuePhone(result.users[0].phone.toString());
+            setInputValueAddress(result.users[0].address);
+
+            setLoading(false);
+        };
+        fetchAPI();
+        // totalHandler();
     }, []);
 
     if (loggedIn === false) {
         window.location.href = '/login';
     }
 
+    const handleChangeName = (event) => {
+        setInputValueName(event.target.value);
+        setNameError('');
+    };
+
+    const handleChangePhone = (event) => {
+        setInputValuePhone(event.target.value);
+        setPhoneError('');
+    };
+
+    const handleChangeAddress = (event) => {
+        setInputValueAddress(event.target.value);
+        setAddressError('');
+    };
+
+    const vietnamesePhoneNumberRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+    const isValidVietnamesePhoneNumber = (phoneNumber) => {
+        return vietnamesePhoneNumberRegex.test(phoneNumber);
+    };
+
     const validateForm = () => {
         let isValid = true;
+
+        if (/\d/.test(inputValueName)) {
+            setNameError('Tên không được chứa số');
+            isValid = false;
+        } else {
+            setNameError('');
+        }
+
+        // Validate số điện thoại
+        if (!isValidVietnamesePhoneNumber('0' + inputValuePhone)) {
+            setPhoneError('Số điện thoại không đúng định dạng');
+            isValid = false;
+        } else {
+            setPhoneError('');
+        }
 
         // Kiểm tra tên
         if (inputValueName.trim() === '') {
@@ -77,32 +151,45 @@ function Payment() {
         }
     };
 
-    const handleChangeName = (event) => {
-        setInputValueName(event.target.value);
-        setNameError('');
-    };
-
-    const handleChangePhone = (event) => {
-        setInputValuePhone(event.target.value);
-        setPhoneError('');
-    };
-
-    const handleChangeAddress = (event) => {
-        setInputValueAddress(event.target.value);
-        setAddressError('');
-    };
-
-    const handleSubmit = (event) => {
+    const handlePayment = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            // Thực hiện xử lý đăng nhập, ví dụ gọi API
-            console.log('Tên:', inputValueName);
-            console.log('Số điện thoại:', inputValuePhone);
-            console.log('Địa chỉ:', inputValueAddress);
+            try {
+                const response = await axios.post(
+                    `https://s25sneaker.000webhostapp.com/api/payment/store?
+                    mem_id=${sessionStorage.getItem(
+                        'userId',
+                    )}&receiver_name=${inputValueName}&receiver_phone=${inputValuePhone}
+                    &receiver_address=${inputValueAddress}&total=${totalValues}&products=${sessionStorage.getItem(
+                        'paymentId',
+                    )}
+                    `,
+                );
+                if (response.data.error) {
+                    console.log(response.data.error);
+                    toast.error('Thanh toán thất bại');
+                } else {
+                    // sessionStorage.setItem('userId', response.data.user[0].member_id);
+                    // window.location.href = '/';
+                    toast.success('Thanh toán thành công');
+                    setTimeout(function () {
+                        window.location.href = '/account';
+                        sessionStorage.removeItem('paymentId');
+                    }, 2000);
+                }
+            } catch (error) {
+                alert('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+            }
+            // console.log(
+            //     'mem_id: ',
+            //     sessionStorage.getItem('userId') + ' receiver_name:',
+            //     inputValueName + ' receiver_phone:',
+            //     inputValuePhone + ' receiver_address:',
+            //     inputValueAddress + ' total:',
+            //     totalValues + ' products:',
+            //     paymentProduct,
+            // );
         }
-
-        // Thực hiện xử lý khi form được submit, ví dụ gọi API
-        console.log('Submitted value:', inputValueName + inputValuePhone + inputValueAddress);
     };
 
     const isFormValid =
@@ -113,199 +200,230 @@ function Payment() {
             <Helmet>
                 <title>Thanh toán</title>
             </Helmet>
-            <div className={cx('payment-product')}>
-                <div className={cx('payment-product-info')}>
-                    <div className={cx('payment-product-info-header')}>
-                        <a href="/" className={cx('payment-product-info-header-logo')}>
-                            <h1 className={cx('payment-product-info-header-logo-text')}>SNEAKER</h1>
-                        </a>
-                        <div className={cx('payment-product-info-header-breadcrumb')}>
-                            <div className={cx('payment-product-info-header-breadcrumb-item')}>
-                                <a href="/">Giỏ hàng</a>
-                            </div>
-                            <div className={cx('payment-product-info-header-breadcrumb-item-current')}>
-                                Thông tin giao hàng
-                            </div>
-                            <div className={cx('payment-product-info-header-breadcrumb-item-pt')}>
-                                Phương thức thanh toán
-                            </div>
-                        </div>
-                    </div>
-
-                    <form id="form_payment" onSubmit={handleSubmit}>
-                        {/* action="/payment/insert" */}
-                        {/* <div class="payment-product-section"> */}
-                        <div className={cx('payment-product-section-header')}>
-                            <h2 className={cx('payment-product-section-header-title')}>Thông tin giao hàng</h2>
-                        </div>
-
-                        <div className={cx('payment-product-section-content')}>
-                            <div className={cx('payment-product-section-content-email')}>
-                                <div className={cx('payment-product-section-content-wrapper-email')}>
-                                    <label className={cx('title-name')}>
-                                        Tên:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Họ và tên"
-                                        spellCheck="false"
-                                        className={cx('input', 'payment-product-section-content-wrapper-sdt-sdt', {
-                                            'is-invalid': nameError,
-                                        })}
-                                        size="30"
-                                        id="billing_address_full_name"
-                                        name="txtHoten"
-                                        value={inputValueName}
-                                        onChange={handleChangeName}
-                                        onBlur={handleNameBlur}
-                                    />
-                                    {nameError && <p className={cx('error-msg')}>{nameError}</p>}
+            {sessionStorage.getItem('paymentId') ? (
+                <Fragment>
+                    <div className={cx('payment-product')}>
+                        <div className={cx('payment-product-info')}>
+                            <div className={cx('payment-product-info-header')}>
+                                <a href="/" className={cx('payment-product-info-header-logo')}>
+                                    <h1 className={cx('payment-product-info-header-logo-text')}>SNEAKER</h1>
+                                </a>
+                                <div className={cx('payment-product-info-header-breadcrumb')}>
+                                    <div className={cx('payment-product-info-header-breadcrumb-item')}>
+                                        <a href="/cart">Giỏ hàng</a>
+                                    </div>
+                                    <div className={cx('payment-product-info-header-breadcrumb-item-current')}>
+                                        Thông tin giao hàng
+                                    </div>
+                                    <div className={cx('payment-product-info-header-breadcrumb-item-pt')}>
+                                        Phương thức thanh toán
+                                    </div>
                                 </div>
                             </div>
-                            <div className={cx('payment-product-section-content-sdt')}>
-                                <div className={cx('payment-product-section-content-wrapper-sdt')}>
-                                    <label className={cx('title-phone')}>
-                                        Số điện thoại:
-                                    </label>
 
-                                    <input
-                                        type="text"
-                                        placeholder="Số điện thoại"
-                                        className={cx('input', 'payment-product-section-content-wrapper-sdt-sdt', {
-                                            'is-invalid': phoneError,
-                                        })}
-                                        id="i_phone"
-                                        name="txtPhone"
-                                        value={inputValuePhone}
-                                        onChange={handleChangePhone}
-                                        onBlur={handlePhoneBlur}
-                                    />
+                            <form id="form_payment">
+                                {/* action="/payment/insert" */}
+                                {/* <div class="payment-product-section"> */}
+                                <div className={cx('payment-product-section-header')}>
+                                    <h2 className={cx('payment-product-section-header-title')}>Thông tin giao hàng</h2>
+                                </div>
 
-                                    {/* <input type="text" placeholder="Số điện thoại" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-sdt-sdt"
+                                {userResult && userResult.map((user, index) => (
+                                    <div key={index} className={cx('payment-product-section-content')}>
+                                        <div className={cx('payment-product-section-content-email')}>
+                                            <div className={cx('payment-product-section-content-wrapper-email')}>
+                                                <label className={cx('title-name')}>Tên:</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Họ và tên"
+                                                    spellCheck="false"
+                                                    className={cx(
+                                                        'input',
+                                                        'payment-product-section-content-wrapper-sdt-sdt',
+                                                        {
+                                                            'is-invalid': nameError,
+                                                        },
+                                                    )}
+                                                    size="30"
+                                                    id="billing_address_full_name"
+                                                    name="txtHoten"
+                                                    value={inputValueName}
+                                                    onChange={handleChangeName}
+                                                    onBlur={handleNameBlur}
+                                                />
+                                                {nameError && <p className={cx('error-msg')}>{nameError}</p>}
+                                            </div>
+                                        </div>
+                                        <div className={cx('payment-product-section-content-sdt')}>
+                                            <div className={cx('payment-product-section-content-wrapper-sdt')}>
+                                                <label className={cx('title-phone')}>Số điện thoại:</label>
+
+                                                <input
+                                                    type="text"
+                                                    placeholder="Số điện thoại"
+                                                    className={cx(
+                                                        'input',
+                                                        'payment-product-section-content-wrapper-sdt-sdt',
+                                                        {
+                                                            'is-invalid': phoneError,
+                                                        },
+                                                    )}
+                                                    id="i_phone"
+                                                    name="txtPhone"
+                                                    value={inputValuePhone}
+                                                    onChange={handleChangePhone}
+                                                    onBlur={handlePhoneBlur}
+                                                />
+
+                                                {/* <input type="text" placeholder="Số điện thoại" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-sdt-sdt"
                            id="i_phone" name="txtPhone" value="" required>
                          */}
-                                    {phoneError && <p className={cx('error-msg')}>{phoneError}</p>}
-                                </div>
-                            </div>
-                            <div className={cx('payment-product-section-content-address')}>
-                                <div className={cx('payment-product-section-content-wrapper-address')}>
-                                    <label className={cx('title-address')}>
-                                        Địa chỉ:
-                                    </label>
+                                                {phoneError && <p className={cx('error-msg')}>{phoneError}</p>}
+                                            </div>
+                                        </div>
+                                        <div className={cx('payment-product-section-content-address')}>
+                                            <div className={cx('payment-product-section-content-wrapper-address')}>
+                                                <label className={cx('title-address')}>Địa chỉ:</label>
 
-                                    <input
-                                        type="text"
-                                        placeholder="Địa chỉ"
-                                        spellCheck="false"
-                                        className={cx(
-                                            'input',
-                                            'payment-product-section-content-wrapper-address-address',
-                                            { 'is-invalid': addressError },
-                                        )}
-                                        size="30"
-                                        id="billing_address_address"
-                                        name="txtDiachi"
-                                        value={inputValueAddress}
-                                        onChange={handleChangeAddress}
-                                        onBlur={handleAddressBlur}
-                                    />
-                                    {addressError && <p className={cx('invalid-feedback')}>{addressError}</p>}
+                                                <input
+                                                    type="text"
+                                                    placeholder="Địa chỉ"
+                                                    spellCheck="false"
+                                                    className={cx(
+                                                        'input',
+                                                        'payment-product-section-content-wrapper-address-address',
+                                                        { 'is-invalid': addressError },
+                                                    )}
+                                                    size="30"
+                                                    id="billing_address_address"
+                                                    name="txtDiachi"
+                                                    value={inputValueAddress}
+                                                    onChange={handleChangeAddress}
+                                                    onBlur={handleAddressBlur}
+                                                />
+                                                {addressError && (
+                                                    <p className={cx('invalid-feedback')}>{addressError}</p>
+                                                )}
 
-                                    {/* <input type="text" placeholder="Địa chỉ" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-address-address" 
+                                                {/* <input type="text" placeholder="Địa chỉ" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-address-address" 
                           size="30" id="billing_address_address" name="txtDiachi" value="" id="i_address" required>
                           <p className="{cx('error-msg"></p> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                <div className={cx('payment-product-footer')}>
+                                    <div className={cx('payment-product-footer-form')}>
+                                        <button
+                                            className={cx('payment-product-footer-content', {
+                                                btn_disabled: !isFormValid,
+                                            })}
+                                            id="btn_submit"
+                                            onClick={handlePayment}
+                                        >
+                                            Hoàn tất
+                                        </button>
+                                    </div>
+                                    <a href="/cart" className={cx('payment-product-footer-link')}>
+                                        Giỏ hàng
+                                    </a>
                                 </div>
-                            </div>
+                            </form>
+                            {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
                         </div>
-                        <div className={cx('payment-product-footer')}>
-                            <div className={cx('payment-product-footer-form')}>
-                                <button
-                                    className={cx('payment-product-footer-content', { btn_disabled: !isFormValid })}
-                                    disabled={!isFormValid}
-                                    type="submit"
-                                    id="btn_submit"
-                                >
-                                    Hoàn tất
-                                </button>
-                            </div>
-                            <a href="/cart" className={cx('payment-product-footer-link')}>
-                                Giỏ hàng
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
 
-            <div className={cx('price-product')}>
-                <div className={cx('price-product-content')}>
-                    <div className={cx('price-product-content-content')}>
-                        <div className={cx('price-product-sections')}>
-                            <div className={cx('price-product-sections-order-list')}>
-                                <div className={cx('price-product-sections-order-list-img')}>
-                                    <img
-                                        src="https://product.hstatic.net/200000265619/product/a05584c_1-web_2bc2fde2ad044dd1a1c897eed07b7001_medium.jpg"
-                                        alt=""
-                                        className={cx('price-product-sections-order-list-img-img')}
-                                    />
-                                </div>
-                                <div className={cx('price-product-sections-order-list-info')}>
-                                    <div className={cx('price-product-sections-order-list-info-name')}>
-                                        Giày Converse Chuck 70 Seasonal Color Canvas
-                                    </div>
-                                    <div className={cx('all-size')}>Size:42 ,WHITE</div>
-                                </div>
-                                <div className={cx('price-product-sections-order-list-info-quantity')}>Số lượng :1</div>
-                                <div className={cx('price-product-sections-order-list-price')}>
-                                    <span>1.800.000₫</span>
-                                </div>
-                            </div>
-
-                            <div className={cx('price-product-sections-order-list')}>
-                                <div className={cx('price-product-sections-order-list-img')}>
-                                    <img
-                                        src="https://product.hstatic.net/200000265619/product/a05584c_1-web_2bc2fde2ad044dd1a1c897eed07b7001_medium.jpg"
-                                        alt=""
-                                        className={cx('price-product-sections-order-list-img-img')}
-                                    />
-                                </div>
-                                <div className={cx('price-product-sections-order-list-info')}>
-                                    <div className={cx('price-product-sections-order-list-info-name')}>
-                                        Giày Converse Chuck 70 Seasonal Color Canvas
-                                    </div>
-                                    <div className={cx('all-size')}>Size:42 ,BLACK</div>
-                                </div>
-                                <div className={cx('price-product-sections-order-list-info-quantity')}>Số lượng :1</div>
-                                <div className={cx('price-product-sections-order-list-price')}>
-                                    <span>1.800.000₫</span>
-                                </div>
-                            </div>
-
-                            <div className={cx('price-product-sections-payment')}>
-                                <div className={cx('price-product-sections-payment-ship')}>
-                                    <div className={cx('price-product-sections-payment-ship-price')}>
-                                        <div className={cx('price-product-sections-payment-ship-price-name')}>
-                                            Tạm tính
+                    <div className={cx('price-product')}>
+                        <div className={cx('price-product-content')}>
+                            <div className={cx('price-product-content-content')}>
+                                <div className={cx('price-product-sections')}>
+                                    {paymentProduct && paymentProduct.map((product, index) => (
+                                        <div key={index} className={cx('price-product-sections-order-list')}>
+                                            <div className={cx('price-product-sections-order-list-img')}>
+                                                <img
+                                                    src={
+                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        product.product_id +
+                                                        '/' +
+                                                        product.image
+                                                    }
+                                                    alt=""
+                                                    className={cx('price-product-sections-order-list-img-img')}
+                                                />
+                                            </div>
+                                            <div className={cx('price-product-sections-order-list-info')}>
+                                                <div className={cx('price-product-sections-order-list-info-name')}>
+                                                    {product.name}
+                                                </div>
+                                                <div className={cx('all-size')}>
+                                                    Size:{product.size} ,{product.color}
+                                                </div>
+                                            </div>
+                                            <div className={cx('price-product-sections-order-list-info-quantity')}>
+                                                SL:{product.quantity}
+                                            </div>
+                                            <div className={cx('price-product-sections-order-list-price')}>
+                                                <span>{product.price.toLocaleString('vi-VN')}₫</span>
+                                            </div>
                                         </div>
-                                        <div className={cx('price-product-sections-payment-ship-price-price')}>
-                                            1.800.000₫
+                                    ))}
+
+                                    <div className={cx('price-product-sections-payment')}>
+                                        <div className={cx('price-product-sections-payment-ship')}>
+                                            <div className={cx('price-product-sections-payment-ship-price')}>
+                                                <div className={cx('price-product-sections-payment-ship-price-name')}>
+                                                    Tạm tính
+                                                </div>
+                                                <div className={cx('price-product-sections-payment-ship-price-price')}>
+                                                    {totalValues.toLocaleString('vi-VN')}₫
+                                                </div>
+                                            </div>
+                                            <div className={cx('price-product-sections-payment-ship-ship')}>
+                                                <div className={cx('price-product-sections-payment-ship-ship-name')}>
+                                                    Phí vận chuyển
+                                                </div>
+                                                <div className={cx('price-product-sections-payment-ship-ship-price')}>
+                                                    300.00₫
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={cx('price-product-sections-payment-total')}>
+                                            <div className={cx('price-product-sections-payment-total-total')}>
+                                                Tổng cộng
+                                            </div>
+                                            <div className={cx('price-product-sections-payment-total-price')}>
+                                                {(totalValues + 30000).toLocaleString('vi-VN')}₫
+                                            </div>
+                                        </div>
+                                        <div className={cx('price-product-sections-total')}>
+                                            <div className={cx('price-product-sections-payment-total-total')}>
+                                                Thanh toán trực tiếp cho người giao hàng khi đã nhận hàng
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className={cx('price-product-sections-payment-ship-ship')}>
-                                        <div className={cx('price-product-sections-payment-ship-ship-name')}>
-                                            Phí vận chuyển
-                                        </div>
-                                        <div className={cx('price-product-sections-payment-ship-ship-price')}>0₫</div>
-                                    </div>
-                                </div>
-                                <div className={cx('price-product-sections-payment-total')}>
-                                    <div className={cx('price-product-sections-payment-total-total')}>Tổng cộng</div>
-                                    <div className={cx('price-product-sections-payment-total-price')}>1.800.000₫</div>
+                                    <ToastContainer />
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </Fragment>
+            ) : (
+                <Fragment>
+                    <div className={cx('wrapper-not')}>
+                        <p className={cx('title-not-product')}>
+                            Hiện chưa có sản phẩm. Vui lòng chọn sản phẩm ở giỏ hàng
+                        </p>
+                        <div className={cx('cart')}>
+                            <button className={cx('btn-cart')}>
+                                <a href="/cart" className={cx('a-cart')}>
+                                    Giỏ hàng
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </Fragment>
+            )}
         </div>
     );
 }

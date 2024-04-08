@@ -43,9 +43,7 @@ function SpecialPrice() {
                 <div className={cx('content')}>
                     {/* <Sidebar /> */}
                     <div className={cx('product')}>
-                        {productValue.map((result) => (
-                            <Product key={result.idp} data={result} />
-                        ))}
+                        {productValue && productValue.map((result) => <Product key={result.idp} data={result} />)}
                         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
                         {/* <Product

@@ -3,6 +3,7 @@
     width: 90%;
     display: flex;
     margin: 0 auto;
+    margin-top: 30px;
     max-width: 78.57143em;
 }
 .payment-product {
@@ -274,6 +275,11 @@ input {
     border-top: 1px solid;
     padding-top: 1em;
 }
+.price-product-sections-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1em;
+}
 .price-product-sections-order-list-info-name {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -300,8 +306,54 @@ input {
 .title-phone {
     margin-bottom: 10px;
 }
-.all-size{
+.all-size {
     color: #888;
-    margin-top: 5px;
     font-size: 14px;
+}
+.loading {
+    font-size: 32px;
+    margin-left: 50%;
+    margin-top: 20px;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        // cách căn giữa
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+.wrapper-not {
+    text-align: center;
+    margin: 60px 35%;
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.title-not-product {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.cart {
+    border-top: 1px solid rgb(222, 219, 219);
+    margin-top: 20px;
+}
+.btn-cart {
+    padding: 10px 20px;
+    background: #4caf50;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+.a-cart {
+    color: white;
+    font-size: 15px;
 }

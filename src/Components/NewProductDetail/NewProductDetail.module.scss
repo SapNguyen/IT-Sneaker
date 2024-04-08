@@ -1,0 +1,32 @@
+.container {
+    margin-top: 80px;
+}
+.title {
+    font-size: 22px;
+}
+.box-product {
+    border: 1px solid #e5e6ec;
+    width: 70%;
+    padding: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.img-fluid {
+    height: 100%;
+    width: 100%;
+}
+.div-ps-price {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+}
+.text-new-product {
+    font-weight: bolder;
+    color: red;
+}
+.ps-price-disabled {
+    color: gray;
+    text-decoration: line-through;
+    font-size: 14px;
+    margin-left: 5px;
+}

@@ -12,8 +12,6 @@ export const brands = async () => {
     }
 };
 
-
-
 export const banners = async () => {
     //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
     //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
@@ -38,14 +36,14 @@ export const imghomes = async () => {
     }
 };
 
-export const brandtitle = async (q) => {
+export const brandtitle = async (brand_name) => {
     //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
     //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
     //await luôn đúng trước promise
     try {
-        const res = await httpRequest.getsneaker('brand', {
+        const res = await httpRequest.getsneaker('/detail/brand', {
             params: {
-                q,
+                brand_name,
             },
         });
         return res.data;

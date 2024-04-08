@@ -24,14 +24,75 @@ export const detailproduct = async () => {
     }
 };
 
-export const productforbrand = async (q) => {
+export const productforbrand = async (brand_name, sx, price, page) => {
     //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
     //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
     //await luôn đúng trước promise
     try {
-        const res = await httpRequest.getsneaker('products', {
+        const res = await httpRequest.getsneaker('/brand/products', {
             params: {
-                q,
+                brand_name,
+                sx,
+                price,
+                page,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const productforgenre = async (genre, brand_name, sx, price, page) => {
+    //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
+    //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
+    //await luôn đúng trước promise
+    try {
+        const res = await httpRequest.getsneaker('/genre/products', {
+            params: {
+                genre,
+                brand_name,
+                sx,
+                price,
+                page,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const productfordnew = async (brand_name, sx, price, page) => {
+    //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
+    //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
+    //await luôn đúng trước promise
+    try {
+        const res = await httpRequest.getsneaker('/new/products', {
+            params: {
+                brand_name,
+                sx,
+                price,
+                page,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const productfordiscount = async (brand_name, sx, price, page) => {
+    //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
+    //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
+    //await luôn đúng trước promise
+    try {
+        const res = await httpRequest.getsneaker('/incentives/products', {
+            params: {
+                brand_name,
+                sx,
+                price,
+                page,
             },
         });
         return res.data;
@@ -72,7 +133,7 @@ export const similar = async (id) => {
     }
 };
 
-export const feedback_product = async (id, star) => {
+export const feedback_product = async (id, star,page) => {
     //CÓ GÌ KHÓ HIỂU XEM LẠI FILE ULTILS/REQUEST
     //dùng axios hơn fetch thì đỡ khỏi nối chuỗi
     //await luôn đúng trước promise
@@ -81,6 +142,7 @@ export const feedback_product = async (id, star) => {
             params: {
                 id,
                 star,
+                page
             },
         });
         return res.data;

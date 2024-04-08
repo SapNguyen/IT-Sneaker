@@ -45,8 +45,7 @@ function Register() {
         if (!inputValueName || /\d/.test(inputValueName)) {
             setError('Tên không được chứa số');
             isValid = false;
-        }
-        else {
+        } else {
             setNameError('');
         }
 
@@ -55,8 +54,7 @@ function Register() {
         if (!inputValueEmail || !emailPattern.test(inputValueEmail)) {
             setError('Email không hợp lệ');
             isValid = false;
-        }
-        else {
+        } else {
             setNameError('');
         }
 
@@ -64,8 +62,7 @@ function Register() {
         if (!inputValuePass || inputValuePass.length < 8) {
             setError('Password phải có ít nhất 8 ký tự');
             isValid = false;
-        }
-        else {
+        } else {
             setNameError('');
         }
 
@@ -118,7 +115,7 @@ function Register() {
                 if (response.data.error) {
                     setError('Email đã tồn tại');
                 } else {
-                    sessionStorage.setItem('userId', response.data.user[0].member_id);
+                    sessionStorage.setItem('userId', response.data.user[0].mem_id);
                     window.location.href = '/';
                 }
             } catch (error) {

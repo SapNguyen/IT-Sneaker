@@ -2,6 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './ChangePass.module.scss';
 import { Helmet } from 'react-helmet';
 import { useState } from 'react';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -12,6 +14,7 @@ function ChangePass() {
     const [passnowError, setPassNowError] = useState('');
     const [passnewError, setPassNewError] = useState('');
     const [confirmError, setConfirmError] = useState('');
+    const [error, setError] = useState(null);
 
     const validateForm = () => {
         let isValid = true;
@@ -37,6 +40,13 @@ function ChangePass() {
             isValid = false;
         } else {
             setConfirmError('');
+        }
+
+        if (!inputValuePassNew || inputValuePassNew.length < 8) {
+            setPassNewError('Password phải có ít nhất 8 ký tự');
+            isValid = false;
+        } else {
+            setPassNewError('');
         }
 
         return isValid;
@@ -66,18 +76,21 @@ function ChangePass() {
     const handleChangePassNow = (event) => {
         setInputValuePassNow(event.target.value);
         setPassNowError('');
+        setError('');
     };
     const handleChangePassNew = (event) => {
         setInputValuePassNew(event.target.value);
         setPassNewError('');
+        setError('');
     };
 
     const handleChangeConfirm = (event) => {
         setInputValueConfirm(event.target.value);
         setConfirmError('');
+        setError('');
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
             if (inputValuePassNew !== inputValueConfirm) {
@@ -85,16 +98,27 @@ function ChangePass() {
                 setInputValueConfirm('');
 
                 return;
+            } else {
+                try {
+                    const response = await axios.post(
+                        `https://s25sneaker.000webhostapp.com/api/user/update/password?id=${sessionStorage.getItem(
+                            'userId',
+                        )}&password=${inputValuePassNow}&passwordnew=${inputValuePassNew}`,
+                    );
+                    if (response.data.message === 'Mật khẩu không chính xác') {
+                        setError('Mật khẩu không chính xác');
+                    } else {
+                        toast.success('Thay đổi mật khẩu thành công');
+                        setInputValuePassNow('');
+                        setInputValuePassNew('');
+                        setInputValueConfirm('');
+                        setError('');
+                    }
+                } catch (error) {
+                    alert('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+                }
             }
-            // Thực hiện xử lý đăng nhập, ví dụ gọi API
-            console.log('Passnow:', inputValuePassNow);
-            console.log('Passnew:', inputValuePassNew);
-            console.log('Passconfirm:', inputValueConfirm);
         }
-
-        setInputValuePassNow('');
-        setInputValuePassNew('');
-        setInputValueConfirm('');
 
         // Thực hiện xử lý khi form được submit, ví dụ gọi API
         // console.log('Submitted value:', inputValueEmail + inputValuePass + inputValueName);
@@ -110,7 +134,7 @@ function ChangePass() {
             </Helmet>
             <p className={cx('title')}>Đổi mật khẩu</p>
             <div className={cx('content')}>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className={cx('div-passnow')}>
                         <label className={cx('form-label')}>Mật khẩu hiện tại</label>
                         <input
@@ -153,15 +177,19 @@ function ChangePass() {
                     </div>
                     {confirmError && <p className={cx('invalid-feedback')}>{confirmError}</p>}
 
+                    <div className={cx('alert', 'alert-danger', { 'd-none': !error })}>{error}</div>
+
                     <div className="d-flex justify-content-center mt-3">
                         <button
                             type="submit"
                             className={cx('btn-change', { 'btn-disabled': !isFormValid })}
                             disabled={!isFormValid}
+                            onClick={handleSubmit}
                         >
                             Xác nhận
                         </button>
                     </div>
+                    <ToastContainer />
                 </form>
             </div>
         </div>

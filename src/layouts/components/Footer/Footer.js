@@ -8,17 +8,18 @@ function Footer() {
         <footer className={cx('footer')}>
             <div className="row">
                 <div className="col-sm-4">
-                    <h6 className="fw-bolder text-white">SNEAKER BUZZ</h6>
+                    <h6 className="fw-bolder text-white">Đồ án tốt nghiệp</h6>
                     <p className="text-white">Địa chỉ: Đại học Xây Dựng Hà Nội</p>
                     <p className="text-white">Điện thoại: 0999999999</p>
-                    <p className="text-white">Email: DHXD@email.com</p>
+                    <p className="text-white">Email: anh1502965@huce.edu.com</p>
                 </div>
                 <div className="col-sm-4">
                     <h6 className="fw-bolder text-white">DANH MỤC</h6>
-                    <p className="text-white">HOME PAGE</p>
-                    <p className="text-white">PRODUCTS</p>
-                    <p className="text-white">SPECIAL PRICE</p>
-                    <p className="text-white">NEWS</p>
+                    <p className="text-white">Trang chủ</p>
+                    <p className="text-white">Thương hiệu</p>
+                    <p className="text-white">Giới tính</p>
+                    <p className="text-white">Hàng mới về</p>
+                    <p className="text-white">Ưu đãi</p>
                 </div>
                 <div className="col-sm-4">
                     <h6 className="fw-bolder text-white">CHÍNH SÁCH</h6>

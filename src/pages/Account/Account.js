@@ -10,12 +10,18 @@ import Receipt from '../Receipt';
 
 const cx = classNames.bind(styles);
 
-function Account() {
+function Account({ order, status }) {
     const [activeTab, setActiveTab] = useState(1);
+    const [statusOrder, setStatusOrder] = useState(3);
     const [loggedIn, setLoggedIn] = useState(true);
 
     const handleTabClick = (tabNumber) => {
         setActiveTab(tabNumber);
+    };
+
+    const handleOrder = () => {
+        setActiveTab(3);
+        window.location.href = '/order';
     };
 
     useEffect(() => {
@@ -23,7 +29,26 @@ function Account() {
         if (!loggedInUser) {
             setLoggedIn(false);
         }
-    }, []);
+        if (order === 'receipt') {
+            setActiveTab(3);
+        }
+        if (status === 3) {
+            setStatusOrder(3);
+            setActiveTab(3);
+        }  else if (status === 1) {
+            setStatusOrder(1);
+            setActiveTab(3);
+        } else if (status === 4) {
+            setStatusOrder(4);
+            setActiveTab(3);
+        } else if (status === 2) {
+            setStatusOrder(2);
+            setActiveTab(3);
+        } else if (status === -1) {
+            setStatusOrder(-1);
+            setActiveTab(3);
+        }
+    }, [order, status]);
 
     if (loggedIn === false) {
         window.location.href = '/login';
@@ -73,7 +98,7 @@ function Account() {
                                 {/* cx('title-receipt') */}
 
                                 <FontAwesomeIcon icon={faReceipt} className={cx('avatar-receipt')} />
-                                <div onClick={() => handleTabClick(3)}>
+                                <div onClick={handleOrder}>
                                     <p className={`${styles['title-receipt']} ${activeTab === 3 ? styles.active : ''}`}>
                                         Đơn mua
                                     </p>
@@ -82,7 +107,7 @@ function Account() {
                         </div>
                         {activeTab === 1 && <Profile />}
                         {activeTab === 2 && <ChangePass />}
-                        {activeTab === 3 && <Receipt />}
+                        {activeTab === 3 && <Receipt status={statusOrder} />}
                         {/* @yield('content') */}
                     </div>
                 </div>

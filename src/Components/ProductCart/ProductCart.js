@@ -61,11 +61,13 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
         // setSelectedValue(value);
         const isChecked = event.target.checked;
         const selectedProductInfo = {
-            price:value,
+            price: value,
             size: size,
             color: color,
             product_id: data.product_id,
             image: uniqueProductImagesArray[0],
+            quantity: amount,
+            cart_id: data.cart_id,
         };
         if (isChecked) {
             selectedValuesd(selectedProductInfo);
@@ -111,7 +113,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
         if (window.confirm('Bạn có chắc chắn muốn xóa không?')) {
             try {
                 const response = await axios.post(
-                    `https://s25sneaker.000webhostapp.com/api/cart/detele?cart_id=${data.cart_id}`,
+                    `https://s25sneaker.000webhostapp.com/api/cart/remove?cart_id=${data.cart_id}`,
                 );
                 if (response.data.error) {
                     toast.error('Xóa thất bại');
@@ -141,7 +143,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
     };
 
     const handleIncrease = () => {
-        const product = data.products.details.find((item) => item.size === data.size && item.color === data.color);
+        const product = data && data.products.details.find((item) => item.size === data.size && item.color === data.color);
 
         if (product) {
             setAmountValue(product.quantity);
@@ -166,14 +168,14 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
 
     const uniqueProductImages = new Set();
 
-    data.products.details.forEach((detail) => {
+    data && data.products.details.forEach((detail) => {
         const split = detail.product_image.split(',');
         split.forEach((fileName) => {
             uniqueProductImages.add(fileName);
         });
     });
 
-    const uniqueProductImagesArray = Array.from(uniqueProductImages);
+    const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages);
 
     return (
         <div className={cx('item-box', 'product')}>
@@ -206,10 +208,10 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
             </div>
             <div className={cx('div_product')}>
                 <div className={cx('div_product-info')}>
-                    {data.products.details.map((imgPath, index) => (
+                    {data && data.products.details.map((imgPath, index) => (
                         <Fragment key={index}>
                             {index === 0 &&
-                                uniqueProductImagesArray.map((img, index) => (
+                                uniqueProductImagesArray && uniqueProductImagesArray.map((img, index) => (
                                     <Link key={index} to={`/product/${imgPath.product_id}`}>
                                         {index === 0 && (
                                             <img
@@ -255,7 +257,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
                                 <div>
                                     <p className={cx('title-size')}>Size:</p>
                                     <div>
-                                        {uniqueSizes.map((size, index) => (
+                                        {uniqueSizes && uniqueSizes.map((size, index) => (
                                             <div
                                                 key={index}
                                                 className={cx('size-box', {
@@ -272,7 +274,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
                                 <div>
                                     <p className={cx('title-color')}>Màu:</p>
                                     <div>
-                                        {uniqueColors.map((color, index) => (
+                                        {uniqueColors && uniqueColors.map((color, index) => (
                                             <div
                                                 key={index}
                                                 className={cx('size-box', {
@@ -311,12 +313,12 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
             {data.products.discounts !== null ? (
                 <div className={cx('div_price_each')}>
                     <p className={cx('price-disabled')}>{data.products.product_price}₫</p>
-                    {data.products.product_price -
-                        data.products.product_price * (data.products.discounts.discount_value / 100)}
+                    {(data.products.product_price -
+                        data.products.product_price * (data.products.discounts.discount_value / 100)).toLocaleString('vi-VN')}
                     ₫
                 </div>
             ) : (
-                <div className={cx('div_price_each')}>{data.products.product_price}₫</div>
+                <div className={cx('div_price_each')}>{data.products.product_price.toLocaleString('vi-VN')}₫</div>
             )}
 
             <div className={cx('div_amount')}>
@@ -343,13 +345,13 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
 
             {data.products.discounts !== null ? (
                 <div className={cx('div_price_all')}>
-                    {(data.products.product_price -
+                    {((data.products.product_price -
                         data.products.product_price * (data.products.discounts.discount_value / 100)) *
-                        amount}
+                        amount).toLocaleString('vi-VN')}
                     ₫
                 </div>
             ) : (
-                <div className={cx('div_price_all')}>{data.products.product_price * amount}₫</div>
+                <div className={cx('div_price_all')}>{(data.products.product_price * amount).toLocaleString('vi-VN')}₫</div>
             )}
 
             <div className={cx('div_action')}>

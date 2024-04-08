@@ -47,9 +47,9 @@ function LogoBrand() {
     return (
         <div className={cx(styles.carousel)}>
             <Slider {...settings} className={cx('grid')}>
-                {logoValue.map((result) => (
+                {logoValue && logoValue.map((result) => (
                     <div key={result.brand_id} className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
-                        <Link to={`/products/brand/${result.brand_id}`}>
+                        <Link to={`/products/brand/${result.brand_name}`}>
                             <div className={cx('item', styles['w-50'])}>
                                 <img
                                     src={`http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_logo}

@@ -36,9 +36,9 @@ function Slider() {
 
     return (
         <Carousel interval={3000}>
-            {sliderValue.map((result) => (
+            {sliderValue && sliderValue.map((result) => (
                 <Carousel.Item key={result.brand_id}>
-                    <Link to={`/products/brand/${result.brand_id}`}>
+                    <Link to={`/products/brand/${result.brand_name}`}>
                         <img
                             className="d-block w-100"
                             src={`http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_img}

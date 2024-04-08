@@ -106,7 +106,20 @@
     width: 100%;
     height: 100%;
 }
-.feedback-box,
+.feedback-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: visible;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    padding: 70px;
+    text-align: center;
+    width: 40%;
+    min-width: 500px;
+    max-height: 83%;
+    overflow: auto;
+}
 .feedback-box-view {
     position: absolute;
     left: 50%;
@@ -118,6 +131,7 @@
     text-align: center;
     width: 40%;
     min-width: 500px;
+    height: 65%;
     max-height: 90%;
     overflow: auto;
 }
@@ -319,7 +333,7 @@
     z-index: 600;
 }
 .success-overlay {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
     height: 100%;
 }
@@ -341,4 +355,8 @@
 }
 .title-confirm {
     font-size: 18px;
+}
+.cart-ico {
+    margin-top: 20px;
+    font-size: 60px;
 }

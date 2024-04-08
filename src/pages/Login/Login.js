@@ -108,7 +108,19 @@ function Login() {
                         Tạo tài khoản mới
                     </a>
                 </button>
+                <button className={cx('btn-forget')}>
+                    <a href="/forget" className={cx('a-register')}>
+                        Quên mật khẩu
+                    </a>
+                </button>
             </div>
+            {/* <div className={cx('register')}>
+                <button className={cx('btn-register')}>
+                    <a href="/forget" className={cx('a-register')}>
+                        Quên mật khẩu
+                    </a>
+                </button>
+            </div> */}
         </main>
     );
 }

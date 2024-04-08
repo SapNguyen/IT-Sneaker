@@ -11,14 +11,14 @@ const cx = classNames.bind(styles);
 function Product({ data }) {
     const uniqueProductImages = new Set();
     // Duyệt qua từng chi tiết sản phẩm trong mảng details của từng sản phẩm
-    data.details.forEach((detail) => {
+    data && data.details.forEach((detail) => {
         const split = detail.product_image.split(',');
         split.forEach((fileName) => {
             uniqueProductImages.add(fileName);
         });
     });
 
-    const uniqueProductImagesArray = Array.from(uniqueProductImages);
+    const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages);
 
     // const [imgValue, setImgValue] = useState([]);
     // let imgs=[img1,img2,img3,img4,img5]
@@ -81,7 +81,7 @@ function Product({ data }) {
                             </div>
                         ))} */}
 
-                        {data.details.map((imgPath, index) => (
+                        {data && data.details.map((imgPath, index) => (
                             <Fragment key={index}>
                                 {index === 0 &&
                                     uniqueProductImagesArray.map((img, index) => (
@@ -104,7 +104,7 @@ function Product({ data }) {
                             </Fragment>
                         ))}
                         <div className={cx('slide-img')}>
-                            {data.details.map(
+                            {uniqueProductImagesArray && uniqueProductImagesArray.map(
                                 (imgPath, index) =>
                                     index < 4 && (
                                         <Fragment key={index}>
@@ -112,12 +112,12 @@ function Product({ data }) {
                                                 <img
                                                     src={
                                                         `http://127.0.0.1:8000/img/product/` +
-                                                        imgPath.product_id +
+                                                        data.product_id +
                                                         '/' +
                                                         uniqueProductImagesArray[index]
                                                     }
                                                     className={cx('small-img')}
-                                                    alt={'IMG ' + imgPath.product_size_color_id}
+                                                    alt={'IMG '}
                                                 />
                                             )}
                                         </Fragment>
@@ -162,16 +162,16 @@ function Product({ data }) {
                             {data.discounts !== null ? (
                                 <div className={cx('div_price')}>
                                     <h5 className={cx('prod-price')}>
-                                        {data.product_price -
-                                            data.product_price * (data.discounts.discount_value / 100)}
+                                        {(data.product_price -
+                                            data.product_price * (data.discounts.discount_value / 100)).toLocaleString('vi-VN')}
                                         đ
                                     </h5>
 
-                                    <h5 className={cx('prod-price-discount')}>{data.product_price}đ</h5>
+                                    <h5 className={cx('prod-price-discount')}>{data.product_price.toLocaleString('vi-VN')}đ</h5>
                                 </div>
                             ) : (
                                 <div className={cx('div_price')}>
-                                    <h5 className={cx('prod-price')}>{data.product_price}đ</h5>
+                                    <h5 className={cx('prod-price')}>{data.product_price.toLocaleString('vi-VN')}đ</h5>
                                 </div>
                             )}
                             <div className="col-sm-6">

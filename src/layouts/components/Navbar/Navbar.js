@@ -11,23 +11,44 @@ import Menu, { MenuItem } from './Menu';
 //     LiveActiveIcon,
 // } from '~/Components/Icons/Icons';
 //import SuggestedAccounts from '~/Components/SuggestedAccounts';
+import { useEffect, useState } from 'react';
+import * as brandService from '~/services/brandsService';
 
 const cx = classNames.bind(styles);
 
 function Navbar() {
+    const [brandValue, setBrandValue] = useState([]);
+
+    useEffect(() => {
+        const fetchAPIProduct = async () => {
+            try {
+                const result = await brandService.brands();
+
+                setBrandValue(result.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchAPIProduct();
+    }, []);
+
     return (
         <aside className={cx('wrapper')}>
             <Menu>
-                <MenuItem title="HOME PAGE" to={config.routes.home} />
+                <MenuItem title="Trang chủ" to={config.routes.home} />
                 <MenuItem
-                    title="PRODUCTS"
-                    to={`/products/brand/0`}
+                    title="Thương hiệu"
+                    to={`/products/brand/All`}
+                    data={brandValue && brandValue}
                     //icon={<UserGroupIcon />}
                     //activeIcon={<UserGroupActiveIcon />}
                 />
+                {/* <MenuPopper title="Thương hiệu" to={`/products/brand/0`} /> */}
 
-                <MenuItem title="SPECIAL PRICE" to={config.routes.specialprice} />
-                <MenuItem title="NEWS" to={config.routes.new} />
+                <MenuItem title="Giới tính" genre={['Unisex', 'Nam', 'Nữ']} to={`/products/genre/All/Unisex`} />
+                <MenuItem title="Hàng mới về" to={`/products/new/All`} />
+                <MenuItem title="Ưu đãi" to={`/products/special/All`} />
             </Menu>
 
             {/* <SuggestedAccounts label="Suggested accounts"/> */}

@@ -21,8 +21,14 @@ function DetailProduct() {
     const [feedbackResult, setFeedbackResult] = useState({});
     const [countfeedbackResult, setCountFeedbackResult] = useState({});
     const [starResult, setStarResult] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageAPI, setPagehAPI] = useState(1);
 
     const { productId } = useParams();
+
+    const handlePageChange = (pageNumber) => {
+        setPagehAPI(pageNumber);
+    };
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -36,12 +42,13 @@ function DetailProduct() {
         };
         fetchAPI();
 
-        const feedbackAPI = async () => {
-            const result = await productsService.feedback_product(productId, starResult);
+        const feedbackAPI = async (page) => {
+            const result = await productsService.feedback_product(productId, starResult, pageAPI);
 
             setFeedbackResult(result.products);
+            setCurrentPage(page);
         };
-        feedbackAPI();
+        feedbackAPI(pageAPI);
 
         const countAPI = async () => {
             const result = await productsService.count_feedback(productId);
@@ -53,7 +60,7 @@ function DetailProduct() {
         setLoading(true);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [productId, starResult]);
+    }, [productId, starResult, pageAPI]);
 
     const handleStarClick = (data) => {
         setStarResult(data);
@@ -71,7 +78,7 @@ function DetailProduct() {
                     ID={productId}
                 </p>
                 {/* style="display: none" */}
-                {productResult.map((result, index) => (
+                {productResult && productResult.map((result, index) => (
                     <div className="row" key={index}>
                         <div className="col-sm-8">
                             {/* style="background:white;" */}
@@ -81,6 +88,8 @@ function DetailProduct() {
                                 data={feedbackResult}
                                 setStar={handleStarClick}
                                 count={countfeedbackResult}
+                                currentPage={currentPage}
+                                handlePageChange={handlePageChange}
                             />
                         </div>
                         <div className="col-sm-4">

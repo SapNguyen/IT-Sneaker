@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useState, Fragment } from 'react';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
+import { Pagination } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
-function FeedbackProduct({ data, setStar, count }) {
+function FeedbackProduct({ data, setStar, count, currentPage, handlePageChange }) {
     const [activeTab, setActiveTab] = useState(0);
 
     const handleTabClick = (tabNumber) => {
@@ -15,10 +16,10 @@ function FeedbackProduct({ data, setStar, count }) {
         setStar(tabNumber);
     };
 
-    const totalStars = data.feedbacks.reduce((total, feedback) => total + feedback.star, 0);
+    const totalStars = data.feedbacks && data.feedbacks.reduce((total, feedback) => total + feedback.star, 0);
 
     // Tính trung bình số sao
-    const averageStars = totalStars / data.feedbacks.length;
+    const averageStars = data.feedbacks && totalStars / data.feedbacks.length;
 
     const displayStars = isNaN(averageStars) ? 0 : averageStars;
 
@@ -46,7 +47,7 @@ function FeedbackProduct({ data, setStar, count }) {
                 <div className={cx('star-container')}>
                     <p className={cx('feedback-average')}>{displayStars} trên 5</p>
                     <div className={cx('flex-star-feedback')}>
-                        {stars.map((star, index) => (
+                        {stars && stars.map((star, index) => (
                             <FontAwesomeIcon
                                 key={index}
                                 icon={faStar}
@@ -115,7 +116,7 @@ function FeedbackProduct({ data, setStar, count }) {
 
             {activeTab === 0 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -125,46 +126,48 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
+                    <Pagination currentPage={currentPage} onPageChange={handlePageChange} />
                 </div>
             )}
 
             {activeTab === 5 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -174,45 +177,46 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
                 </div>
             )}
             {activeTab === 4 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -222,45 +226,46 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
                 </div>
             )}
             {activeTab === 3 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -270,45 +275,46 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
                 </div>
             )}
             {activeTab === 2 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -318,45 +324,46 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
                 </div>
             )}
             {activeTab === 1 && (
                 <div className={cx('feedback-content')}>
-                    {data.feedbacks.length === 0 ? (
+                    {data.feedbacks && data.feedbacks.length === 0 ? (
                         <div className={cx('star-feedback-empty')}>
                             <FontAwesomeIcon
                                 className={cx('material-symbols-outlined', styles.chat)}
@@ -366,38 +373,39 @@ function FeedbackProduct({ data, setStar, count }) {
                         </div>
                     ) : (
                         <Fragment>
-                            {data.feedbacks.map((result, index) => (
-                                <div key={index} className={cx('comment-box')}>
-                                    <div className={cx(styles.avatar)}>
-                                        <FontAwesomeIcon icon={faCircleUser} />
-                                    </div>
-                                    <div className={cx('comment-info')}>
-                                        <div className={cx('name')}>{result.member.name}</div>
-                                        <div className={cx('rate')}>
-                                            <div className={cx('flex-star-feedback')}>
-                                                <div className={cx('position-relative', 'h-20')}>
-                                                    {[...Array(result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-active')}
-                                                        />
-                                                    ))}
-                                                    {[...Array(5 - result.star)].map((_, starIndex) => (
-                                                        <FontAwesomeIcon
-                                                            key={starIndex}
-                                                            icon={faStar}
-                                                            className={cx('star-inactive')}
-                                                        />
-                                                    ))}
+                            {data.feedbacks &&
+                                data.feedbacks.map((result, index) => (
+                                    <div key={index} className={cx('comment-box')}>
+                                        <div className={cx(styles.avatar)}>
+                                            <FontAwesomeIcon icon={faCircleUser} />
+                                        </div>
+                                        <div className={cx('comment-info')}>
+                                            <div className={cx('name')}>{result.member.name}</div>
+                                            <div className={cx('rate')}>
+                                                <div className={cx('flex-star-feedback')}>
+                                                    <div className={cx('position-relative', 'h-20')}>
+                                                        {[...Array(result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-active')}
+                                                            />
+                                                        ))}
+                                                        {[...Array(5 - result.star)].map((_, starIndex) => (
+                                                            <FontAwesomeIcon
+                                                                key={starIndex}
+                                                                icon={faStar}
+                                                                className={cx('star-inactive')}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
+                                            <div className={cx('content')}>{result.comment}</div>
                                         </div>
-                                        {/* <div className={cx('product-info')}>Size: 41, Màu: Trắng</div> */}
-                                        <div className={cx('content')}>{result.comment}</div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </Fragment>
                     )}
                 </div>

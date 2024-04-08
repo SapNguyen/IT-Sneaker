@@ -22,6 +22,7 @@ function DetailProduct({ data }) {
     const [showAlert, setShowAlert] = useState(false);
     const [showAlertExceedQuantity, setShowAlertExceedQuantity] = useState(false);
     const [amount, setAmount] = useState(1);
+    const [slider, setSlider] = useState(4);
     const [showQuantity, setShowQuantity] = useState(false);
     const [showChooseColor, setShowChooseColor] = useState(false);
     const [amountValue, setAmountValue] = useState('');
@@ -140,11 +141,9 @@ function DetailProduct({ data }) {
         }
     };
 
-    let slidesValue = 4;
-
     const uniqueProductImages = new Set();
     // Duyệt qua từng chi tiết sản phẩm trong mảng details của từng sản phẩm
-    data.details.forEach((detail) => {
+    data && data.details.forEach((detail) => {
         const split = detail.product_image.split(',');
         split.forEach((fileName) => {
             uniqueProductImages.add(fileName);
@@ -156,7 +155,7 @@ function DetailProduct({ data }) {
         // uniqueProductImages.add(detail.product_image);
     });
 
-    const uniqueProductImagesArray = Array.from(uniqueProductImages).reverse();
+    const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages).reverse();
 
     const uniqueSizes = [...new Set(data.details.map((detail) => detail.size))];
 
@@ -166,18 +165,15 @@ function DetailProduct({ data }) {
         setInputQuantityValue(event.target.value);
     };
 
-    if (uniqueProductImagesArray.length < 4) {
-        slidesValue = uniqueProductImagesArray.length;
+    if (uniqueProductImagesArray && uniqueProductImagesArray.length < 4) {
+        setSlider(uniqueProductImagesArray.length);
     }
 
     const settings = {
         dots: false,
         infinite: false,
-        speed: 500,
-        slidesToShow: slidesValue,
+        slidesToShow: slider,
         slidesToScroll: 1,
-        autoplay: false,
-        autoplaySpeed: 2000,
         nextArrow: <CustomNextArrow />,
         prevArrow: <CustomPrevArrow />,
         responsive: [
@@ -207,10 +203,11 @@ function DetailProduct({ data }) {
             },
         ],
     };
-    const totalStars = data.feedbacks.reduce((total, feedback) => total + feedback.star, 0);
+
+    const totalStars = data.feedbacks && data.feedbacks.reduce((total, feedback) => total + feedback.star, 0);
 
     // Tính trung bình số sao
-    const averageStars = totalStars / data.feedbacks.length;
+    const averageStars = data.feedbacks && totalStars / data.feedbacks.length;
 
     const displayStars = isNaN(averageStars) ? 0 : averageStars;
 
@@ -233,7 +230,7 @@ function DetailProduct({ data }) {
 
     return (
         <div className="row">
-            {data.details.map((imgPath, index) => (
+            {data && data.details.map((imgPath, index) => (
                 // uniqueProductImagesArray.includes(imgPath.product_image.split(',')) && (
                 //     <Fragment key={index}>
                 //         {index === 0 && (
@@ -285,8 +282,8 @@ function DetailProduct({ data }) {
 
             <div className="col-sm-6">
                 <div className={cx(styles.carousel)}>
-                    <Slider {...settings} className="d-flex">
-                        {data.details.map((imgPath, index) => (
+                    <Slider {...settings} className={cx(uniqueProductImagesArray.length > 4 && 'd-flex')}>
+                        {uniqueProductImagesArray.map((imgPath, index) => (
                             <Fragment key={index}>
                                 {uniqueProductImagesArray[index] && (
                                     <div key={index} className={cx('owl-item', styles['owl-item-active'])}>
@@ -294,7 +291,7 @@ function DetailProduct({ data }) {
                                             <img
                                                 src={
                                                     `http://127.0.0.1:8000/img/product/` +
-                                                    imgPath.product_id +
+                                                    data.product_id +
                                                     '/' +
                                                     uniqueProductImagesArray[index]
                                                 }
@@ -302,7 +299,7 @@ function DetailProduct({ data }) {
                                                 alt="img1"
                                                 onClick={() =>
                                                     handleImageClick(
-                                                        `http://127.0.0.1:8000/img/product/${imgPath.product_id}/${uniqueProductImagesArray[index]}`,
+                                                        `http://127.0.0.1:8000/img/product/${data.product_id}/${uniqueProductImagesArray[index]}`,
                                                     )
                                                 }
                                             />
@@ -388,9 +385,9 @@ function DetailProduct({ data }) {
                         <Fragment>
                             <div className={cx('flex-price')}>
                                 <div className={cx('price')}>
-                                    {data.product_price - data.product_price * (data.discounts.discount_value / 100)}đ
+                                    {(data.product_price - data.product_price * (data.discounts.discount_value / 100)).toLocaleString('vi-VN')}đ
                                 </div>
-                                <h5 className={cx('price-disabled')}>{data.product_price}đ</h5>
+                                <h5 className={cx('price-disabled')}>{data.product_price.toLocaleString('vi-VN')}đ</h5>
                                 <div className={cx('discount-value')}>{data.discounts.discount_value}%</div>
                             </div>
 
@@ -410,7 +407,7 @@ function DetailProduct({ data }) {
                         </Fragment>
                     ) : (
                         <div className={cx('flex-price')}>
-                            <div className={cx('price')}>{data.product_price}đ</div>
+                            <div className={cx('price')}>{data.product_price.toLocaleString('vi-VN')}đ</div>
                         </div>
                     )}
                 </div>
@@ -448,7 +445,7 @@ function DetailProduct({ data }) {
                             className={cx(styles['size-box'], styles['color-box'], 'col-sm-1', {
                                 [styles['size-selected']]: color === selectedColor,
                                 'disabled-color':
-                                    !selectedSize || !availableColors.includes(color) || quantity0.includes(color)
+                                    !selectedSize || !availableColors.includes(color) || quantity0.includes(color),
                             })}
                             onClick={() => handleColorClick(color)}
                             disabled={!selectedSize || !availableColors.includes(color) || quantity0.includes(color)}

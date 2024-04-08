@@ -26,7 +26,9 @@ function Cart() {
             objA.size === objB.size &&
             objA.color === objB.color &&
             objA.product_id === objB.product_id &&
-            objA.image === objB.image
+            objA.image === objB.image &&
+            objA.quantity === objB.quantity &&
+            objA.cart_id === objB.cart_id
         );
     }
 
@@ -50,7 +52,6 @@ function Cart() {
         }
     };
 
-
     const handleDeleteProduct = (data) => {
         setDeleteValue(data);
     };
@@ -58,10 +59,12 @@ function Cart() {
     const handleBuyNow = async (event) => {
         event.preventDefault();
         if (selectedValues.length > 0) {
-            console.log('Chọn thành công')
+            const selectedValuesJSON = JSON.stringify(selectedValues);
+            // return <Redirect to={{ pathname: '/payment', state: { selectedValues: selectedValues } }} />;
+            sessionStorage.setItem('paymentId', selectedValuesJSON);
+            window.location.href = '/payment';
         } else {
             toast.error('Vui lòng chọn sản phẩm');
-            // console.log('Vui lòng chọn sản phẩm')
         }
     };
 
@@ -104,14 +107,15 @@ function Cart() {
                         <div className={cx('div_action', 'gray')}>Thao tác</div>
                     </div>
                     <div className={cx('white-product')}>
-                        {cartResult.map((product, index) => (
-                            <ProductCart
-                                key={index}
-                                data={product}
-                                selectedValuesd={handleValueClick}
-                                deleteProduct={handleDeleteProduct}
-                            />
-                        ))}
+                        {cartResult &&
+                            cartResult.map((product, index) => (
+                                <ProductCart
+                                    key={index}
+                                    data={product}
+                                    selectedValuesd={handleValueClick}
+                                    deleteProduct={handleDeleteProduct}
+                                />
+                            ))}
                     </div>
                     {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
                     <div className={cx('item-box', 'payment')}>
@@ -128,20 +132,20 @@ function Cart() {
                             <p className={cx('total-payment')} id="s_amount">
                                 Tổng thanh toán ( Sản phẩm):
                             </p>
-                            <p className={cx('s-price')}>{totalValues}₫</p>
+                            <p className={cx('s-price')}>{totalValues.toLocaleString('vi-VN')}₫</p>
 
                             {/* <p style="font-size: 18px" id="s_amount">Tổng thanh toán (0 Sản phẩm):</p>
                     <p id="s_price">0₫</p> */}
+
                             <button className={cx('btn-payment')} onClick={handleBuyNow}>
                                 Mua hàng
                             </button>
-                            <form action="/payment" method="post" className="d-none">
-                                <input type="hidden" className={cx('choice')} name="choice" />
+                            {/* <form action="/payment" method="post" className="d-none">
                                 <button className={cx('submit')}></button>
-                            </form>
+                            </form> */}
                         </div>
                     </div>
-                    {cartResult.length === 0 && !loading && (
+                    {cartResult && cartResult.length === 0 && !loading && (
                         <div className={cx('payment-now')}>
                             <FontAwesomeIcon
                                 icon={faCartShopping}

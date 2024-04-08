@@ -4,41 +4,48 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import { Fragment } from 'react';
 
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
     const uniqueProductImages = new Set();
     // Duyệt qua từng chi tiết sản phẩm trong mảng details của từng sản phẩm
-    data.details.forEach((detail) => {
+    data.details && data.details.forEach((detail) => {
         // Thêm các giá trị product_image vào Set
-        uniqueProductImages.add(detail.product_image);
+        const split = detail.product_image.split(',');
+        split.forEach((fileName) => {
+            uniqueProductImages.add(fileName);
+        });
+        // uniqueProductImages.add(detail.product_image);
     });
 
-    const uniqueProductImagesArray = Array.from(uniqueProductImages);
-    
+    const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages);
+
     return (
         <Link to={`/product/${data.product_id}`} className={cx('wrapper')}>
-            {data.details.map(
-                (imgPath, index) =>
-                    uniqueProductImagesArray.includes(imgPath.product_image) && (
-                        <div key={index}>
-                            {index === 0 && (
-                                <img
-                                    className={cx('avatar')}
-                                    src={
-                                        `http://127.0.0.1:8000/img/product/` +
-                                        imgPath.product_id +
-                                        '/' +
-                                        // imgPath.trim()
-                                        imgPath.product_image
-                                    }
-                                    alt={data.product_name}
-                                />
-                            )}
-                        </div>
-                    ),
-            )}
+            {data.details && data.details.map((imgPath, index) => (
+                <Fragment key={index}>
+                    {index === 0 &&
+                        uniqueProductImagesArray && uniqueProductImagesArray.map((img, index) => (
+                            <Fragment key={index}>
+                                {index === 0 && (
+                                    <img
+                                        className={cx('avatar')}
+                                        src={
+                                            `http://127.0.0.1:8000/img/product/` +
+                                            imgPath.product_id +
+                                            '/' +
+                                            // imgPath.trim()
+                                            img
+                                        }
+                                        alt={data.product_name}
+                                    />
+                                )}
+                            </Fragment>
+                        ))}
+                </Fragment>
+            ))}
 
             <div className={cx('info')}>
                 <h4 className={cx('name')}>
@@ -49,7 +56,9 @@ function AccountItem({ data }) {
 
                 {data.discounts !== null ? (
                     <div className={cx('div_price')}>
-                        <span className={cx('price')}>{data.product_price - data.product_price * (data.discounts.discount_value / 100)}đ</span>
+                        <span className={cx('price')}>
+                            {data.product_price - data.product_price * (data.discounts.discount_value / 100)}đ
+                        </span>
                         <span className={cx('price_discount')}>{data.product_price}đ</span>
                     </div>
                 ) : (

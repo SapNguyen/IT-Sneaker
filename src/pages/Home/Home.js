@@ -83,7 +83,7 @@ function Home() {
                                 mọi địa hình,mọi thời tiết và không gây hại đến mô hình bàn chân cũng như an toàn cho da
                                 chân. Đế cao giúp tăng chiều cao của người sử dụng nhưng vẫn giữ được độ thoải mái.
                             </p>
-                            <a className={cx('more')} href=" " title="Xem tất cả">
+                            <a className={cx('more')} href="/products/brand/Cloud%20Side" title="Xem tất cả">
                                 Xem tất cả
                             </a>
                         </div>
@@ -94,7 +94,7 @@ function Home() {
                             <div className={cx('owl-stage-outer')}>
                                 <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings} className={cx('slider-flex')}>
-                            {productValue.map((result) => (
+                            {productValue && productValue.map((result) => (
                                 <div key={result.product_id}>
                                     <Link to={`/product/${result.product_id}`}>
                                         <Product data={result} />
@@ -179,7 +179,7 @@ function Home() {
                                 ở loại “giày bánh mì”, đồng thời cũng đem lại sự cân bằng về thị giác trên tổng thể sản
                                 phẩm.
                             </p>
-                            <a className={cx('more')} href=" " title="Xem tất cả">
+                            <a className={cx('more')} href="/products/brand/VANS" title="Xem tất cả">
                                 Xem tất cả
                             </a>
                         </div>
@@ -194,7 +194,7 @@ function Home() {
                             <div className={cx('owl-stage-outer')}>
                                 <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings} className={cx('slider-flex')}>
-                            {productValue.map((result) => (
+                            {productValue && productValue.map((result) => (
                                 <div key={result.product_id}>
                                     <Link to={`/product/${result.product_id}`}>
                                         <Product data={result} />
