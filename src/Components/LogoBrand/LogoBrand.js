@@ -33,7 +33,7 @@ function LogoBrand() {
                 // setLoading(true);
                 const result = await homeService.imglogo();
 
-                setLogoValue(result.data);
+                setLogoValue(result && result.data);
             } catch (err) {
                 console.log(err);
             } finally {

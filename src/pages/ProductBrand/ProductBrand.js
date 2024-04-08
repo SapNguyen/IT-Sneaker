@@ -64,7 +64,7 @@ function ProductBrand() {
 
                 const resultBrand = await brandsServices.brandtitle(brandName);
 
-                setBrandValue(resultBrand.data);
+                setBrandValue(resultBrand && resultBrand.data);
 
                 setLoading(true);
                 const result = await productsServices.productforbrand(
@@ -73,10 +73,10 @@ function ProductBrand() {
                     selectedValuesJSON,
                     fetchAPI,
                 );
-                setTotalPages(result.products.last_page);
+                setTotalPages(result && result.products.last_page);
                 setCurrentPage(page);
                 // console.log(result.products);
-                setProductValue(result.products);
+                setProductValue(result && result.products);
             } catch (err) {
                 console.log(err);
             } finally {

@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useState, Fragment } from 'react';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
-import { Pagination } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
-function FeedbackProduct({ data, setStar, count, currentPage, handlePageChange }) {
+function FeedbackProduct({ data, setStar, count }) {
     const [activeTab, setActiveTab] = useState(0);
 
     const handleTabClick = (tabNumber) => {
@@ -161,7 +160,6 @@ function FeedbackProduct({ data, setStar, count, currentPage, handlePageChange }
                                 ))}
                         </Fragment>
                     )}
-                    <Pagination currentPage={currentPage} onPageChange={handlePageChange} />
                 </div>
             )}
 

@@ -14,7 +14,7 @@ function NewProduct({ data }) {
         const fetchAPI = async () => {
             const result = await productsService.similar(data.brand_id);
 
-            setProductResult(result.products);
+            setProductResult(result && result.products);
         };
         fetchAPI();
 

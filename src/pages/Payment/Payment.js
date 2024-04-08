@@ -47,11 +47,11 @@ function Payment() {
             setLoading(true);
 
             const result = await userService.user(loggedInUser);
-            setUserResult(result.users);
+            setUserResult(result && result.users);
             totalHandler(JSON.parse(selectedValuesJSON));
-            setInputValueName(result.users[0].name);
-            setInputValuePhone(result.users[0].phone.toString());
-            setInputValueAddress(result.users[0].address);
+            setInputValueName(result && result.users[0].name);
+            setInputValuePhone(result && result.users[0].phone.toString());
+            setInputValueAddress(result && result.users[0].address);
 
             setLoading(false);
         };

@@ -41,7 +41,7 @@ function Receipt(status) {
             setLoading(true);
 
             const result = await orderService.order(loggedInUser, activeTab);
-            setOrderResult(result.products);
+            setOrderResult(result && result.products);
 
             setLoading(false);
 

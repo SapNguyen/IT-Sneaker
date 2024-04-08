@@ -22,7 +22,7 @@ function New() {
                 setLoading(true);
                 const result = await newsServices.news();
     
-                setNewValue(result);
+                setNewValue(result && result);
             }
             catch(err){
                 console.log(err);

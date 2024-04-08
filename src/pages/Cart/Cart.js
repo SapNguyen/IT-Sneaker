@@ -78,7 +78,7 @@ function Cart() {
             setLoading(true);
 
             const result = await cartsService.cartuser(loggedInUser);
-            setCartResult(result.products);
+            setCartResult(result && result.products);
 
             setLoading(false);
         };

@@ -25,7 +25,7 @@ function Sidebar({ genre, product_new, discount }) {
                 if (genre) {
                     setGenreProduct(genreName);
                 }
-                setBrandValue(result.data);
+                setBrandValue(result && result.data);
             } catch (err) {
                 console.log(err);
             } finally {

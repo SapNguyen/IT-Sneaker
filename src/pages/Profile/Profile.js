@@ -28,10 +28,10 @@ function Profile() {
         const fetchAPI = async () => {
             setLoading(true);
             const result = await userService.user(loggedInUser);
-            setUserResult(result.users);
-            setInputValueName(result.users[0].name);
-            setInputValuePhone(result.users[0].phone.toString());
-            setInputValueAddress(result.users[0].address);
+            setUserResult(result && result.users);
+            setInputValueName(result && result.users[0].name);
+            setInputValuePhone(result && result.users[0].phone.toString());
+            setInputValueAddress(result && result.users[0].address);
 
             setLoading(false);
         };

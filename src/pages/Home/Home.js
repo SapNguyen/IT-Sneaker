@@ -43,7 +43,7 @@ function Home() {
                 setLoading(true);
                 const result = await homeService.homeproduct();
 
-                setProductValue(result.products);
+                setProductValue(result && result.products);
             } catch (err) {
                 console.log(err);
             } finally {

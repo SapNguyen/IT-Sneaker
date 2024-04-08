@@ -26,8 +26,8 @@ function Brand() {
                 const two = result.data.slice(0, 2);
                 const three = result.data.slice(2, 5);
 
-                setTwoBrandValue(two);
-                setThreeBrandValue(three);
+                setTwoBrandValue(result && two);
+                setThreeBrandValue(result && three);
             } catch (err) {
                 console.log(err);
             } finally {

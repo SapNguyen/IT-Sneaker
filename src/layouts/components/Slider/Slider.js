@@ -23,7 +23,7 @@ function Slider() {
                 // setLoading(true);
                 const result = await homeService.imghome();
 
-                setSliderValue(result.data);
+                setSliderValue(result && result.data);
             } catch (err) {
                 console.log(err);
             } finally {

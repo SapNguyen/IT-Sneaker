@@ -21,14 +21,9 @@ function DetailProduct() {
     const [feedbackResult, setFeedbackResult] = useState({});
     const [countfeedbackResult, setCountFeedbackResult] = useState({});
     const [starResult, setStarResult] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageAPI, setPagehAPI] = useState(1);
 
     const { productId } = useParams();
 
-    const handlePageChange = (pageNumber) => {
-        setPagehAPI(pageNumber);
-    };
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -36,31 +31,30 @@ function DetailProduct() {
 
             const result = await productsService.detail(productId);
 
-            setProductResult(result.products);
+            setProductResult(result && result.products);
 
             setLoading(false);
         };
         fetchAPI();
 
-        const feedbackAPI = async (page) => {
-            const result = await productsService.feedback_product(productId, starResult, pageAPI);
+        const feedbackAPI = async () => {
+            const result = await productsService.feedback_product(productId, starResult);
 
-            setFeedbackResult(result.products);
-            setCurrentPage(page);
+            setFeedbackResult(result && result.products);
         };
-        feedbackAPI(pageAPI);
+        feedbackAPI();
 
         const countAPI = async () => {
             const result = await productsService.count_feedback(productId);
 
-            setCountFeedbackResult(result.products);
+            setCountFeedbackResult(result && result.products);
         };
         countAPI();
 
         setLoading(true);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [productId, starResult, pageAPI]);
+    }, [productId, starResult]);
 
     const handleStarClick = (data) => {
         setStarResult(data);
@@ -88,8 +82,6 @@ function DetailProduct() {
                                 data={feedbackResult}
                                 setStar={handleStarClick}
                                 count={countfeedbackResult}
-                                currentPage={currentPage}
-                                handlePageChange={handlePageChange}
                             />
                         </div>
                         <div className="col-sm-4">

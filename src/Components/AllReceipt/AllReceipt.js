@@ -123,7 +123,7 @@ function AllReceipt({ data, loading }) {
             <Helmet>
                 <title>Tất cả đơn hàng</title>
             </Helmet>
-            {data & data.map((order, index) => (
+            {data.map((order, index) => (
                 <Fragment key={index}>
                     {order.order_status === 2 && (
                         <Fragment>

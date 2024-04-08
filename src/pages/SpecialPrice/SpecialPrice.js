@@ -23,7 +23,7 @@ function SpecialPrice() {
                 setLoading(true);
                 const result = await productsServices.detailproduct();
 
-                setProductValue(result.products);
+                setProductValue(result && result.products);
             } catch (err) {
                 console.log(err);
             } finally {

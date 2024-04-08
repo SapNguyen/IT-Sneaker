@@ -24,7 +24,7 @@ function Navbar() {
             try {
                 const result = await brandService.brands();
 
-                setBrandValue(result.data);
+                setBrandValue(result && result.data);
             } catch (err) {
                 console.log(err);
             }
