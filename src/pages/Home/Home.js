@@ -32,6 +32,50 @@ function Home() {
         autoplaySpeed: 2000,
         nextArrow: <CustomNextArrow mt7 />,
         prevArrow: <CustomPrevArrow mt7 />,
+        responsive: [
+            {
+                breakpoint: 1360,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1112,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
     };
 
     const [productValue, setProductValue] = useState([]);
@@ -94,13 +138,14 @@ function Home() {
                             <div className={cx('owl-stage-outer')}>
                                 <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings} className={cx('slider-flex')}>
-                            {productValue && productValue.map((result) => (
-                                <div key={result.product_id}>
-                                    <Link to={`/product/${result.product_id}`}>
-                                        <Product data={result} />
-                                    </Link>
-                                </div>
-                            ))}
+                            {productValue &&
+                                productValue.map((result) => (
+                                    <div key={result.product_id}>
+                                        <Link to={`/product/${result.product_id}`}>
+                                            <Product data={result} />
+                                        </Link>
+                                    </div>
+                                ))}
 
                             {/* <div>
                                 <Product
@@ -194,16 +239,16 @@ function Home() {
                             <div className={cx('owl-stage-outer')}>
                                 <div className={cx('owl-stage')}> */}
                         <CustomSlider {...settings} className={cx('slider-flex')}>
-                            {productValue && productValue.map((result) => (
-                                <div key={result.product_id}>
-                                    <Link to={`/product/${result.product_id}`}>
-                                        <Product data={result} />
-                                    </Link>
-                                </div>
-                            ))}
+                            {productValue &&
+                                productValue.map((result) => (
+                                    <div key={result.product_id}>
+                                        <Link to={`/product/${result.product_id}`}>
+                                            <Product data={result} />
+                                        </Link>
+                                    </div>
+                                ))}
                         </CustomSlider>
                         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-
                     </div>
 
                     <div className={cx('video')}>

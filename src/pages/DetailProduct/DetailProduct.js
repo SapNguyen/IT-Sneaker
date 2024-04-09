@@ -74,7 +74,7 @@ function DetailProduct() {
                 {/* style="display: none" */}
                 {productResult && productResult.map((result, index) => (
                     <div className="row" key={index}>
-                        <div className="col-sm-8">
+                        <div className={cx('col-sm-8',styles['col-sm-8-none'])}>
                             {/* style="background:white;" */}
                             <DetailProductItem data={result} />
                             <DescriptionProduct data={result} />
@@ -84,7 +84,7 @@ function DetailProduct() {
                                 count={countfeedbackResult}
                             />
                         </div>
-                        <div className="col-sm-4">
+                        <div className={cx('col-sm-4',styles['col-sm-4-none'])}>
                             <InfoProduct data={result} />
                             <NewProduct data={result} />
                             {/* <SimilarProduct/> */}

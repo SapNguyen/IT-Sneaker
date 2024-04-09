@@ -11,10 +11,11 @@ const cx = classNames.bind(styles);
 
 function ProductCart({ data, selectedValuesd, deleteProduct }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [amount, setAmount] = useState(1);
+    const [amount, setAmount] = useState(data.quantity);
     const [amountValue, setAmountValue] = useState('');
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
+    const [setIscheck, setSetIscheck] = useState(null);
     // const [showChooseColor, setShowChooseColor] = useState(false);
     const [availableColors, setAvailableColors] = useState([]);
     const [quantity0, setQuantity0] = useState([]);
@@ -60,6 +61,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
         const value = parseInt(event.target.value);
         // setSelectedValue(value);
         const isChecked = event.target.checked;
+        setSetIscheck(event.target.checked);
         const selectedProductInfo = {
             price: value,
             size: size,
@@ -74,6 +76,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
         } else {
             selectedValuesd(selectedProductInfo);
         }
+
         // console.log(
         //     'Giá:',
         //     value + ' size:',
@@ -143,7 +146,8 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
     };
 
     const handleIncrease = () => {
-        const product = data && data.products.details.find((item) => item.size === data.size && item.color === data.color);
+        const product =
+            data && data.products.details.find((item) => item.size === data.size && item.color === data.color);
 
         if (product) {
             setAmountValue(product.quantity);
@@ -168,12 +172,13 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
 
     const uniqueProductImages = new Set();
 
-    data && data.products.details.forEach((detail) => {
-        const split = detail.product_image.split(',');
-        split.forEach((fileName) => {
-            uniqueProductImages.add(fileName);
+    data &&
+        data.products.details.forEach((detail) => {
+            const split = detail.product_image.split(',');
+            split.forEach((fileName) => {
+                uniqueProductImages.add(fileName);
+            });
         });
-    });
 
     const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages);
 
@@ -208,33 +213,38 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
             </div>
             <div className={cx('div_product')}>
                 <div className={cx('div_product-info')}>
-                    {data && data.products.details.map((imgPath, index) => (
-                        <Fragment key={index}>
-                            {index === 0 &&
-                                uniqueProductImagesArray && uniqueProductImagesArray.map((img, index) => (
-                                    <Link key={index} to={`/product/${imgPath.product_id}`}>
-                                        {index === 0 && (
-                                            <img
-                                                src={
-                                                    `http://127.0.0.1:8000/img/product/` +
-                                                    imgPath.product_id +
-                                                    '/' +
-                                                    img
-                                                }
-                                                className={cx('product-img')}
-                                                alt=""
-                                            />
-                                        )}
-                                    </Link>
-                                ))}
-                        </Fragment>
-                    ))}
+                    {data &&
+                        data.products.details.map((imgPath, index) => (
+                            <Fragment key={index}>
+                                {index === 0 &&
+                                    uniqueProductImagesArray &&
+                                    uniqueProductImagesArray.map((img, index) => (
+                                        <Link key={index} to={`/product/${imgPath.product_id}`}>
+                                            {index === 0 && (
+                                                <img
+                                                    src={
+                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        imgPath.product_id +
+                                                        '/' +
+                                                        img
+                                                    }
+                                                    className={cx('product-img')}
+                                                    alt=""
+                                                />
+                                            )}
+                                        </Link>
+                                    ))}
+                            </Fragment>
+                        ))}
 
                     <Link to={'/product/' + data.product_id} className={cx('prod-link')}>
                         <p className={cx(styles['txt_product'], 'ml')}>{data.products.product_name}</p>
                     </Link>
                     <div className={cx('relative-size')}>
-                        <div className={cx('div_size')} onClick={() => handleProductClick(data.product_id)}>
+                        <div
+                            className={cx('div_size', { 'button-disabled': setIscheck })}
+                            onClick={setIscheck ? null : () => handleProductClick(data.product_id)}
+                        >
                             <div className={cx('flex')}>
                                 <p>Size: </p>
                                 <p className={cx('size')}>{size}</p>
@@ -257,41 +267,44 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
                                 <div>
                                     <p className={cx('title-size')}>Size:</p>
                                     <div>
-                                        {uniqueSizes && uniqueSizes.map((size, index) => (
-                                            <div
-                                                key={index}
-                                                className={cx('size-box', {
-                                                    [styles['selected']]: size === selectedSize,
-                                                })}
-                                                onClick={() => handleSizeClick(size)}
-                                            >
-                                                {size}
-                                            </div>
-                                        ))}
+                                        {uniqueSizes &&
+                                            uniqueSizes.map((size, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={cx('size-box', {
+                                                        [styles['selected']]: size === selectedSize,
+                                                    })}
+                                                    onClick={() => handleSizeClick(size)}
+                                                >
+                                                    {size}
+                                                </div>
+                                            ))}
                                         {/* <div className="{cx('size-box">{{$sizes[$j]->size}}</div> */}
                                     </div>
                                 </div>
                                 <div>
                                     <p className={cx('title-color')}>Màu:</p>
                                     <div>
-                                        {uniqueColors && uniqueColors.map((color, index) => (
-                                            <div
-                                                key={index}
-                                                className={cx('size-box', {
-                                                    [styles['selected']]: color === selectedColor,
-                                                    'disabled-color': !selectedSize || !availableColors.includes(color),
-                                                    'sold-out': quantity0.includes(color),
-                                                })}
-                                                onClick={() => handleColorClick(color)}
-                                                disabled={
-                                                    !selectedSize ||
-                                                    !availableColors.includes(color) ||
-                                                    quantity0.includes(color)
-                                                }
-                                            >
-                                                {color}
-                                            </div>
-                                        ))}
+                                        {uniqueColors &&
+                                            uniqueColors.map((color, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={cx('size-box', {
+                                                        [styles['selected']]: color === selectedColor,
+                                                        'disabled-color':
+                                                            !selectedSize || !availableColors.includes(color),
+                                                        'sold-out': quantity0.includes(color),
+                                                    })}
+                                                    onClick={() => handleColorClick(color)}
+                                                    disabled={
+                                                        !selectedSize ||
+                                                        !availableColors.includes(color) ||
+                                                        quantity0.includes(color)
+                                                    }
+                                                >
+                                                    {color}
+                                                </div>
+                                            ))}
                                         {/* <div className={cx('size-box', 'sold-out')}>41</div>
                                         <div className={cx('size-box', 'selected')}>42</div> */}
                                     </div>
@@ -313,8 +326,10 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
             {data.products.discounts !== null ? (
                 <div className={cx('div_price_each')}>
                     <p className={cx('price-disabled')}>{data.products.product_price}₫</p>
-                    {(data.products.product_price -
-                        data.products.product_price * (data.products.discounts.discount_value / 100)).toLocaleString('vi-VN')}
+                    {(
+                        data.products.product_price -
+                        data.products.product_price * (data.products.discounts.discount_value / 100)
+                    ).toLocaleString('vi-VN')}
                     ₫
                 </div>
             ) : (
@@ -323,8 +338,8 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
 
             <div className={cx('div_amount')}>
                 <div className={cx('quantity-change')}>
-                    <div className={cx('button')}>
-                        <FontAwesomeIcon icon={faMinus} onClick={handleDecrease} />
+                    <div className={cx('button', { 'button-disabled': setIscheck })}>
+                        <FontAwesomeIcon icon={faMinus} onClick={setIscheck ? null : handleDecrease} />
                     </div>
                     <input
                         type="text"
@@ -336,8 +351,8 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
                         onChange={handleChange}
                         readOnly
                     />
-                    <div className={cx('button')}>
-                        <FontAwesomeIcon icon={faPlus} onClick={handleIncrease} />
+                    <div className={cx('button', { 'button-disabled': setIscheck })}>
+                        <FontAwesomeIcon icon={faPlus} onClick={setIscheck ? null : handleIncrease} />
                     </div>
                     <ToastContainer />
                 </div>
@@ -345,13 +360,17 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
 
             {data.products.discounts !== null ? (
                 <div className={cx('div_price_all')}>
-                    {((data.products.product_price -
-                        data.products.product_price * (data.products.discounts.discount_value / 100)) *
-                        amount).toLocaleString('vi-VN')}
+                    {(
+                        (data.products.product_price -
+                            data.products.product_price * (data.products.discounts.discount_value / 100)) *
+                        amount
+                    ).toLocaleString('vi-VN')}
                     ₫
                 </div>
             ) : (
-                <div className={cx('div_price_all')}>{(data.products.product_price * amount).toLocaleString('vi-VN')}₫</div>
+                <div className={cx('div_price_all')}>
+                    {(data.products.product_price * amount).toLocaleString('vi-VN')}₫
+                </div>
             )}
 
             <div className={cx('div_action')}>

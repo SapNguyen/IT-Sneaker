@@ -21,6 +21,9 @@
 .des_img_product {
     display: flex;
     align-items: flex-start;
+    @media (min-width: 768px) and (max-width: 1023px) {
+        display: block;
+    }
 }
 .img-fluid {
     margin-bottom: 20px;
@@ -32,6 +35,9 @@
 }
 .des_product {
     padding: 40px 70px 50px 50px;
+    @media (max-width: 768px) {
+        display: none;
+    }
 }
 .title {
     padding-bottom: 25px;

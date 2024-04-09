@@ -3,7 +3,7 @@ import styles from './InfoProduct.module.scss';
 
 const cx = classNames.bind(styles);
 
-function InfoProduct({data}) {
+function InfoProduct({ data }) {
     const getGender = (product_genre) => {
         switch (product_genre) {
             case 0:
@@ -16,14 +16,16 @@ function InfoProduct({data}) {
                 return '';
         }
     };
-    
+
     const gender = getGender(data.product_genre);
 
     return (
-        <table className="table table-bordered proc-table fw-600 text-center">
+        <table className={cx('table table-bordered proc-table fw-600 text-center', styles['table'])}>
             <thead>
                 <tr>
-                    <th colSpan={2} className={cx(styles['info-product'],'fw-600','p5',styles.padding)}>THÔNG TIN SẢN PHẨM</th>
+                    <th colSpan={2} className={cx(styles['info-product'], 'fw-600', 'p5', styles.padding)}>
+                        THÔNG TIN SẢN PHẨM
+                    </th>
                 </tr>
             </thead>
             <tbody>

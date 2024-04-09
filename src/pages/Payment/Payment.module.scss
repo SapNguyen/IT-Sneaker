@@ -157,6 +157,12 @@ input {
     width: 100%;
     padding: 1em 2.8em 1em 0.8em;
     word-break: normal;
+    @media (min-width: 768px) and (max-width: 1023px) {
+        padding: 1em 1em 1em 0.8em;
+    }
+    @media (max-width: 768px) {
+        padding: 1em 0.8em 1em 0.8em;
+    }
 }
 .payment-product-section-content-address {
     width: 100%;

@@ -47,11 +47,9 @@ function ProductBrand() {
         setSortType(priority);
     };
 
-    const handleApplyFilterPriory = () => {
-    };
+    const handleApplyFilterPriory = () => {};
 
-    const handleApplyFilter = () => {
-    };
+    const handleApplyFilter = () => {};
 
     const handlePageChange = (pageNumber) => {
         setFetchAPI(pageNumber);
@@ -97,9 +95,7 @@ function ProductBrand() {
                     <title>Sản phẩm</title>
                 </Helmet>
 
-                {brandValue && brandValue.map((result) => (
-                    <IntroBrand key={result.brand_id} data={result} />
-                ))}
+                {brandValue && brandValue.map((result) => <IntroBrand key={result.brand_id} data={result} />)}
 
                 <div className={cx('content')}>
                     <div>

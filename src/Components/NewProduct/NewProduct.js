@@ -25,13 +25,14 @@ function NewProduct({ data }) {
         <div className={cx('container')}>
             <p className={cx('title')}>SẢN PHẨM TƯƠNG TỰ</p>
             <div className="container-fluid mt-3">
-                {productResult && productResult.map((product, index) => (
-                    <Fragment key={index}>
-                        <Link to={`/product/${product.product_id}`}>
-                            <NewProductDetail data={product} />
-                        </Link>
-                    </Fragment>
-                ))}
+                {productResult &&
+                    productResult.map((product, index) => (
+                        <Fragment key={index}>
+                            <Link to={`/product/${product.product_id}`}>
+                                <NewProductDetail data={product} />
+                            </Link>
+                        </Fragment>
+                    ))}
             </div>
         </div>
     );

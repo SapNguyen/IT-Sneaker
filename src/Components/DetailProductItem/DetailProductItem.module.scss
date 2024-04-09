@@ -7,6 +7,9 @@
 .carousel {
     width: 100%;
     position: relative;
+    @media (max-width: 768px) {
+        display: none;
+    }
 }
 .star-inactive {
     font-size: 18px;
@@ -80,6 +83,9 @@
 .status-line {
     display: flex;
     justify-content: left;
+    @media (min-width: 768px) and (max-width: 1023px) {
+        display: block;
+    }
 }
 .brand {
     color: #d0021b;
@@ -135,12 +141,21 @@
 }
 .flex-price {
     display: flex;
+    @media (min-width: 768px) and (max-width: 1023px) {
+        display: block;
+    }
+    @media (max-width: 768px) {
+        display: block;
+    }
 }
 .price {
     color: #d0021b;
     font-weight: bolder;
     margin: 10px 0 20px 0;
     font-size: 3rem;
+    @media (max-width: 768px) {
+        margin-top: 32px;
+    }
 }
 .price-disabled {
     color: #888;
@@ -160,10 +175,19 @@
     font-weight: 500;
     margin-left: 20px;
     margin-top: 15px;
+    @media (min-width: 768px) and (max-width: 1023px) {
+        width: 50%;
+    }
+    @media (max-width: 768px) {
+        width: 50%;
+    }
 }
 .title-size {
     font-size: 1.8rem;
     font-weight: 700;
+    @media (max-width: 768px) {
+        margin-right: 10px;
+    }
 }
 .size-box {
     display: flex;

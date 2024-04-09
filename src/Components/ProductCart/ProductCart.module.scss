@@ -28,6 +28,15 @@ a {
     margin-top: 10px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
     width: 100%;
+    
+    @media (min-width: 768px) and (max-width: 1112px) {
+        width: 90%;
+        margin: 0 4%;
+    }
+    @media (max-width: 768px) {
+        width: 60%;
+        margin: 0 4%;
+    }
 }
 
 .div_product {
@@ -434,4 +443,8 @@ a {
 .disabled-color {
     opacity: 0.5;
     pointer-events: none;
+}
+.button-disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }

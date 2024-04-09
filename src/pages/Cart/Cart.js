@@ -42,8 +42,8 @@ function Cart() {
     }
 
     const handleValueClick = (data) => {
-        // setSelectedValues(data);
-        // setSelectedValues([...selectedValues, data]);
+        setSelectedValues(data);
+        setSelectedValues([...selectedValues, data]);
         if (isObjectInArray(data, selectedValues)) {
             // setSelectedValues(selectedValues.filter((item) => item !== data));
             setSelectedValues(selectedValues.filter((item) => !isEqual(item, data)));
@@ -158,6 +158,7 @@ function Cart() {
                         </div>
                     )}
                 </div>
+                <div className={cx('space')}></div>
                 <ToastContainer />
             </div>
             <div className={cx('alert-screen')}>
