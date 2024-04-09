@@ -228,90 +228,91 @@ function Payment() {
                                     <h2 className={cx('payment-product-section-header-title')}>Thông tin giao hàng</h2>
                                 </div>
 
-                                {userResult && userResult.map((user, index) => (
-                                    <div key={index} className={cx('payment-product-section-content')}>
-                                        <div className={cx('payment-product-section-content-email')}>
-                                            <div className={cx('payment-product-section-content-wrapper-email')}>
-                                                <label className={cx('title-name')}>Tên:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Họ và tên"
-                                                    spellCheck="false"
-                                                    className={cx(
-                                                        'input',
-                                                        'payment-product-section-content-wrapper-sdt-sdt',
-                                                        {
-                                                            'is-invalid': nameError,
-                                                        },
-                                                    )}
-                                                    size="30"
-                                                    id="billing_address_full_name"
-                                                    name="txtHoten"
-                                                    value={inputValueName}
-                                                    onChange={handleChangeName}
-                                                    onBlur={handleNameBlur}
-                                                />
-                                                {nameError && <p className={cx('error-msg')}>{nameError}</p>}
+                                {userResult &&
+                                    userResult.map((user, index) => (
+                                        <div key={index} className={cx('payment-product-section-content')}>
+                                            <div className={cx('payment-product-section-content-email')}>
+                                                <div className={cx('payment-product-section-content-wrapper-email')}>
+                                                    <label className={cx('title-name')}>Tên:</label>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Họ và tên"
+                                                        spellCheck="false"
+                                                        className={cx(
+                                                            'input',
+                                                            'payment-product-section-content-wrapper-sdt-sdt',
+                                                            {
+                                                                'is-invalid': nameError,
+                                                            },
+                                                        )}
+                                                        size="30"
+                                                        id="billing_address_full_name"
+                                                        name="txtHoten"
+                                                        value={inputValueName}
+                                                        onChange={handleChangeName}
+                                                        onBlur={handleNameBlur}
+                                                    />
+                                                    {nameError && <p className={cx('error-msg')}>{nameError}</p>}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className={cx('payment-product-section-content-sdt')}>
-                                            <div className={cx('payment-product-section-content-wrapper-sdt')}>
-                                                <label className={cx('title-phone')}>Số điện thoại:</label>
+                                            <div className={cx('payment-product-section-content-sdt')}>
+                                                <div className={cx('payment-product-section-content-wrapper-sdt')}>
+                                                    <label className={cx('title-phone')}>Số điện thoại:</label>
 
-                                                <input
-                                                    type="text"
-                                                    placeholder="Số điện thoại"
-                                                    className={cx(
-                                                        'input',
-                                                        'payment-product-section-content-wrapper-sdt-sdt',
-                                                        {
-                                                            'is-invalid': phoneError,
-                                                        },
-                                                    )}
-                                                    id="i_phone"
-                                                    name="txtPhone"
-                                                    value={inputValuePhone}
-                                                    onChange={handleChangePhone}
-                                                    onBlur={handlePhoneBlur}
-                                                />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Số điện thoại"
+                                                        className={cx(
+                                                            'input',
+                                                            'payment-product-section-content-wrapper-sdt-sdt',
+                                                            {
+                                                                'is-invalid': phoneError,
+                                                            },
+                                                        )}
+                                                        id="i_phone"
+                                                        name="txtPhone"
+                                                        value={inputValuePhone}
+                                                        onChange={handleChangePhone}
+                                                        onBlur={handlePhoneBlur}
+                                                    />
 
-                                                {/* <input type="text" placeholder="Số điện thoại" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-sdt-sdt"
+                                                    {/* <input type="text" placeholder="Số điện thoại" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-sdt-sdt"
                            id="i_phone" name="txtPhone" value="" required>
                          */}
-                                                {phoneError && <p className={cx('error-msg')}>{phoneError}</p>}
+                                                    {phoneError && <p className={cx('error-msg')}>{phoneError}</p>}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className={cx('payment-product-section-content-address')}>
-                                            <div className={cx('payment-product-section-content-wrapper-address')}>
-                                                <label className={cx('title-address')}>Địa chỉ:</label>
+                                            <div className={cx('payment-product-section-content-address')}>
+                                                <div className={cx('payment-product-section-content-wrapper-address')}>
+                                                    <label className={cx('title-address')}>Địa chỉ:</label>
 
-                                                <input
-                                                    type="text"
-                                                    placeholder="Địa chỉ"
-                                                    spellCheck="false"
-                                                    className={cx(
-                                                        'input',
-                                                        'payment-product-section-content-wrapper-address-address',
-                                                        { 'is-invalid': addressError },
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Địa chỉ"
+                                                        spellCheck="false"
+                                                        className={cx(
+                                                            'input',
+                                                            'payment-product-section-content-wrapper-address-address',
+                                                            { 'is-invalid': addressError },
+                                                        )}
+                                                        size="30"
+                                                        id="billing_address_address"
+                                                        name="txtDiachi"
+                                                        value={inputValueAddress}
+                                                        onChange={handleChangeAddress}
+                                                        onBlur={handleAddressBlur}
+                                                    />
+                                                    {addressError && (
+                                                        <p className={cx('invalid-feedback')}>{addressError}</p>
                                                     )}
-                                                    size="30"
-                                                    id="billing_address_address"
-                                                    name="txtDiachi"
-                                                    value={inputValueAddress}
-                                                    onChange={handleChangeAddress}
-                                                    onBlur={handleAddressBlur}
-                                                />
-                                                {addressError && (
-                                                    <p className={cx('invalid-feedback')}>{addressError}</p>
-                                                )}
 
-                                                {/* <input type="text" placeholder="Địa chỉ" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-address-address" 
+                                                    {/* <input type="text" placeholder="Địa chỉ" spellCheck="false" className="{cx('input payment-product-section-content-wrapper-address-address" 
                           size="30" id="billing_address_address" name="txtDiachi" value="" id="i_address" required>
                           <p className="{cx('error-msg"></p> */}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
 
                                 <div className={cx('payment-product-footer')}>
                                     <div className={cx('payment-product-footer-form')}>
@@ -338,36 +339,37 @@ function Payment() {
                         <div className={cx('price-product-content')}>
                             <div className={cx('price-product-content-content')}>
                                 <div className={cx('price-product-sections')}>
-                                    {paymentProduct && paymentProduct.map((product, index) => (
-                                        <div key={index} className={cx('price-product-sections-order-list')}>
-                                            <div className={cx('price-product-sections-order-list-img')}>
-                                                <img
-                                                    src={
-                                                        `http://127.0.0.1:8000/img/product/` +
-                                                        product.product_id +
-                                                        '/' +
-                                                        product.image
-                                                    }
-                                                    alt=""
-                                                    className={cx('price-product-sections-order-list-img-img')}
-                                                />
-                                            </div>
-                                            <div className={cx('price-product-sections-order-list-info')}>
-                                                <div className={cx('price-product-sections-order-list-info-name')}>
-                                                    {product.name}
+                                    {paymentProduct &&
+                                        paymentProduct.map((product, index) => (
+                                            <div key={index} className={cx('price-product-sections-order-list')}>
+                                                <div className={cx('price-product-sections-order-list-img')}>
+                                                    <img
+                                                        src={
+                                                            `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
+                                                            product.product_id +
+                                                            '/' +
+                                                            product.image
+                                                        }
+                                                        alt=""
+                                                        className={cx('price-product-sections-order-list-img-img')}
+                                                    />
                                                 </div>
-                                                <div className={cx('all-size')}>
-                                                    Size:{product.size} ,{product.color}
+                                                <div className={cx('price-product-sections-order-list-info')}>
+                                                    <div className={cx('price-product-sections-order-list-info-name')}>
+                                                        {product.name}
+                                                    </div>
+                                                    <div className={cx('all-size')}>
+                                                        Size:{product.size} ,{product.color}
+                                                    </div>
+                                                </div>
+                                                <div className={cx('price-product-sections-order-list-info-quantity')}>
+                                                    SL:{product.quantity}
+                                                </div>
+                                                <div className={cx('price-product-sections-order-list-price')}>
+                                                    <span>{product.price.toLocaleString('vi-VN')}₫</span>
                                                 </div>
                                             </div>
-                                            <div className={cx('price-product-sections-order-list-info-quantity')}>
-                                                SL:{product.quantity}
-                                            </div>
-                                            <div className={cx('price-product-sections-order-list-price')}>
-                                                <span>{product.price.toLocaleString('vi-VN')}₫</span>
-                                            </div>
-                                        </div>
-                                    ))}
+                                        ))}
 
                                     <div className={cx('price-product-sections-payment')}>
                                         <div className={cx('price-product-sections-payment-ship')}>

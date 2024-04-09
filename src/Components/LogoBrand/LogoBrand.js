@@ -47,52 +47,61 @@ function LogoBrand() {
     return (
         <div className={cx(styles.carousel)}>
             <Slider {...settings} className={cx('grid')}>
-                {logoValue && logoValue.map((result) => (
-                    <div key={result.brand_id} className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
-                        <Link to={`/products/brand/${result.brand_name}`}>
-                            <div className={cx('item', styles['w-50'])}>
-                                <img
-                                    src={`http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_logo}
-                                    className={cx('small-img')}
-                                    alt={result.brand_name}
-                                />
-                            </div>
-                        </Link>
-                    </div>
-                ))}
+                {logoValue &&
+                    logoValue.map((result) => (
+                        <div
+                            key={result.brand_id}
+                            className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}
+                        >
+                            <Link to={`/products/brand/${result.brand_name}`}>
+                                <div className={cx('item', styles['w-50'])}>
+                                    <img
+                                        src={
+                                            `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/` +
+                                            result.brand_id +
+                                            '/' +
+                                            result.brand_logo
+                                        }
+                                        className={cx('small-img')}
+                                        alt={result.brand_name}
+                                    />
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
                 {/* <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div>
                 <div className={cx('owl-item', styles['owl-item-active'], styles['w-50'])}>
                     <div className={cx('item', styles['w-50'])}>
-                        <img src="http://127.0.0.1:8000/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
+                        <img src="https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/1/logo.jpg" className={cx('small-img')} alt="img1" />
                     </div>
                 </div> */}
             </Slider>

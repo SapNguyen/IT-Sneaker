@@ -33,7 +33,7 @@ function AccountItem({ data }) {
                                     <img
                                         className={cx('avatar')}
                                         src={
-                                            `http://127.0.0.1:8000/img/product/` +
+                                            `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                             imgPath.product_id +
                                             '/' +
                                             // imgPath.trim()

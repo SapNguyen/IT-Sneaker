@@ -137,7 +137,7 @@ function AllReceipt({ data, loading }) {
                                             <Link to={`/product/` + product.product_id} className={cx('product')}>
                                                 <img
                                                     src={
-                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                         product.product_id +
                                                         '/' +
                                                         product.img
@@ -172,7 +172,7 @@ function AllReceipt({ data, loading }) {
                                                             <div className={cx('product-feedback')}>
                                                                 <img
                                                                     src={
-                                                                        `http://127.0.0.1:8000/img/product/` +
+                                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                                         product.product_id +
                                                                         '/' +
                                                                         product.img
@@ -250,7 +250,7 @@ function AllReceipt({ data, loading }) {
                                                             <div className={cx('product-feedback')}>
                                                                 <img
                                                                     src={
-                                                                        `http://127.0.0.1:8000/img/product/` +
+                                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                                         product.product_id +
                                                                         '/' +
                                                                         product.img
@@ -416,7 +416,7 @@ function AllReceipt({ data, loading }) {
                                             <Link to={`/product/` + product.product_id} className={cx('product')}>
                                                 <img
                                                     src={
-                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                         product.product_id +
                                                         '/' +
                                                         product.img
@@ -489,7 +489,7 @@ function AllReceipt({ data, loading }) {
                                             <Link to={`/product/` + product.product_id} className={cx('product')}>
                                                 <img
                                                     src={
-                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                         product.product_id +
                                                         '/' +
                                                         product.img
@@ -541,7 +541,7 @@ function AllReceipt({ data, loading }) {
                                     <Link to={`product/` + product.product_id} className={cx('product')}>
                                         <img
                                             src={
-                                                `http://127.0.0.1:8000/img/product/` +
+                                                `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                 product.product_id +
                                                 '/' +
                                                 product.img

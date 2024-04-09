@@ -41,34 +41,38 @@ function Brand() {
     return (
         <div className={cx('container-fluid')}>
             <div className="row">
-                {TwobrandValue && TwobrandValue.map((result) => (
-                    <div className="col-sm-6" key={result.brand_id}>
-                        <Link to={`/products/brand/${result.brand_name}`}>
-                            <div className={cx('category')}>
-                                <img
-                                    src={
-                                        `http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_banner
-                                    }
-                                    className={cx('img-fluid')}
-                                    alt=""
-                                />
-                                <div className={cx('caption')} align="center">
-                                    <h2 className={cx('text-bold')}>{result.brand_name}</h2>
-                                    <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                {TwobrandValue &&
+                    TwobrandValue.map((result) => (
+                        <div className="col-sm-6" key={result.brand_id}>
+                            <Link to={`/products/brand/${result.brand_name}`}>
+                                <div className={cx('category')}>
+                                    <img
+                                        src={
+                                            `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/` +
+                                            result.brand_id +
+                                            '/' +
+                                            result.brand_banner
+                                        }
+                                        className={cx('img-fluid')}
+                                        alt=""
+                                    />
+                                    <div className={cx('caption')} align="center">
+                                        <h2 className={cx('text-bold')}>{result.brand_name}</h2>
+                                        <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                        {/* <a href=" "> */}
-                        {/* <div className={cx('category')}>
+                            </Link>
+                            {/* <a href=" "> */}
+                            {/* <div className={cx('category')}>
                                 <img src={result.bannerimg} className={cx('img-fluid')} alt="" />
                                 <div className={cx('caption')} align="center">
                                     <h2 className={cx('text-bold')}>{result.namebrand}</h2>
                                     <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
                                 </div>
                             </div> */}
-                        {/* </a> */}
-                    </div>
-                ))}
+                            {/* </a> */}
+                        </div>
+                    ))}
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
                 {/* <div className="col-sm-6">
@@ -88,25 +92,29 @@ function Brand() {
                 </div> */}
             </div>
             <div className="row mt-3">
-                {ThreebrandValue && ThreebrandValue.map((result) => (
-                    <div className="col-sm-4" key={result.brand_id}>
-                        <Link to={`/products/brand/${result.brand_name}`}>
-                            <div className={cx('category')}>
-                                <img
-                                    src={
-                                        `http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_banner
-                                    }
-                                    className={cx('img-fluid')}
-                                    alt=""
-                                />
-                                <div className={cx('caption')} align="center">
-                                    <h2 className={cx('text-bold')}>{result.brand_name}</h2>
-                                    <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                {ThreebrandValue &&
+                    ThreebrandValue.map((result) => (
+                        <div className="col-sm-4" key={result.brand_id}>
+                            <Link to={`/products/brand/${result.brand_name}`}>
+                                <div className={cx('category')}>
+                                    <img
+                                        src={
+                                            `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/` +
+                                            result.brand_id +
+                                            '/' +
+                                            result.brand_banner
+                                        }
+                                        className={cx('img-fluid')}
+                                        alt=""
+                                    />
+                                    <div className={cx('caption')} align="center">
+                                        <h2 className={cx('text-bold')}>{result.brand_name}</h2>
+                                        <p className={cx('total-amount')}>{result.product_count + ' Sản phẩm'}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    </div>
-                ))}
+                            </Link>
+                        </div>
+                    ))}
 
                 {/* <div className="col-sm-4">
                     <a href=" ">

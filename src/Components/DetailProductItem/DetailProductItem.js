@@ -143,17 +143,18 @@ function DetailProduct({ data }) {
 
     const uniqueProductImages = new Set();
     // Duyệt qua từng chi tiết sản phẩm trong mảng details của từng sản phẩm
-    data && data.details.forEach((detail) => {
-        const split = detail.product_image.split(',');
-        split.forEach((fileName) => {
-            uniqueProductImages.add(fileName);
-        });
-        // console.log(uniqueProductImages);
+    data &&
+        data.details.forEach((detail) => {
+            const split = detail.product_image.split(',');
+            split.forEach((fileName) => {
+                uniqueProductImages.add(fileName);
+            });
+            // console.log(uniqueProductImages);
 
-        // console.log(detail.product_image);
-        // Thêm các giá trị product_image vào Set
-        // uniqueProductImages.add(detail.product_image);
-    });
+            // console.log(detail.product_image);
+            // Thêm các giá trị product_image vào Set
+            // uniqueProductImages.add(detail.product_image);
+        });
 
     const uniqueProductImagesArray = Array.from(uniqueProductImages && uniqueProductImages).reverse();
 
@@ -230,55 +231,56 @@ function DetailProduct({ data }) {
 
     return (
         <div className="row">
-            {data && data.details.map((imgPath, index) => (
-                // uniqueProductImagesArray.includes(imgPath.product_image.split(',')) && (
-                //     <Fragment key={index}>
-                //         {index === 0 && (
-                //             <div className="col-sm-6">
-                //                 {statuslargeImage ? (
-                //                     <img src={largeImage} className={cx('large-img')} alt="img-product" />
-                //                 ) : (
-                //                     <img
-                //                         src={
-                //                             `http://127.0.0.1:8000/img/product/` +
-                //                             imgPath.product_id +
-                //                             '/' +
-                //                             imgPath.product_image
-                //                         }
-                //                         className={cx('large-img')}
-                //                         alt="img-product"
-                //                     />
-                //                 )}
-                //             </div>
-                //         )}
-                //     </Fragment>
-                // ),
-                <Fragment key={index}>
-                    {index === 0 &&
-                        uniqueProductImagesArray.map((img, index) => (
-                            <Fragment key={index}>
-                                {index === 0 && (
-                                    <div className="col-sm-6">
-                                        {statuslargeImage ? (
-                                            <img src={largeImage} className={cx('large-img')} alt="img-product" />
-                                        ) : (
-                                            <img
-                                                src={
-                                                    `http://127.0.0.1:8000/img/product/` +
-                                                    imgPath.product_id +
-                                                    '/' +
-                                                    img
-                                                }
-                                                className={cx('large-img')}
-                                                alt="img-product"
-                                            />
-                                        )}
-                                    </div>
-                                )}
-                            </Fragment>
-                        ))}
-                </Fragment>
-            ))}
+            {data &&
+                data.details.map((imgPath, index) => (
+                    // uniqueProductImagesArray.includes(imgPath.product_image.split(',')) && (
+                    //     <Fragment key={index}>
+                    //         {index === 0 && (
+                    //             <div className="col-sm-6">
+                    //                 {statuslargeImage ? (
+                    //                     <img src={largeImage} className={cx('large-img')} alt="img-product" />
+                    //                 ) : (
+                    //                     <img
+                    //                         src={
+                    //                             `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
+                    //                             imgPath.product_id +
+                    //                             '/' +
+                    //                             imgPath.product_image
+                    //                         }
+                    //                         className={cx('large-img')}
+                    //                         alt="img-product"
+                    //                     />
+                    //                 )}
+                    //             </div>
+                    //         )}
+                    //     </Fragment>
+                    // ),
+                    <Fragment key={index}>
+                        {index === 0 &&
+                            uniqueProductImagesArray.map((img, index) => (
+                                <Fragment key={index}>
+                                    {index === 0 && (
+                                        <div className="col-sm-6">
+                                            {statuslargeImage ? (
+                                                <img src={largeImage} className={cx('large-img')} alt="img-product" />
+                                            ) : (
+                                                <img
+                                                    src={
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
+                                                        imgPath.product_id +
+                                                        '/' +
+                                                        img
+                                                    }
+                                                    className={cx('large-img')}
+                                                    alt="img-product"
+                                                />
+                                            )}
+                                        </div>
+                                    )}
+                                </Fragment>
+                            ))}
+                    </Fragment>
+                ))}
 
             <div className="col-sm-6">
                 <div className={cx(styles.carousel)}>
@@ -290,7 +292,7 @@ function DetailProduct({ data }) {
                                         <div className="item">
                                             <img
                                                 src={
-                                                    `http://127.0.0.1:8000/img/product/` +
+                                                    `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                     data.product_id +
                                                     '/' +
                                                     uniqueProductImagesArray[index]
@@ -299,7 +301,7 @@ function DetailProduct({ data }) {
                                                 alt="img1"
                                                 onClick={() =>
                                                     handleImageClick(
-                                                        `http://127.0.0.1:8000/img/product/${data.product_id}/${uniqueProductImagesArray[index]}`,
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/${data.product_id}/${uniqueProductImagesArray[index]}`,
                                                     )
                                                 }
                                             />
@@ -385,7 +387,11 @@ function DetailProduct({ data }) {
                         <Fragment>
                             <div className={cx('flex-price')}>
                                 <div className={cx('price')}>
-                                    {(data.product_price - data.product_price * (data.discounts.discount_value / 100)).toLocaleString('vi-VN')}đ
+                                    {(
+                                        data.product_price -
+                                        data.product_price * (data.discounts.discount_value / 100)
+                                    ).toLocaleString('vi-VN')}
+                                    đ
                                 </div>
                                 <h5 className={cx('price-disabled')}>{data.product_price.toLocaleString('vi-VN')}đ</h5>
                                 <div className={cx('discount-value')}>{data.discounts.discount_value}%</div>

@@ -223,7 +223,7 @@ function ProductCart({ data, selectedValuesd, deleteProduct }) {
                                             {index === 0 && (
                                                 <img
                                                     src={
-                                                        `http://127.0.0.1:8000/img/product/` +
+                                                        `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
                                                         imgPath.product_id +
                                                         '/' +
                                                         img

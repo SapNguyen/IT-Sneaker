@@ -39,55 +39,60 @@ function WaitReceipt({ data, loading }) {
                 <title>Đơn hàng chờ</title>
             </Helmet>
 
-            {data && data.map((order, index) => (
-                <Fragment key={index}>
-                    <div className={cx('receipt')}>
-                        <div className={cx('receipt-header')}>
-                            <span className={cx('status')}>CHỜ DUYỆT</span>
-                        </div>
-                        {order.details.map((product, index) => (
-                            <Fragment key={index}>
-                                <div className={cx('product-box')}>
-                                    <Link to={`/product/` + product.product_id} className={cx('product')}>
-                                        <img
-                                            src={
-                                                `http://127.0.0.1:8000/img/product/` +
-                                                product.product_id +
-                                                '/' +
-                                                product.img
-                                            }
-                                            className={cx('img')}
-                                            alt=""
-                                        />
-                                        <div className={cx('prod-info')}>
-                                            <div>
-                                                <div className={cx('prod-name')}>{product.product.product_name}</div>
+            {data &&
+                data.map((order, index) => (
+                    <Fragment key={index}>
+                        <div className={cx('receipt')}>
+                            <div className={cx('receipt-header')}>
+                                <span className={cx('status')}>CHỜ DUYỆT</span>
+                            </div>
+                            {order.details.map((product, index) => (
+                                <Fragment key={index}>
+                                    <div className={cx('product-box')}>
+                                        <Link to={`/product/` + product.product_id} className={cx('product')}>
+                                            <img
+                                                src={
+                                                    `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/product/` +
+                                                    product.product_id +
+                                                    '/' +
+                                                    product.img
+                                                }
+                                                className={cx('img')}
+                                                alt=""
+                                            />
+                                            <div className={cx('prod-info')}>
+                                                <div>
+                                                    <div className={cx('prod-name')}>
+                                                        {product.product.product_name}
+                                                    </div>
+                                                </div>
+                                                <div className={cx('prod-cate')}>
+                                                    Size:{product.size}, Màu:{product.color}
+                                                </div>
                                             </div>
-                                            <div className={cx('prod-cate')}>
-                                                Size:{product.size}, Màu:{product.color}
+                                            <div className={cx('prod-amount')}>x{product.quantity}</div>
+                                            <div className={cx('prod-price')}>
+                                                {product.sell_price.toLocaleString('vi-VN')}₫
                                             </div>
-                                        </div>
-                                        <div className={cx('prod-amount')}>x{product.quantity}</div>
-                                        <div className={cx('prod-price')}>{product.sell_price.toLocaleString('vi-VN')}₫</div>
-                                    </Link>
+                                        </Link>
+                                    </div>
+                                </Fragment>
+                            ))}
+                            <div className={cx('receipt-footer')}>
+                                <div
+                                    className={cx('btn-drop', 'btn-gray')}
+                                    onClick={() => handleCancelOrder(order.order_id)}
+                                >
+                                    Hủy đơn hàng
                                 </div>
-                            </Fragment>
-                        ))}
-                        <div className={cx('receipt-footer')}>
-                            <div
-                                className={cx('btn-drop', 'btn-gray')}
-                                onClick={() => handleCancelOrder(order.order_id)}
-                            >
-                                Hủy đơn hàng
-                            </div>
-                            <div className={cx('title-price')}>
-                                Thành tiền:
-                                <p className={cx('price')}>{order.order_value.toLocaleString('vi-VN')}₫</p>
+                                <div className={cx('title-price')}>
+                                    Thành tiền:
+                                    <p className={cx('price')}>{order.order_value.toLocaleString('vi-VN')}₫</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Fragment>
-            ))}
+                    </Fragment>
+                ))}
             {data && data.length === 0 && !loading && (
                 <div className={cx('empty-alert')}>
                     <FontAwesomeIcon icon={faReceipt} className={cx('cart-ico')} />

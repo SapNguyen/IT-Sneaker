@@ -6,7 +6,6 @@ import { Carousel } from 'react-bootstrap';
 import * as homeService from '~/services/homeService';
 import { Link } from 'react-router-dom';
 
-
 import { useEffect, useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -36,17 +35,23 @@ function Slider() {
 
     return (
         <Carousel interval={3000}>
-            {sliderValue && sliderValue.map((result) => (
-                <Carousel.Item key={result.brand_id}>
-                    <Link to={`/products/brand/${result.brand_name}`}>
-                        <img
-                            className="d-block w-100"
-                            src={`http://127.0.0.1:8000/img/brand/` + result.brand_id + '/' + result.brand_img}
-                            alt={result.brand_name}
-                        />
-                    </Link>
-                </Carousel.Item>
-            ))}
+            {sliderValue &&
+                sliderValue.map((result) => (
+                    <Carousel.Item key={result.brand_id}>
+                        <Link to={`/products/brand/${result.brand_name}`}>
+                            <img
+                                className="d-block w-100"
+                                src={
+                                    `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/` +
+                                    result.brand_id +
+                                    '/' +
+                                    result.brand_img
+                                }
+                                alt={result.brand_name}
+                            />
+                        </Link>
+                    </Carousel.Item>
+                ))}
             {/* {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />} */}
 
             {/* <Carousel.Item>

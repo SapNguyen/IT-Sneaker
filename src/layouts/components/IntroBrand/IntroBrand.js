@@ -11,7 +11,12 @@ function IntroBrand({ data }) {
             <img
                 className={cx('img-brand')}
                 src={
-                    data.img ? data.img : `http://127.0.0.1:8000/img/brand/` + data.brand_id + '/' + data.brand_des_img
+                    data.img
+                        ? data.img
+                        : `https://raw.githubusercontent.com/SapNguyen/laravelPHP/main/public/img/brand/` +
+                          data.brand_id +
+                          '/' +
+                          data.brand_des_img
                 }
                 alt="ImageIntroBrand"
             />
