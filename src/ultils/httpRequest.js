@@ -2,7 +2,7 @@ import axios from 'axios';
 
 //console.log(process.env);//kiểm tra đến môi trường
 const httpsRequest = axios.create({
-    baseURL: process.env.REACT_APP_SNEAKER_BASE_URL,
+    baseURL: 'https://s25sneaker.000webhostapp.com/api/',
 });
 
 export const getsneaker = async (path, options = {}) => {

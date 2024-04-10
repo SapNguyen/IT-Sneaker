@@ -39,9 +39,9 @@ function Profile() {
         fetchAPI();
     }, []);
 
-    if (loggedIn === false) {
-        window.location.href = '/login';
-    }
+    // if (loggedIn === false) {
+    //     window.location.href = '/login';
+    // }
 
     const handleChangeName = (event) => {
         setInputValueName(event.target.value);

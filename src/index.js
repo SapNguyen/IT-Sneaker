@@ -8,11 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    // <React.StrictMode>
+    <React.StrictMode>
         <GlobalStyles>
             <App />
         </GlobalStyles>
-    // </React.StrictMode>
+    </React.StrictMode>
     // để được cho đến khi có người dùng cuối vì cái này nó kiểm tra 1 lần nữa vì nó rerender lại 
 );
 
