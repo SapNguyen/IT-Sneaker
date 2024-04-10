@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/IT-Sneaker/static/css/main.0ed27ad0.css",
-    "main.js": "/IT-Sneaker/static/js/main.0b1bf065.js",
+    "main.js": "/IT-Sneaker/static/js/main.e646066b.js",
     "reactPlayerYouTube.js": "/IT-Sneaker/static/js/reactPlayerYouTube.a2493c0a.chunk.js",
     "reactPlayerSoundCloud.js": "/IT-Sneaker/static/js/reactPlayerSoundCloud.3fd42070.chunk.js",
     "reactPlayerVimeo.js": "/IT-Sneaker/static/js/reactPlayerVimeo.baae8584.chunk.js",
@@ -26,7 +26,7 @@
     "static/media/slick.woff": "/IT-Sneaker/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/IT-Sneaker/index.html",
     "main.0ed27ad0.css.map": "/IT-Sneaker/static/css/main.0ed27ad0.css.map",
-    "main.0b1bf065.js.map": "/IT-Sneaker/static/js/main.0b1bf065.js.map",
+    "main.e646066b.js.map": "/IT-Sneaker/static/js/main.e646066b.js.map",
     "reactPlayerYouTube.a2493c0a.chunk.js.map": "/IT-Sneaker/static/js/reactPlayerYouTube.a2493c0a.chunk.js.map",
     "reactPlayerSoundCloud.3fd42070.chunk.js.map": "/IT-Sneaker/static/js/reactPlayerSoundCloud.3fd42070.chunk.js.map",
     "reactPlayerVimeo.baae8584.chunk.js.map": "/IT-Sneaker/static/js/reactPlayerVimeo.baae8584.chunk.js.map",
@@ -44,6 +44,6 @@
   },
   "entrypoints": [
     "static/css/main.0ed27ad0.css",
-    "static/js/main.0b1bf065.js"
+    "static/js/main.e646066b.js"
   ]
 }
