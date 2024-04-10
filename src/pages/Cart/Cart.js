@@ -87,9 +87,9 @@ function Cart() {
         setTotalValues(selectedValues.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0));
     }, [loggedInUser, selectedValues, deleteValue]);
 
-    // if (loggedIn === false) {
-    //     window.location.href = '/login';
-    // }
+    if (loggedIn === false) {
+        window.location.href = '/login';
+    }
 
     return (
         <main>

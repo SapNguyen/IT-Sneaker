@@ -50,9 +50,9 @@ function Account({ order, status }) {
         }
     }, [order, status]);
 
-    // if (loggedIn === false) {
-    //     window.location.href = '/login';
-    // }
+    if (loggedIn === false) {
+        window.location.href = '/login';
+    }
 
     return (
         <main className={cx('wrapper')}>
